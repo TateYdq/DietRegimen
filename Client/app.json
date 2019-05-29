@@ -41,5 +41,6 @@
         "selectedIconPath": "imgs/icon/profile-actived.png"
       }
     ]
-  }
+  },
+  "sitemapLocation": "sitemap51.json"
 }
