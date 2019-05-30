@@ -190,7 +190,6 @@ body:{
 
 [注]此处可参考小程序的登录API
 
-### 
 
 
 
@@ -790,16 +789,21 @@ c.页面交互
 
 ```flow
 st1=>start: 点击推荐tab
+cond0=>condition: 是否登录
 cond1=>condition: 是否填写过问卷
 op1=>operation: 进入智能推荐页面
 op2=>operation: 进入问卷填写页面
+
+op3=>operation: 前往登录页
 e=>end: 结束
-st1->cond1
+st1->cond0
+cond0(yes)->cond1
+cond0(no)->op3->e
 cond1(yes)->op1->e
 cond1(no)->op2->e
 ```
 
-详细逻辑：
+进入后逻辑：
 
 ```flow
 st1=>start: 进入智能推荐页面
@@ -940,13 +944,17 @@ c.页面交互
 
 ```flow
 st=>start: 进入个人信息页
+cond0=>condition: 是否登录
 op1=>operation: 显示用户个人信息
 cond1=>condition: 是否点击设置个人信息按钮
 cond2=>condition: 是否点击收藏按钮
 op2=>operation: 前往个人信息页
 op3=>operation: 前往收藏页
+op4=>operation: 前往登录页
 e=>end: 结束
-st->op1->cond1
+st->cond0
+cond0(no)->op4->e
+cond0(yes)->op1->cond1
 cond1(yes)->op2->e
 cond1(no)->cond2
 cond2(yes)->op3->e
@@ -1056,33 +1064,33 @@ POST /DietRegimen/client/user/postUsertInfo
 
   }
 
-## 6.11个人收藏页
+## 6.11收藏食物页
 
-(1)个人收藏页面
+(1)收藏食物页面
 
 a.页面介绍
 
-- 页面包含收藏过的疾病和食物
-- 疾病和食物都显示简要信息，同在清单上显示一样，每个疾病/食物也都是一个button
+- 页面显示收藏过的食物
+- 食物显示简要信息，同在清单上显示一样，每个食物也都是一个button
 - 页面包含返回按钮
 
 b.页面入口
 
-- 从个人信息页点击收藏
-- 从食物详细信息页/疾病详细信息页返回
+- 从个人信息页点击收藏食物
+- 从食物详细信息页返回
 
 c.页面交互
 
-- 点击疾病/食物跳转到对应的疾病/食物详细信息页
+- 点击食物跳转到对应的食物详细信息页
 - 点击返回按钮，返回到个人信息页
 
-(2)个人收藏页逻辑流程
+(2)收藏食物页逻辑流程
 
 ```flow
-st=>start: 进入个人收藏页
+st=>start: 进入收藏食物页
 op1=>operation: 显示收藏信息
-cond1=>condition: 是否点击某疾病/食物
-op2=>operation: 跳转到疾病/食物详细信息页
+cond1=>condition: 是否点击某食物
+op2=>operation: 跳转到食物详细信息页
 cond2=>condition: 是否点击返回按钮
 op3=>operation: 跳转到个人信息页
 e=>end: 结束
@@ -1120,7 +1128,49 @@ a.获取食物详细信息
 
 
 
-b.获取疾病详细信息
+## 6.11收藏疾病页
+
+(1)收藏疾病页面
+
+a.页面介绍
+
+- 页面收藏过的疾病
+- 疾病显示简要信息，同在清单上显示一样，每个疾病也都是一个button
+- 页面包含返回按钮
+
+b.页面入口
+
+- 从个人信息页点击收藏疾病
+- 从疾病详细信息页返回
+
+c.页面交互
+
+- 点击疾病跳转到对应的疾病详细信息页
+- 点击返回按钮，返回到个人信息页
+
+(2)收藏疾病页逻辑流程
+
+```flow
+st=>start: 进入收藏疾病页
+op1=>operation: 显示收藏信息
+cond1=>condition: 是否点击某疾病
+op2=>operation: 跳转到疾病详细信息页
+cond2=>condition: 是否点击返回按钮
+op3=>operation: 跳转到个人信息页
+e=>end: 结束
+
+st->op1->cond1
+cond1(yes)->op2->e
+cond1(no)->cond2
+cond2(yes)->op3->e
+cond2(no)->e
+```
+
+
+
+(3)调用后端接口 
+
+a.获取疾病详细信息
 
 - POST /DietRegimen/client/health/getDiseaseDetails
 
