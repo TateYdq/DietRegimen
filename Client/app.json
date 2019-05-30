@@ -1,8 +1,11 @@
 {
   "pages": [
+    "pages/food/foodList/food_list",
     "pages/index/index",
     "pages/logs/logs",
-    "pages/test/test"
+    "pages/test/test",
+    "pages/food/foodKind/food_kind",
+    "pages/food/foodInfo/food_info"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -18,7 +21,7 @@
     "list": [
       {
         "text": "食谱",
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/food/foodList/food_list",
         "iconPath": "imgs/icon/read.png",
         "selectedIconPath": "imgs/icon/read-fill.png"
       },

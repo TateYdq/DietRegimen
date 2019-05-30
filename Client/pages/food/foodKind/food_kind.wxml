@@ -1,0 +1,51 @@
+<!--pages/food/foodKind/food_kind.wxml-->
+
+<!-- <view class="content">
+  <view class="head-img">
+    <image src="../../../imgs/food/shiwu_begin.jpeg" style='height:200px;'></image>
+  </view>
+</view> -->
+
+
+<view class="nav">
+  <view class="nav-item">
+    <view>
+      <image src="../../../imgs/icon/list.jpg" style='width:25px;height:23px;'></image>
+    </view>
+    <view>食物清单</view>
+  </view>
+  <view class="nav-item">
+    <view>
+      <image src="../../../imgs/icon/meishi.jpg" style='width:25px;height:23px;'></image>
+    </view>
+    <view>分类</view>
+  </view>
+</view>
+
+<view class="hr">
+
+  <view class="head">
+    <view>推荐食物</view>
+    <view class="right"></view>
+  </view>
+
+  <view class="list">
+    <block wx:for="{{foodKindArray}}" wx:key="kindID">
+      <view class='item' bindtap='seeFoodLists'>
+        <view>
+          <image src="{{item.photoPath}}" style='width:75px;height:58px'> </image>
+        </view>
+        <view class='desc'>
+          <view class="title">{{item.kindName}}</view>
+          <view class="count">
+            <view >{{item.kindInfo}}</view>
+            <view class="browse">{{item.viewCount}}浏览</view>
+          </view>
+        </view>
+      </view>
+    <view class="hr2"></view>
+    </block>
+  </view>
+</view>
+
+

@@ -92,7 +92,7 @@ disease_info(
 
 ## 2.4 用户评论食物信息表
 
-disease_comment_info(
+food_comment_info(
 
 ​	id int auto_increment primary key,
 
@@ -110,7 +110,7 @@ disease_comment_info(
 
 ## 2.5 用户评论疾病信息表
 
-food_comment_info(
+disease_comment_info(
 
 ​	id int auto_increment primary key,
 
