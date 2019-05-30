@@ -235,8 +235,6 @@ Request Body:{
 
 ​     "diseasesHistory":"",
 
-​	  "keywords":"" 
-
 }
 
 Resonse Body:{
@@ -927,7 +925,33 @@ body:{
 
 }
 
+#### 3.2.1.4 登录
 
+POST /DietRegimen/client/user/userLogin
+
+Request Body:{
+
+​	code                      登录凭证
+
+​	userInfo                  AppID
+
+​	secret             
+
+​	grant_type
+
+}
+
+Resonse Body:{
+
+body:{
+
+​		code              返回码
+
+​		sessionID 
+
+}
+
+[注]此处可参考小程序的登录API
 
 ### 3.2.2 食物相关
 

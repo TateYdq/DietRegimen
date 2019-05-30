@@ -8,7 +8,7 @@
 
 v0.1 创建文档
 
-
+v0.2 修改文档，不强制要求进入就要授权（小程序不允许这样做）。
 
 ## 2.产品介绍
 
@@ -142,7 +142,7 @@ v0.1 创建文档
 
 （1）登录页面
 
-当进入到小程序后，首先会判断是否登录，如果没有登录则会弹出登录窗口。登录成功跳转到主页（食物种类页）。
+当进入到小程序后，首先会判断是否登录，如果没有登录则会弹出登录窗口。~~登录成功跳转到主页（食物种类页）。~~登录成不成功均谈到主页窗口
 
 (2)登录页逻辑流程
 
@@ -155,9 +155,8 @@ op3=>operation: 退出小程序
 e=>end: 结束
 st->op1->cond1
 cond1(yes)->op2
-cond1(no)->op3
+cond1(no)->op2
 op2->e
-op3->e
 
 ```
 
@@ -165,7 +164,33 @@ op3->e
 
 (3)调用后端接口：
 
-a.TODO:登录接口
+POST /DietRegimen/client/user/userLogin
+
+Request Body:{
+
+​	code                      登录凭证
+
+​	userInfo                  AppID
+
+​	secret             
+
+​	grant_type
+
+}
+
+Resonse Body:{
+
+body:{
+
+​		code              返回码
+
+​		sessionID 
+
+}
+
+[注]此处可参考小程序的登录API
+
+### 
 
 
 
@@ -378,6 +403,47 @@ d.前置条件
 ```flow
 st=>start: 进入页面
 op1=>operation: 显示食物详细信息
+cond4=>condition: 是否点击返回按钮
+op7=>operation: 返回食物清单/收藏页面
+e=>end: 结束
+st->op1->cond4
+cond4(yes)->op7->e
+cond4(no)->e
+
+```
+
+
+
+```flow
+st=>start: 进入页面
+op1=>operation: 显示食物详细信息
+cond1=>condition: 是否点击评论按钮
+cond2=>condition: 是否点击提交评论按钮
+cond3=>condition: 是否点击语音播报按钮
+op4=>operation: 播放语音信息
+op5=>operation: 填写评论
+op6=>operation: 刷新页面
+op8=>operation: 跳转到登录页面
+cond6=>condition: 是否登录 
+cond5=>condition: 是否登录 
+e=>end: 结束
+st->op1->cond1
+cond1(yes)->cond5
+cond5(yes)->op5->cond2
+cond5(no)->op8->e
+cond1(no)->cond3
+cond2(yes)->op6->e
+cond2(no)->e
+cond3(no)->e
+cond3(yes)->cond6
+cond6(yes)->op4->e
+cond6(no)->op8->e
+cond5(no)->op8->e
+
+```
+
+st=>start: 进入页面
+op1=>operation: 显示食物详细信息
 cond1=>condition: 是否点击评论按钮
 cond2=>condition: 是否点击提交评论按钮
 cond3=>condition: 是否点击语音播报按钮
@@ -386,23 +452,23 @@ op5=>operation: 填写评论
 cond4=>condition: 是否点击返回按钮
 op6=>operation: 刷新页面
 op7=>operation: 返回食物清单/收藏页面
+op8=>operation: 跳转到登录页面
+
+cond5=>condition: 是否登录 
 e=>end: 结束
-st->op1->cond1
+st->op1->cond4
+cond4(yes)->op7->e
+cond4(no)->cond5
+cond5(no,left)->op8->e
+cond5(yes)->cond1
+
 cond1(yes)->op5->cond2
 cond1(no)->cond3
 cond2(yes)->op6->e
-cond2(no)->cond4
-cond4(yes)->op7->e
-cond4(no)->cond3
+cond2(no)->e
+
 cond3(yes)->op4->e
 cond3(no)->e
-
-
-```
-
-
-
-
 
 (3)调用后端接口
 

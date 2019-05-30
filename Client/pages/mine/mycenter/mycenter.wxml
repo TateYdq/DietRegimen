@@ -1,0 +1,52 @@
+<!--pages/mine/mycenter/mycenter.wxml-->
+<view class="amountBg">
+  <view class="img"> 
+    <image src="{{userInfo.userImagePath}}" style="width:49px;height:47px;"></image>
+  </view>
+  <view class="account">
+    <view>{{userInfo.name}}</view>
+    <view>{{userInfo.age}}岁</view>
+  </view>
+  <view class="nav">></view>
+</view>
+
+<view class="content">
+  <view class="order">
+    <view class="desc">
+      <view>
+        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+      </view>
+      <view>食物清单</view>
+    </view>
+    <view class="desc" bindtap="gotoCollectFood">
+      <view>
+        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+      </view>
+      <view>收藏食物</view>
+    </view>
+     <view class="desc" bindtap="gotoCollectDisease">
+      <view>
+        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+      </view>
+      <view>收藏疾病</view>
+    </view>
+      <view class="desc">
+      <view>
+        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+      </view>
+      <view>我的词云</view>
+    </view>
+  </view>
+  <view class="clear"></view>
+  <view class="item" bindtap='setMyInfo'>
+    <view class="icon">
+      <image src="../../../imgs/icon/shezhi.png" style="width:22px;height:21px"></image>
+    </view>
+    <view class="itemName">
+      <view>个人信息设置</view>
+    </view>
+    <view class="right">
+      <text class="opr">填写疾病史</text>>
+    </view>
+  </view>
+</view>

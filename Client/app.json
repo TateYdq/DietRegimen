@@ -2,7 +2,11 @@
   "pages": [
     "pages/index/index",
     "pages/logs/logs",
-    "pages/test/test"
+    "pages/test/test",
+    "pages/mine/mycenter/mycenter",
+    "pages/mine/myinfo/myinfo",
+    "pages/mine/collectFood/collect_food",
+    "pages/mine/collectDisease/collect_disease"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -36,7 +40,7 @@
       },
       {
         "text": "我的",
-        "pagePath": "pages/test/test",
+        "pagePath": "pages/mine/mycenter/mycenter",
         "iconPath": "imgs/icon/profile.png",
         "selectedIconPath": "imgs/icon/profile-actived.png"
       }
