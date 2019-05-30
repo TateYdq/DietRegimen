@@ -1,4 +1,4 @@
-<center><b>PRD-食疗养生小程序</b></center>
+<center><h1>PRD-食疗养生小程序</h1></center>
 
 [TOC]
 
@@ -223,7 +223,7 @@ op2->e
 
 a.获取食物种类
 
-- GET /DietRegimen/food/getFoodCategory
+- GET /DietRegimen/client/food/getFoodCategory
 
 - return:
 
@@ -237,7 +237,7 @@ a.获取食物种类
 
 b.搜索食物清单/获取指定食物种类的食物清单
 
-- POST /DietRegimen/food/searchFood
+- POST /DietRegimen/client/food/searchFood
 
   body:{
 
@@ -323,7 +323,7 @@ cond4(no)->e
 
 a.获取食物详细信息
 
-- POST /DietRegimen/food/getFoodDetails
+- POST /DietRegimen/client/food/getFoodDetails
 
   body:{
 
@@ -408,7 +408,7 @@ cond3(no)->e
 
 a.发表评论
 
-- POST  /DietRegimen/food/commentFood
+- POST  /DietRegimen/client/food/commentFood
 
   body:{
 
@@ -430,7 +430,7 @@ a.发表评论
 
 b.获取语音播报
 
-- POST  /DietRegimen/food/foodVoice
+- POST  /DietRegimen/client/food/foodVoice
 
   body:{
 
@@ -448,7 +448,7 @@ b.获取语音播报
 
 c.获取食物详细信息
 
-- POST /DietRegimen/food/getFoodDetails
+- POST /DietRegimen/client/food/getFoodDetails
 
   body:{
 
@@ -468,7 +468,7 @@ c.获取食物详细信息
 
 d.收藏食物
 
-- POST  /DietRegimen/user/collectFood
+- POST  /DietRegimen/client/user/collectFood
 
   body:{
 
@@ -541,7 +541,7 @@ cond4(no)->e
 
 a.获取疾病清单
 
-- GET /DietRegimen/health/getDiseasesLists
+- GET /DietRegimen/client/health/getDiseasesLists
 
 - return:{
 
@@ -553,7 +553,7 @@ a.获取疾病清单
 
 b.获取疾病详细信息
 
-- POST /DietRegimen/health/getDiseaseDetails
+- POST /DietRegimen/client/health/getDiseaseDetails
 
 body:{
 
@@ -639,7 +639,7 @@ cond6(no)->e
 
 a.发表评论
 
-- POST  /DietRegimen/health/commentDisease
+- POST  /DietRegimen/client/health/commentDisease
 
   body:{
 
@@ -661,7 +661,7 @@ a.发表评论
 
 b.获取语音播报
 
-- POST  /DietRegimen/health/diseaseVoice
+- POST  /DietRegimen/client/health/diseaseVoice
 
   body:{
 
@@ -679,7 +679,7 @@ b.获取语音播报
 
 c.收藏疾病
 
-- POST  /DietRegimen/user/collecDisease
+- POST  /DietRegimen/client/user/collecDisease
 
   body:{
 
@@ -757,7 +757,7 @@ cond2(no)->e
 
 a.获取推荐信息 
 
-- POST /DietRegimen/recommend/getRecInfo
+- POST /DietRegimen/client/recommend/getRecInfo
 
   body:{
 
@@ -815,7 +815,7 @@ cond1(no)->op1
 
 a.获取问卷信息
 
-GET  /DietRegimen/recommend/getQuestionnaireInfo
+GET  /DietRegimen/client/recommend/getQuestionnaireInfo
 
 - return
 
@@ -829,7 +829,7 @@ GET  /DietRegimen/recommend/getQuestionnaireInfo
 
 b.提交问卷
 
-- POST  /DietRegimen/recommend/submitQuestionnaire
+- POST  /DietRegimen/client/recommend/submitQuestionnaire
 
   body:{
 
@@ -893,7 +893,7 @@ cond2(no)->e
 
 a.获取个人信息
 
-- POST  /DietRegimen/user/getUsertInfo
+- POST  /DietRegimen/client/user/getUsertInfo
 
   body:{
 
@@ -913,7 +913,7 @@ a.获取个人信息
 
 b.获取收藏信息
 
-- POST  /DietRegimen/user/getCollectInfo
+- POST  /DietRegimen/client/user/getCollectInfo
 
   body:{
 
@@ -972,7 +972,7 @@ cond1(no)->op2->e
 
 a.个人信息设置
 
-POST /DietRegimen/user/postUsertInfo
+POST /DietRegimen/client/user/postUsertInfo
 
 - body:{
 
@@ -1034,7 +1034,7 @@ cond2(no)->e
 
 a.获取食物详细信息
 
-- POST /DietRegimen/food/getFoodDetails
+- POST /DietRegimen/client/food/getFoodDetails
 
   body:{
 
@@ -1056,7 +1056,7 @@ a.获取食物详细信息
 
 b.获取疾病详细信息
 
-- POST /DietRegimen/health/getDiseaseDetails
+- POST /DietRegimen/client/health/getDiseaseDetails
 
   body:{
 
