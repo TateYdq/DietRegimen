@@ -5,7 +5,11 @@
     "pages/logs/logs",
     "pages/test/test",
     "pages/food/foodKind/food_kind",
-    "pages/food/foodInfo/food_info"
+    "pages/food/foodInfo/food_info",
+    "pages/mine/mycenter/mycenter",
+    "pages/mine/myinfo/myinfo",
+    "pages/mine/collectFood/collect_food",
+    "pages/mine/collectDisease/collect_disease"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -39,7 +43,7 @@
       },
       {
         "text": "我的",
-        "pagePath": "pages/test/test",
+        "pagePath": "pages/mine/mycenter/mycenter",
         "iconPath": "imgs/icon/profile.png",
         "selectedIconPath": "imgs/icon/profile-actived.png"
       }

@@ -1,0 +1,36 @@
+<!--pages/mine/myinfo/myinfo.wxml-->
+<form>
+  <view class="content">
+    <view class="hr"></view>
+      <view class="item">
+        <text class="txt">昵称:</text>
+        <view class="sub">
+        <input type="text" name="name" value="{{userInfo.name}}"></input>
+         </view>
+      </view>
+
+      <view class="item">
+        <text class="txt">年龄:</text>
+        <view class="sub">
+          <input class="inp" type="text" name="age" value="{{userInfo.age}}"/>
+        </view>
+      </view>
+
+      <view class="item">
+        <text class="txt">性别:</text>
+        <view>
+          <radio-group >
+            <radio value='male' checked="{{userInfo.gender=='male'?true:false}}"/>男
+            <radio value='female' checked="{{userInfo.gender=='female'?true:false}}"/>女
+          </radio-group>
+         </view>
+      </view>
+      <view class="item">
+        <text class="txt">疾病史:</text>
+        <view class="sub">
+          <input type="text" name="diseasesHistory" value="{{userInfo.diseasesHistory}}"/>
+        </view>
+      </view>
+      <button class="btn">提交</button>
+  </view>
+</form>
