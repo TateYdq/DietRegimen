@@ -36,13 +36,42 @@ var foodKindInfo = [
 ];
 
 
-var diseaseInfo = [];
+var diseaseInfo = [
+{
+    "diseaseID":1,
+    "name":"高血压",
+    "diseaseKind":"心血管内科",
+    "viewCount":30,
+    "collectCount":6,
+    "info":"高血压是指以体循环动脉血压（收缩压和/或舒张压）增高为主要特征（收缩压≥140毫米汞柱，舒张压≥90毫米汞柱）",
+    "photoPath": "../../../imgs/diseases/gaoxueya.jpg"
+},
+  {
+    "diseaseID": 2,
+    "name": "糖尿病",
+    "diseaseKind": "心血管内科",
+    "viewCount": 12,
+    "collectCount": 3,
+    "info": "糖尿病是一组以高血糖为特征的代谢性疾病。高血糖则是由于胰岛素分泌缺陷或其生物作用受损，或两者兼有引起。",
+    "photoPath": "../../../imgs/diseases/tangniaobing.jpeg"
+  }
+];
 var userInfo = [];
 var foodCommentInfo = [];
 var diseaseCommentInfo = [];
 var userCollectDiseaseInfo = [];
 var userCollectFoodInfo = [];
+var diseaseFoodInfo =[
+  {
+    "id":1,
+    "diseaseID":1,
+    "diseaseName":"高血压",
+    "foodID":3,
+    "foodName":"豆腐",
+  }
+];
 var questionInfo = [];
+
 
 /*
 暴露的接口

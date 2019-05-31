@@ -1,4 +1,5 @@
-// pages/food/foodKind/food_kind.js
+// pages/diseases/diseases_list.js
+
 const static_data = require("../../../utils/static_data.js")
 
 Page({
@@ -7,15 +8,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    foodKindArray:[]
+    diseasesArray:[]
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      var array = this.initData();
-      this.setData({foodKindArray:array});
+    this.initData()
+
   },
 
   /**
@@ -66,14 +67,16 @@ Page({
   onShareAppMessage: function () {
 
   },
-  initData: function () {
-    return static_data.foodKindInfo;
-  },
-  seeFoodLists: function (e) {
-    var kindName = e.currentTarget.dataset.name;
-    console.log("kindName:%s",kindName);
+  initData: function(){
+    var diseases = static_data.diseaseInfo
+    this.setData({
+      diseasesArray: diseases
+    })
+  }, 
+  seeDetail: function (e) {
+    var id = e.currentTarget.id;
     wx.navigateTo({
-      url: '../foodList/food_list?kindName=' + kindName+'&fromKind=true',
+      url: '../diseaseInfo/disease_info?id=' + id,
     })
   }
 })

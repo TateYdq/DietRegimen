@@ -1,4 +1,6 @@
-/* pages/food/foodInfo/food_info.wxss */
+/* pages/diseases/diseasesInfo/diseases_info.wxss */
+
+
 .nav{
     display: flex;
     flex-direction: row;
@@ -27,7 +29,7 @@
     font-size:15px; 
     color: #666666;
 }
-.foodInfo{
+.diseaseInfo{
     display: flex;
     flex-direction:row;
     margin: 15px; 
@@ -46,6 +48,10 @@
     font-weight: bold;
 }
 .voice{
+  text-align: left;
+  font-size: 12px;
+}
+.rec{
     width: 155px;
     height:40px;
     line-height: 40px;

@@ -80,6 +80,10 @@ disease_info(
 
 ​	diseaseKind  varchar(50),
 
+​	info   text,       #疾病介绍
+
+​	photoPath  varchar(50) ,      #疾病图片路径，只有一张
+
 ​	voicePath varchar(50),
 
 ​	viewCount bigint,
@@ -168,7 +172,7 @@ user_collect_disease_info(
 
 ​	date varchar(50)
 
-))ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
@@ -184,9 +188,23 @@ question_info(
 
 ​	response text  #问题选项对应的响应。具体内容TODO
 
-)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+## 2.10 疾病推荐食物表
 
+disease_food_info{
+
+​	id int auto_increment primary key,
+
+​	diseaseID int,
+
+​	diseaseName varchar(50),
+
+​	foodName varchar(50),
+
+​	foodID int,
+
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 # 三、URL接口
 

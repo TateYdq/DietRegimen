@@ -15,7 +15,15 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      this.initData();
+    console.log("fromkind:%s,kindName:%s", options.fromKind, options.kindName);
+    var fromKind = options.fromKind
+    if (fromKind && fromKind == "true"){
+      var kindName = options.kindName;
+      this.initData(true,kindName);
+    }else{
+      this.initData(false,"");
+    }
+    
   },
 
   /**
@@ -69,15 +77,46 @@ Page({
   /*
     初始化数据函数
   */
-  initData: function(){
-    this.setData({ foodArray: static_data.foodInfo });
+  initData: function(fromKind,kindName){
+    // console.log("fromkind:%s,kindName:%s", fromKind,kindName);
+    if(fromKind){
+      var i,j;
+      j = 0;
+      var arrays = new Array()
+      for(i = 0;i < static_data.foodInfo.length;i++){
+        // console.log("static_data.kindName:%s,kindName:%s", static_data.foodInfo[i].foodKind, kindName);
+        if(static_data.foodInfo[i].foodKind == kindName){
+          arrays[j] = static_data.foodInfo[i];
+          j++;
+        }
+      }
+      this.setData({
+        "foodArray": arrays
+      });
+    }else{
+      this.setData({ 
+        foodArray: static_data.foodInfo 
+      });
+    }
   },
-  seeDetail: function(){
-    
+  seeDetail: function(e){
+    var id = e.currentTarget.id;
+    wx.navigateTo({
+      url: '../foodInfo/food_info?id=' + id,
+    })
   },
   switchNav: function(){
     wx.redirectTo({
       url: '../foodKind/food_kind',
     })
+  },
+  findFoodDetail: function(foodID){
+      var i = 0;
+      for(i = 0;i < foodArray.length;i++){
+          if(foodArray[i].foodID == foodID){
+            return foodArray[i];
+          }
+      }
+      return null;
   }
 })

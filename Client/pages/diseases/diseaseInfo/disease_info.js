@@ -1,4 +1,4 @@
-// pages/food/foodKind/food_kind.js
+// pages/diseases/diseasesInfo/diseases_info.js
 const static_data = require("../../../utils/static_data.js")
 
 Page({
@@ -7,15 +7,26 @@ Page({
    * 页面的初始数据
    */
   data: {
-    foodKindArray:[]
+    diseasesArray: [],
+    diseaseInfo: {}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      var array = this.initData();
-      this.setData({foodKindArray:array});
+    var dID = options.id;
+    this.initData();
+    var dDetail = this.findDiseaseDetail(dID);
+    this.setData({
+      "diseaseInfo.diseaseID": dID,
+      "diseaseInfo.name": dDetail.name,
+      "diseaseInfo.viewCount": dDetail.viewCount,
+      "diseaseInfo.diseaseKind": dDetail.diseaseKind,
+      "diseaseInfo.collectCount": dDetail.collectCount,
+      "diseaseInfo.info": dDetail.info,
+      "diseaseInfo.photoPath": dDetail.photoPath,
+    })
   },
 
   /**
@@ -65,15 +76,17 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
+  }, 
   initData: function () {
-    return static_data.foodKindInfo;
+    this.setData({ diseasesArray: static_data.diseaseInfo });
   },
-  seeFoodLists: function (e) {
-    var kindName = e.currentTarget.dataset.name;
-    console.log("kindName:%s",kindName);
-    wx.navigateTo({
-      url: '../foodList/food_list?kindName=' + kindName+'&fromKind=true',
-    })
-  }
+  findDiseaseDetail: function (dID) {
+    var i = 0;
+    for (i = 0; i < this.data.diseasesArray.length; i++) {
+      if (this.data.diseasesArray[i].diseaseID == dID) {
+        return this.data.diseasesArray[i];
+      }
+    }
+    return null;
+  },
 })

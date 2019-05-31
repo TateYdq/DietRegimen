@@ -1,15 +1,18 @@
 {
   "pages": [
+    "pages/food/foodKind/food_kind",
     "pages/food/foodList/food_list",
     "pages/index/index",
     "pages/logs/logs",
     "pages/test/test",
-    "pages/food/foodKind/food_kind",
     "pages/food/foodInfo/food_info",
     "pages/mine/mycenter/mycenter",
     "pages/mine/myinfo/myinfo",
     "pages/mine/collectFood/collect_food",
-    "pages/mine/collectDisease/collect_disease"
+    "pages/mine/collectDisease/collect_disease",
+    "pages/diseases/diseaseList/disease_list",
+    "pages/diseases/diseaseInfo/disease_info",
+    "pages/rec/recHome/rec_home"
   ],
   "window": {
     "backgroundTextStyle": "light",
@@ -25,19 +28,19 @@
     "list": [
       {
         "text": "食谱",
-        "pagePath": "pages/food/foodList/food_list",
+        "pagePath": "pages/food/foodKind/food_kind",
         "iconPath": "imgs/icon/read.png",
         "selectedIconPath": "imgs/icon/read-fill.png"
       },
       {
         "text": "疾病",
-        "pagePath": "pages/index/index",
+        "pagePath": "pages/diseases/diseaseList/disease_list",
         "iconPath": "imgs/icon/board.png",
         "selectedIconPath": "imgs/icon/board-actived.png"
       },
       {
         "text": "推荐",
-        "pagePath": "pages/logs/logs",
+        "pagePath": "pages/rec/recHome/rec_home",
         "iconPath": "imgs/icon/flag.png",
         "selectedIconPath": "imgs/icon/flag-fill.png"
       },

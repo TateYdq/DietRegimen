@@ -1,21 +1,19 @@
-// pages/food/foodKind/food_kind.js
-const static_data = require("../../../utils/static_data.js")
-
+// pages/rec/recHome/rec_home.js
+//此页面为推荐的主页
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-    foodKindArray:[]
+
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      var array = this.initData();
-      this.setData({foodKindArray:array});
+
   },
 
   /**
@@ -65,15 +63,5 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  initData: function () {
-    return static_data.foodKindInfo;
-  },
-  seeFoodLists: function (e) {
-    var kindName = e.currentTarget.dataset.name;
-    console.log("kindName:%s",kindName);
-    wx.navigateTo({
-      url: '../foodList/food_list?kindName=' + kindName+'&fromKind=true',
-    })
   }
 })

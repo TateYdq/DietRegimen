@@ -88,13 +88,30 @@ Page({
     })
   },
   gotoCollectFood: function() {
+    
     wx.navigateTo({
+      /*
       url: '../collectFood/collect_food',
+      暂时跳转到食物清单页
+      */
+      url: '../../food/foodList/food_list'
     })
   },
+  
   gotoCollectDisease: function() {
+    /*
     wx.navigateTo({
       url: '../collectDisease/collect_disease',
+    })
+     暂时跳转到疾病清单页
+    */
+    wx.switchTab({
+      url: '../../diseases/diseaseList/disease_list',
+    })
+  },
+  gotoFoodList: function(){
+    wx.navigateTo({
+      url: '../../food/foodList/food_list',
     })
   }
 })

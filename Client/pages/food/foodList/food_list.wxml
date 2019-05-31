@@ -6,7 +6,7 @@
 </view> -->
 
 
-<view class="nav">
+<!-- <view class="nav">
   <view  class="nav-item">
     <view bindtap='switchNav'>
       <image src="../../../imgs/icon/meishi.jpg" style='width:25px;height:23px;'></image>
@@ -19,7 +19,7 @@
     </view>
     <view>食物清单</view>
   </view>
-</view>
+</view> -->
 
 <view class="hr">
 
@@ -30,7 +30,7 @@
 
   <view class="list">
     <block wx:for="{{foodArray}}" wx:key="foodID">
-      <view class='item' bindtap='seeDetail'>
+      <view class='item' bindtap='seeDetail' id="{{item.foodID}}">
         <view>
           <image src="{{item.photoPath}}" style='width:75px;height:58px'> </image>
         </view>

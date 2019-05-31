@@ -12,15 +12,15 @@
 
 <view class="content">
   <view class="order">
-    <view class="desc">
+    <view class="desc" bindtap="gotoFoodList">
       <view>
-        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+        <image src="../../../imgs/icon/qingdan.png" style='width:22px;height:25px;'></image>
       </view>
       <view>食物清单</view>
     </view>
     <view class="desc" bindtap="gotoCollectFood">
       <view>
-        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+        <image src="../../../imgs/icon/shouchang3.png" style='width:22px;height:25px;'></image>
       </view>
       <view>收藏食物</view>
     </view>
@@ -32,7 +32,7 @@
     </view>
       <view class="desc">
       <view>
-        <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
+        <image src="../../../imgs/icon/mingci.png" style='width:22px;height:25px;'></image>
       </view>
       <view>我的词云</view>
     </view>
