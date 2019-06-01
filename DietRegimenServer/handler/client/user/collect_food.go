@@ -27,7 +27,7 @@ func GetCollectFood(c *gin.Context) {
 	userID, err := helper.GetUserID(c)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Forbidden,
+			"code": utils.Failed,
 		})
 		return
 	}

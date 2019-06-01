@@ -18,7 +18,7 @@ type UserInfo struct{
 	DiseasesHistory string `json:"diseases_focus"`
 	Keywords string `json:"keywords"`
 }
-
+//需验证token
 func GetUserInfo(c *gin.Context){
 	defer func() {
 		recover()
@@ -30,7 +30,7 @@ func GetUserInfo(c *gin.Context){
 	userID,err := helper.GetUserID(c)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
+			"code":utils.Failed,
 		})
 		return
 	}
@@ -41,7 +41,7 @@ func GetUserInfo(c *gin.Context){
 		})
 		return
 	}
-	userInfo,err := database.GetUserInfoByID(userID)
+	userInfo,err := database.GetOrCreateUserInfoByOpenID(userID)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
@@ -55,7 +55,7 @@ func GetUserInfo(c *gin.Context){
 		return
 	}
 }
-
+//需验证token
 func UpdateUserInfo(c *gin.Context){
 	var userInfo database.UserInfo
 	err := c.BindJSON(&userInfo)

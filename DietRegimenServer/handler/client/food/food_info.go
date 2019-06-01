@@ -53,14 +53,3 @@ func GetFoodDetails(c *gin.Context){
 		return
 	}
 }
-
-func SearchFood(c *gin.Context){
-	defer func() {
-		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
-	}()
-	//TODO:
-}

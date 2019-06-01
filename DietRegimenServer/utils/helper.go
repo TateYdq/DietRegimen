@@ -2,6 +2,7 @@ package utils
 
 import (
 	"os"
+	"time"
 )
 
 const(
@@ -17,4 +18,9 @@ func ENV() string {
 		return env
 	}
 	return "test"
+}
+
+func GetCurTime()(t string){
+	t = time.Now().Format("2006-01-02 15:04:05")
+	return t
 }

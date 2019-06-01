@@ -11,7 +11,7 @@ type FoodKind struct {
 }
 
 func GetFoodKindByID(kindID int)(foodKind FoodKind,err error) {
-	err = DrDatabase.Where("kind_id="+string(kindID)).First(&foodKind).Error
+	err = DrDatabase.Model(FoodKind{}).Where("kind_id="+string(kindID)).First(&foodKind).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("GetFoodKindByID err,kindID:%v",kindID)
 	}

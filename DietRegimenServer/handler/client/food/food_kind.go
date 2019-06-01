@@ -16,7 +16,7 @@ type FoodKind struct {
 	ViewCount int `json:"view_count"`
 }
 
-func GetFoodKinds(c *gin.Context){
+func GetFoodCategory(c *gin.Context){
 	defer func() {
 		recover()
 		c.JSON(http.StatusOK,gin.H{

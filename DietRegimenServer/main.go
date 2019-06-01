@@ -3,6 +3,7 @@ package main
 import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/database"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/food"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/health"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/user"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/gin-gonic/gin"
@@ -41,16 +42,20 @@ func main() {
 			}
 			foodPage := clientPage.Group("/food")
 			{
-				foodPage.GET("/getFoodCategory",food.GetFoodKinds)
+				foodPage.GET("/getFoodCategory",food.GetFoodCategory)
 				foodPage.GET("/getFoodDetails",food.GetFoodDetails)
 				foodPage.POST("/commentFood",food.CommentFood)
+				foodPage.GET("/getComment",food.GetComment)
 				foodPage.POST("/searchFood",food.SearchFood)
 
 			}
-			clientPage.Group("/health")
+			healthPage := clientPage.Group("/health")
 			{
-
+				healthPage.GET("/getDiseaseDetail",health.GetDiseaseDetail)
+				healthPage.GET("/getComment",health.GetComment)
+				healthPage.GET("/commentDisease",health.CommentDisease)
 			}
+
 		}
 	}
 

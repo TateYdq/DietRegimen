@@ -10,7 +10,8 @@ type CollectFood struct {
 }
 
 func GetCollectFoodByID(userID int)(collectFood[] CollectFood,err error){
-	err = DrDatabase.Where("user_id="+string(userID)).Find(&collectFood).Error
+	//注意此处为取多行，非一行
+	err = DrDatabase.Model(CollectFood{}).Where("user_id="+string(userID)).Find(&collectFood).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("GetCollectFoodByID err,userID:%v",userID)
 	}

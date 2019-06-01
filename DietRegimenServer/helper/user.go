@@ -28,5 +28,6 @@ func GetSession(c *gin.Context)(string){
 //验证token
 
 func VerifyToken(c *gin.Context)(success bool){
+	GetToken(c)
 	return true
 }

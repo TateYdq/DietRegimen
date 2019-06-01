@@ -10,7 +10,8 @@ type CollectDisease struct {
 }
 
 func GetCollectDiseaseByUserID(userID int)(collectDisease[] CollectDisease,err error){
-	err = DrDatabase.Where("user_id="+string(userID)).Find(&collectDisease).Error
+	//注意此处为取多行，非一行
+	err = DrDatabase.Model(CollectDisease{}).Where("user_id="+string(userID)).Find(&collectDisease).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("GetCollectDiseaseByUserID err,userID:%v",userID)
 	}
