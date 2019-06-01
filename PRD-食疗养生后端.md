@@ -8,6 +8,10 @@
 
 v0.1 创建文档
 
+v0.2 由于后端采用gin所以所有命名方式由小驼峰换为全小写模式。
+
+v0.3 修改疾病史字段，改为关心疾病
+
 
 
 # 二、数据库
@@ -22,7 +26,7 @@ v0.1 创建文档
 
 user_info(
 
-​	userID  int auto_increment primary key,
+​	user_id  int auto_increment primary key,
 
 ​	name varchar(50),
 
@@ -30,9 +34,9 @@ user_info(
 
    gender varchar(50),
 
-​	userImagePath varchar(50),
+​	user_image_path varchar(50),
 
-   diseasesHistory text,
+   diseases_focus text,
 
 ​	keywords  text    #用户关键词
 
@@ -44,11 +48,11 @@ user_info(
 
 food_info(
 
-​	foodID int auto_increment primary key,
+​	food_id int auto_increment primary key,
 
 ​    name varchar(50),
 
-​	foodKindID int,
+​	food_kind_id int,
 
 ​	foodKind  varchar(50),     
 
@@ -100,15 +104,15 @@ food_comment_info(
 
 ​	id int auto_increment primary key,
 
-​    foodID int,
+​    food_id int,
 
-​	userID int,
+​	user_id int,
 
 ​	userName varchar(50),
 
 ​	comment text,
 
-​	date varchar(50),
+​	recordTime varchar(50),
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -120,13 +124,13 @@ disease_comment_info(
 
 ​    diseaseID int,
 
-​	userID int,
+​	user_id int,
 
 ​	userName varchar(50),
 
 ​	comment text,
 
-​	date varchar(50),
+​	recordTime varchar(50),
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -152,11 +156,11 @@ user_collect_food_info(
 
 ​    id int auto_increment primary key,
 
-​	userID int,
+​	user_id int,
 
-​	foodID int,
+​	food_id int,
 
-​	date varchar(50)
+​	recordTime varchar(50)
 
 ))ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -166,11 +170,11 @@ user_collect_disease_info(
 
 ​    id int auto_increment primary key,
 
-​	userID int,
+​	user_id int,
 
 ​	diseaseID int,
 
-​	date varchar(50)
+​	recordTime varchar(50)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -202,9 +206,17 @@ disease_food_info{
 
 ​	foodName varchar(50),
 
-​	foodID int,
+​	food_id int,
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+
+
+## 2.11 用户食物信息关系表
+
+
+
+## 2.12 用户食物
 
 # 三、URL接口
 
@@ -249,9 +261,9 @@ Request Body:{
 
 ​      "gender":"",
 
-​	 "userImagePath":"",
+​	 "user_image_path":"",
 
-​     "diseasesHistory":"",
+​     "diseases_focus":"",
 
 }
 
@@ -263,13 +275,13 @@ Resonse Body:{
 
 #### 3.1.1.2 修改用户信息
 
-POST /DietRegimen/control1/admin/updateUser
+POST /DietRegimen/control1/admin/uprecordTimeUser
 
 Request Body:{
 
 ​	"token":"",    #此为管理员token
 
-​	userID:0     #用户id
+​	user_id:0     #用户id
 
 ​	"name":"" ,
 
@@ -277,9 +289,9 @@ Request Body:{
 
 ​      "gender":"",
 
-​	 "userImagePath":"",
+​	 "user_image_path":"",
 
-​     "diseasesHistory":"",
+​     "diseases_focus":"",
 
 ​	  "keywords":"" 
 
@@ -299,7 +311,7 @@ Request Body:{
 
 ​	"token":"",    #此为管理员token
 
-​	userID:0    #用户id
+​	user_id:0    #用户id
 
 }
 
@@ -323,7 +335,7 @@ Request Body:{
 
 ​	"name":"" ,
 
-​	"foodKindID":0 ,
+​	"food_kind_id":0 ,
 
 ​	"foodKind":"" ,     
 
@@ -351,17 +363,17 @@ Resonse Body:{
 
 #### 3.1.2.1 修改食物信息
 
-POST /DietRegimen/control1/admin/updateFood
+POST /DietRegimen/control1/admin/uprecordTimeFood
 
 Request Body:{
 
 ​	"token":"",    #此为管理员token
 
-​	"foodID":0,   #食物id
+​	"food_id":0,   #食物id
 
 ​	"name":"" ,
 
-​	"foodKindID":0 ,
+​	"food_kind_id":0 ,
 
 ​	"foodKind":"" ,     
 
@@ -393,13 +405,13 @@ Resonse Body:{
 
 #### 3.1.2.2 删除食物信息
 
-POST /DietRegimen/control1/admin/updateFood
+POST /DietRegimen/control1/admin/uprecordTimeFood
 
 Request Body:{
 
 ​	"token":"",    #此为管理员token
 
-​	"foodID":0,   #食物id
+​	"food_id":0,   #食物id
 
 }
 
@@ -441,7 +453,7 @@ Resonse Body:{
 
 #### 3.1.3.2 修改疾病
 
-POST /DietRegimen/control1/admin/updateDisease
+POST /DietRegimen/control1/admin/uprecordTimeDisease
 
 Request Body:{
 
@@ -469,7 +481,7 @@ Resonse Body:{
 
 #### 3.1.3.2 删除疾病
 
-POST /DietRegimen/control1/admin/updateDisease
+POST /DietRegimen/control1/admin/uprecordTimeDisease
 
 Request Body:{
 
@@ -863,7 +875,7 @@ Resonse Body:{
 
 #### 3.1.10.1  修改图片
 
-POST /DietRegimen/control1/admin/updateImage
+POST /DietRegimen/control1/admin/uprecordTimeImage
 
 Request Body:{
 
@@ -885,6 +897,8 @@ Resonse Body:{
 
 统一前缀:/DietRegimen/client
 
+Request Header里存放sessionID,[非必须]
+
 ### 3.2.1 用户相关
 
 #### 3.2.1.1 获取个人信息
@@ -901,13 +915,13 @@ Resonse Body:{
 
 ​		code              返回码
 
-​		userInfo:{}         用户详细信息
+​		user_info:{}         用户详细信息
 
 }
 
 #### 3.2.1.2 获取收藏信息
 
-POST  /DietRegimen/client/user/getCollectInfo
+POST  /DietRegimen/client/user/getCollectFood
 
 Request Body:{
 
@@ -919,19 +933,37 @@ Resonse Body:{
 
 ​	code                  返回码
 
-​    collectInfo:{}      收藏信息，包含疾病和食物信息
+​    collect_info:{}      收藏食物信息
 
 }
 
-#### 3.2.1.3 个人信息设置
 
-POST /DietRegimen/client/user/postUsertInfo
+
+POST  /DietRegimen/client/user/getCollectDisease
 
 Request Body:{
 
 ​	token                      用户token
 
-​	userInfo                  用户信息
+}
+
+Resonse Body:{
+
+​	code                  返回码
+
+​    collect_info:{}      收藏疾病信息
+
+}
+
+#### 3.2.1.3 个人信息设置
+
+POST /DietRegimen/client/user/updateUserInfo
+
+Request Body:{
+
+​	token                      用户token
+
+​	user_info                  用户信息
 
 }
 
@@ -949,13 +981,7 @@ POST /DietRegimen/client/user/userLogin
 
 Request Body:{
 
-​	code                      登录凭证
-
-​	userInfo                  AppID
-
-​	secret             
-
-​	grant_type
+​	code                      登录凭证  
 
 }
 
@@ -963,9 +989,11 @@ Resonse Body:{
 
 body:{
 
-​		code              返回码
+​		code              返回码  
 
-​		sessionID 
+​		token  
+
+​		session_id 
 
 }
 
@@ -979,7 +1007,7 @@ POST /DietRegimen/client/food/getFoodDetails
 
 Request Body:{
 
-​		foodID           食物id
+​		food_id         食物id
 
 }
 
@@ -1001,7 +1029,7 @@ Resonse Body:{
 
 ​	code:               返回代码
 
-​	foodCategory :{}  食物种类列表
+​	food_category :{}  食物种类列表
 
 }
 
@@ -1033,7 +1061,7 @@ Request Body:{
 
 ​	token                 用户token
 
-​	foodID               食物id
+​	food_id               食物id
 
    content               评论内容
 
@@ -1055,13 +1083,13 @@ Request Body:{
 
 ​	token         用户token
 
-​	foodID       食物id
+​	food_id       食物id
 
 }
 
 Resonse Body:{
 
-​	foodVoice.mp3     语音文件
+​	food_voice.mp3     语音文件
 
 }
 
@@ -1077,7 +1105,7 @@ Request Body:{
 
 ​	token              用户token
 
-   foodID             食物id
+   food_id             食物id
 
 }
 
@@ -1093,11 +1121,11 @@ Resonse Body:{
 
 #### 3.2.3.1 获取疾病详细信息
 
-POST /DietRegimen/client/health/getDiseaseDetails
+POST /DietRegimen/client/health/getDiseaseDetail
 
 Request Body:{
 
-​	diseaseID  疾病id
+​	disease_id  疾病id
 
 }
 
@@ -1105,7 +1133,7 @@ Resonse Body:{
 
 ​	code   返回代码
 
-​	diseaseDetails     疾病详细信息
+​	disease_detail     疾病详细信息
 
 }
 
@@ -1131,7 +1159,7 @@ Request Body:{
 
 ​	token                 用户token
 
-​	diseaseID           食物id
+​	disease_id          食物id
 
 ​    content              评论内容
 
@@ -1153,13 +1181,13 @@ Request Body:{
 
 ​	token             用户token
 
-​	diseaseID       疾病id
+​	disease_id       疾病id
 
 }
 
 Resonse Body:{
 
-diseaseVoice.mp3     语音文件
+disease_voice.mp3     语音文件
 
 }
 
@@ -1173,7 +1201,7 @@ Request Body:{
 
 ​	token                  用户token
 
-   diseaseID            疾病id
+   disease_id            疾病id
 
 }
 
@@ -1218,7 +1246,7 @@ Resonse Body:{
 
 ​	code          返回码
 
-​    infoLists     问卷列表     
+​    info_lists     问卷列表     
 
 }
 
@@ -1232,7 +1260,7 @@ Request Body:{
 
 ​	token                      用户token
 
-​	answerInfoLists      问卷回答信息
+​	answer_info_Lists      问卷回答信息
 
 }
 
