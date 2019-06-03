@@ -57,6 +57,12 @@ func GetUserInfo(c *gin.Context){
 }
 //需验证token
 func UpdateUserInfo(c *gin.Context){
+	if success := helper.VerifyToken(c);!success{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Forbidden,
+		})
+		return
+	}
 	var userInfo database.UserInfo
 	err := c.BindJSON(&userInfo)
 	if err != nil{
@@ -68,13 +74,6 @@ func UpdateUserInfo(c *gin.Context){
 	}
 	userID,err := helper.GetUserID(c)
 	if err != nil{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
-		})
-		return
-	}
-	success := helper.VerifyToken(c)
-	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})

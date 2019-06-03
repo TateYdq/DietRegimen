@@ -15,7 +15,7 @@ type FoodCommentInfo struct{
 }
 
 func GetCommentByFoodID(foodID int)(foodComments[] FoodCommentInfo,err error){
-	err = DrDatabase.Model(FoodCommentInfo{}).Where("food_id="+string(foodID)).Find(&foodComments).Error
+	err = DrDatabase.Model(FoodCommentInfo{}).Where("food_id = ?",foodID).Find(&foodComments).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("GetFoodInfoByID err,foodID:%v",foodID)
 	}

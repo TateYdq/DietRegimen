@@ -35,14 +35,22 @@ func CommentDisease(c *gin.Context) {
 		})
 		return
 	}
-	var cfq CommentDiseaseRequest
-	err := c.BindJSON(&cfq)
+	var cdq CommentDiseaseRequest
+	err := c.BindJSON(&cdq)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
 		})
 		return
 	}
+	userID,err := helper.GetUserID(c)
+	if err != nil{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Forbidden,
+		})
+		return
+	}
+	database.CreateDiseaseComment(cdq.DiseaseID,userID,cdq.Content)
 
 }
 
@@ -61,13 +69,13 @@ func GetComment(c *gin.Context){
 		})
 		return
 	}
-	success := helper.VerifyToken(c)
-	if !success{
+	if success := helper.VerifyToken(c);!success{
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Forbidden,
 		})
 		return
 	}
+
 	comments,err := database.GetCommentByDiseaseID(diseaseID)
 	if err != nil{
 		c.JSON(http.StatusOK, gin.H{

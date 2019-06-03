@@ -1,5 +1,6 @@
 #!/bin/bash
 
+export ENV=online
 CURDIR=$(cd $(dirname $0); pwd)
 PORT=$1
 RUNTIME_ROOT=${CURDIR}

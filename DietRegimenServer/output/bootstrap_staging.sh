@@ -1,5 +1,5 @@
 #!/bin/bash
-
+export ENV=staging
 CURDIR=$(cd $(dirname $0); pwd)
 PORT=$1
 RUNTIME_ROOT=${CURDIR}

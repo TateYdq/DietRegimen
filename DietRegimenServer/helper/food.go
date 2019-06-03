@@ -3,6 +3,7 @@ package helper
 import (
 	"github.com/gin-gonic/gin"
 	"errors"
+	"strconv"
 )
 
 const(
@@ -15,10 +16,20 @@ const(
 
 //获取食物ID
 func GetFoodID(c *gin.Context)(foodID int,err error){
-	return 0,errors.New("invalid");
+	id := c.Query("food_id")
+	if id == "" {
+		return 0,errors.New("get food_id error")
+	}
+	foodID,err = strconv.Atoi(id)
+	return foodID,err
 }
 
 //获取食物ID
 func GetFoodKindID(c *gin.Context)(kindID int,err error){
-	return 0,errors.New("invalid");
+	id := c.Query("food_kind_id")
+	if id == "" {
+		return 0,errors.New("get food_id error")
+	}
+	kindID,err = strconv.Atoi(id)
+	return kindID,err
 }
