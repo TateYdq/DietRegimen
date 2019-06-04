@@ -65,25 +65,15 @@ Page({
 
   },
   login: function(){
-    console.log("url:" + apiRequest.userLogin)
-    wx.login({
-      success(res) {
-        console.log("返回码: "+res.code)
-        if (res.code) {
-          wx.request({
-            url: apiRequest.userLogin,
-            method:'post',
-            data: {
-              code: res.code
-            },
-            succss(subRes){
-                console.log(subRes.data)
-            }
-          })
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
+    apiRequest.login()
+  },
+  getkind: function(){
+    apiRequest.getFoodCategory()
+  },
+  getuserinfo: function(){
+    apiRequest.getUserInfo()
+  },
+  getfooddetails: function(){
+    apiRequest.getFoodDetails()
   }
 })

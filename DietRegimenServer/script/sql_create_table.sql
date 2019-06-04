@@ -3,6 +3,7 @@ use ydq6_miniprogram;
 
 create table user_info(
 user_id  int auto_increment primary key,
+open_id varchar(50),
 name varchar(50),
 age int,
 gender varchar(50),

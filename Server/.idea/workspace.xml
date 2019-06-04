@@ -2,9 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="332775ea-3399-4e6a-9157-482fdb6875fb" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/../DietRegimenServer/conf/config.online.yml" beforeDir="false" afterPath="$PROJECT_DIR$/../DietRegimenServer/conf/config.online.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/admin/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/admin/user.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/client/user.py" beforeDir="false" afterPath="$PROJECT_DIR$/client/user.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/../.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/pages/login/login.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/pages/login/login.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/pages/login/login.wxml" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/pages/login/login.wxml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../Client/utils/api_request.js" beforeDir="false" afterPath="$PROJECT_DIR$/../Client/utils/api_request.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DietRegimenServer/handler/client/user/user_login.go" beforeDir="false" afterPath="$PROJECT_DIR$/../DietRegimenServer/handler/client/user/user_login.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../DietRegimenServer/script/sql_create_table.sql" beforeDir="false" afterPath="$PROJECT_DIR$/../DietRegimenServer/script/sql_create_table.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/admin/food_kind.py" beforeDir="false" afterPath="$PROJECT_DIR$/admin/food_kind.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/utils/config.py" beforeDir="false" afterPath="$PROJECT_DIR$/utils/config.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -14,12 +19,12 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="CoverageDataManager">
-    <SUITE FILE_PATH="coverage/Server$food.coverage" NAME="food Coverage Results" MODIFIED="1559618328889" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/admin" />
+    <SUITE FILE_PATH="coverage/Server$food.coverage" NAME="food Coverage Results" MODIFIED="1559656682693" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/admin" />
     <SUITE FILE_PATH="coverage/Server$user__1_.coverage" NAME="user (1) Coverage Results" MODIFIED="1559633344869" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/client" />
     <SUITE FILE_PATH="coverage/Server$disease__1_.coverage" NAME="disease (1) Coverage Results" MODIFIED="1559628453158" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/client" />
     <SUITE FILE_PATH="coverage/Server$food__1_.coverage" NAME="food (1) Coverage Results" MODIFIED="1559626730276" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/client" />
     <SUITE FILE_PATH="coverage/Server$disease.coverage" NAME="disease Coverage Results" MODIFIED="1559618341971" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/admin" />
-    <SUITE FILE_PATH="coverage/Server$food_kind.coverage" NAME="food_kind Coverage Results" MODIFIED="1559618308123" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/admin" />
+    <SUITE FILE_PATH="coverage/Server$food_kind.coverage" NAME="food_kind Coverage Results" MODIFIED="1559652469564" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/admin" />
     <SUITE FILE_PATH="coverage/Server$user.coverage" NAME="user Coverage Results" MODIFIED="1559630934360" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/admin" />
   </component>
   <component name="FileEditorManager">
@@ -27,8 +32,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/admin/user.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
+            <state relative-caret-position="165">
+              <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -36,23 +41,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/admin/food.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="465">
               <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
-              <folding>
-                <element signature="e#0#15#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/admin/disease.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="31" column="12" selection-start-line="31" selection-start-column="12" selection-end-line="31" selection-end-column="12" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -79,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/user.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="960">
-              <caret line="64" column="65" selection-start-line="64" selection-start-column="65" selection-end-line="64" selection-end-column="65" />
+              <caret line="64" column="75" selection-start-line="64" selection-start-column="75" selection-end-line="64" selection-end-column="75" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -95,7 +88,19 @@
         <entry file="file://$PROJECT_DIR$/utils/config.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="210">
-              <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
+              <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/admin/food_kind.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="420">
+              <caret line="28" column="17" lean-forward="true" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+              <folding>
+                <element signature="e#0#15#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -103,8 +108,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/food.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="255">
-              <caret line="19" column="12" lean-forward="true" selection-end-line="52" selection-end-column="10" />
+            <state relative-caret-position="585">
+              <caret line="39" column="59" lean-forward="true" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="75" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -115,8 +120,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/client/disease.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="780">
-              <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+            <state relative-caret-position="615">
+              <caret line="41" column="59" lean-forward="true" selection-start-line="41" selection-start-column="59" selection-end-line="41" selection-end-column="77" />
               <folding>
                 <element signature="e#0#15#0" expanded="true" />
               </folding>
@@ -151,14 +156,14 @@
         <option value="$PROJECT_DIR$/client/__init__.py" />
         <option value="$PROJECT_DIR$/admin/__init__.py" />
         <option value="$PROJECT_DIR$/utils.py" />
-        <option value="$PROJECT_DIR$/admin/food_kind.py" />
         <option value="$PROJECT_DIR$/admin/food.py" />
         <option value="$PROJECT_DIR$/admin/disease.py" />
         <option value="$PROJECT_DIR$/client/food.py" />
         <option value="$PROJECT_DIR$/client/disease.py" />
         <option value="$PROJECT_DIR$/admin/user.py" />
-        <option value="$PROJECT_DIR$/utils/config.py" />
         <option value="$PROJECT_DIR$/client/user.py" />
+        <option value="$PROJECT_DIR$/utils/config.py" />
+        <option value="$PROJECT_DIR$/admin/food_kind.py" />
       </list>
     </option>
   </component>
@@ -240,7 +245,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.user (1)">
+  <component name="RunManager" selected="Python.food">
     <configuration name="disease (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Server" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -263,7 +268,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="disease" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="food" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Server" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -276,7 +281,7 @@
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/admin/disease.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/admin/food.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -285,7 +290,7 @@
       <option name="INPUT_FILE" value="" />
       <method v="2" />
     </configuration>
-    <configuration name="food (1)" type="PythonConfigurationType" factoryName="Python" temporary="true">
+    <configuration name="food_kind" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="Server" />
       <option name="INTERPRETER_OPTIONS" value="" />
       <option name="PARENT_ENVS" value="true" />
@@ -293,12 +298,12 @@
         <env name="PYTHONUNBUFFERED" value="1" />
       </envs>
       <option name="SDK_HOME" value="" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/client" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$/admin" />
       <option name="IS_MODULE_SDK" value="true" />
       <option name="ADD_CONTENT_ROOTS" value="true" />
       <option name="ADD_SOURCE_ROOTS" value="true" />
       <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
-      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/client/food.py" />
+      <option name="SCRIPT_NAME" value="$PROJECT_DIR$/admin/food_kind.py" />
       <option name="PARAMETERS" value="" />
       <option name="SHOW_COMMAND_LINE" value="false" />
       <option name="EMULATE_TERMINAL" value="false" />
@@ -377,11 +382,11 @@
     </configuration>
     <recent_temporary>
       <list>
+        <item itemvalue="Python.food" />
+        <item itemvalue="Python.food_kind" />
         <item itemvalue="Python.user (1)" />
         <item itemvalue="Python.user" />
         <item itemvalue="Python.disease (1)" />
-        <item itemvalue="Python.food (1)" />
-        <item itemvalue="Python.disease" />
       </list>
     </recent_temporary>
   </component>
@@ -401,22 +406,22 @@
       <workItem from="1559543402368" duration="3059000" />
       <workItem from="1559553880095" duration="6120000" />
       <workItem from="1559615565341" duration="7189000" />
-      <workItem from="1559630684937" duration="1977000" />
+      <workItem from="1559630684937" duration="3262000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="23316000" />
+    <option name="totallyTimeSpent" value="24601000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1440" y="-1080" width="1080" height="1920" extended-state="6" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4924297" visible="true" weight="0.3159923" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4924297" visible="true" weight="0.3159923" />
       <window_info id="Structure" order="1" sideWeight="0.50757027" side_tool="true" visible="true" weight="0.3159923" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.23157895" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.23157895" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.39943343" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -510,16 +515,6 @@
     <entry file="file://$PROJECT_DIR$/admin/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/admin/food_kind.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="90">
-          <caret line="6" column="22" selection-start-line="6" selection-start-column="22" selection-end-line="6" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/admin/disease.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="435">
@@ -543,10 +538,47 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/utils/config.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="20" selection-start-line="14" selection-start-column="20" selection-end-line="14" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/food_kind.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="420">
+          <caret line="28" column="17" lean-forward="true" selection-start-line="28" selection-start-column="17" selection-end-line="28" selection-end-column="17" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/admin/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="165">
+          <caret line="11" column="30" lean-forward="true" selection-start-line="11" selection-start-column="30" selection-end-line="11" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/client/user.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="960">
+          <caret line="64" column="75" selection-start-line="64" selection-start-column="75" selection-end-line="64" selection-end-column="75" />
+          <folding>
+            <element signature="e#0#15#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/client/food.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="255">
-          <caret line="19" column="12" lean-forward="true" selection-end-line="52" selection-end-column="10" />
+        <state relative-caret-position="585">
+          <caret line="39" column="59" lean-forward="true" selection-start-line="39" selection-start-column="59" selection-end-line="39" selection-end-column="75" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -555,8 +587,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/client/disease.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="780">
-          <caret line="52" lean-forward="true" selection-start-line="52" selection-end-line="52" />
+        <state relative-caret-position="615">
+          <caret line="41" column="59" lean-forward="true" selection-start-line="41" selection-start-column="59" selection-end-line="41" selection-end-column="77" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>
@@ -567,33 +599,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="465">
           <caret line="31" column="18" selection-start-line="31" selection-start-column="18" selection-end-line="31" selection-end-column="18" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/admin/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="420">
-          <caret line="28" lean-forward="true" selection-start-line="28" selection-end-line="28" />
-          <folding>
-            <element signature="e#0#15#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/utils/config.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="21" selection-start-line="14" selection-start-column="21" selection-end-line="14" selection-end-column="21" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/client/user.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="64" column="65" selection-start-line="64" selection-start-column="65" selection-end-line="64" selection-end-column="65" />
           <folding>
             <element signature="e#0#15#0" expanded="true" />
           </folding>

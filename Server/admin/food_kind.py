@@ -26,6 +26,6 @@ def updateFoodKind():
 
 def main():
     addFoodKind()
-    # updateFoodKind()
+    updateFoodKind()
 if __name__ == '__main__':
     main()

@@ -5,3 +5,4 @@ Client/.idea/
 DietRegimenServer/.idea/
 DietRegimenServer/secret/crypt.go
 DietRegimenServer/conf/config.online.yml
+DietRegimenServer/output/

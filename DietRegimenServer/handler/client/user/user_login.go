@@ -86,7 +86,7 @@ func UserLogin(c *gin.Context){
 		})
 		return
 	}
-	logger.Infof("openID:%v,sessionKey:%v",wxRespBody.Openid,wxRespBody.SessionKey)
+	logger.Infof("openID:%v,token:%v",wxRespBody.Openid,token)
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,
 		"token":token,
@@ -94,4 +94,3 @@ func UserLogin(c *gin.Context){
 	return
 }
 
-//081oGCV92py1zK0obwW92gBsV92oGCVQ

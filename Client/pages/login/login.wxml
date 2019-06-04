@@ -2,3 +2,10 @@
 <text>pages/login/login.wxml</text>
 
 <button bindtap='login'>登录</button>
+
+
+<button bindtap='getkind'>获取食物种类</button>
+
+<button bindtap='getuserinfo'>获取个人信息</button>
+
+<button bindtap='getfooddetails'>获取食物详细信息</button>

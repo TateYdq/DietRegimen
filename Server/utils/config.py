@@ -12,7 +12,7 @@ client_url="/client"
 URL="{env}{term}{action}"
 
 
-cur_url = staging_url
+cur_url = online_url
 
 
 def postReq(url,ss,data):
