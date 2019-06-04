@@ -166,28 +166,6 @@ op2->e
 
 POST /DietRegimen/client/user/userLogin
 
-Request Body:{
-
-​	code                      登录凭证
-
-​	userInfo                  AppID
-
-​	secret             
-
-​	grant_type
-
-}
-
-Resonse Body:{
-
-body:{
-
-​		code              返回码
-
-​		sessionID 
-
-}
-
 [注]此处可参考小程序的登录API
 
 
@@ -247,41 +225,19 @@ op2->e
 
 a.获取食物种类
 
-- GET /DietRegimen/client/food/getFoodCategory
+GET /DietRegimen/client/food/getFoodCategory
 
-- return:
 
-  body:{
-
-  ​	code:               返回代码
-
-  ​	foodCategory :{}  食物种类列表
-
-  }
 
 b.搜索食物清单/获取指定食物种类的食物清单
 
-- POST /DietRegimen/client/food/searchFood
+POST /DietRegimen/client/food/searchFood
 
-  body:{
 
-  ​		keywords:              关键词
 
-  }
 
-- return:
 
-  body:{
 
-  ​		code:                    返回代码
-
-  ​		foods:{}                食物集合
-
-  }
-
-  
-
-  
 
 ## 6.3 食物清单页
 
@@ -347,25 +303,9 @@ cond4(no)->e
 
 a.获取食物详细信息
 
-- POST /DietRegimen/client/food/getFoodDetails
+GET /DietRegimen/client/food/getFoodDetails
 
-  body:{
 
-  ​		foodID           食物id
-
-  }
-
-- retun:
-
-  body:{
-
-  ​		code:                  返回代码
-
-  ​		details:                 食物详细信息
-
-  }
-
-- 
 
 ##6.4 食物详细信息页
 
@@ -441,115 +381,31 @@ cond5(no)->op8->e
 
 ```
 
-st=>start: 进入页面
-op1=>operation: 显示食物详细信息
-cond1=>condition: 是否点击评论按钮
-cond2=>condition: 是否点击提交评论按钮
-cond3=>condition: 是否点击语音播报按钮
-op4=>operation: 播放语音信息
-op5=>operation: 填写评论
-cond4=>condition: 是否点击返回按钮
-op6=>operation: 刷新页面
-op7=>operation: 返回食物清单/收藏页面
-op8=>operation: 跳转到登录页面
 
-cond5=>condition: 是否登录 
-e=>end: 结束
-st->op1->cond4
-cond4(yes)->op7->e
-cond4(no)->cond5
-cond5(no,left)->op8->e
-cond5(yes)->cond1
-
-cond1(yes)->op5->cond2
-cond1(no)->cond3
-cond2(yes)->op6->e
-cond2(no)->e
-
-cond3(yes)->op4->e
-cond3(no)->e
 
 (3)调用后端接口
 
 a.发表评论
 
-- POST  /DietRegimen/client/food/commentFood
-
-  body:{
-
-  ​	token                 用户token
-
-  ​	foodID               食物id
-
-     content               评论内容
-
-  }
-
-- return:
-
-  body:{
-
-  ​		code         返回代码
-
-  }
+POST  /DietRegimen/client/food/commentFood
 
 b.获取语音播报
 
-- POST  /DietRegimen/client/food/foodVoice
-
-  body:{
-
-  ​	token         用户token
-
-  ​	foodID       食物id
-
-  }
-
-- return:
-
-  foodVoice.mp3     语音文件
+GET  /DietRegimen/client/food/foodVoice
 
 通过http返回状态码判获取断成功与失败。
 
 c.获取食物详细信息
 
-- POST /DietRegimen/client/food/getFoodDetails
-
-  body:{
-
-  ​		foodID           食物id
-
-  }
-
-- retun:
-
-  body:{
-
-  ​		code:                  返回代码
-
-  ​		details:                 食物详细信息
-
-  }
+POST /DietRegimen/client/food/getFoodDetails
 
 d.收藏食物
 
-- POST  /DietRegimen/client/user/collectFood
+POST  /DietRegimen/client/user/collectFood
 
-  body:{
+e.获取食物评论
 
-  ​	token              用户token
-
-     foodID             食物id
-
-  }
-
-- return
-
-  body:{
-
-  ​	code                  返回码
-
-  }
+POST  /DietRegimen/client/food/getComment
 
 
 
@@ -604,37 +460,13 @@ cond4(no)->e
 
 (3)调用后端接口
 
-a.获取疾病清单
+a.获取疾病清单/搜索疾病
 
-- GET /DietRegimen/client/health/getDiseasesLists
-
-- return:{
-
-  ​		code          返回代码
-
-  ​		diseases:{}      疾病清单
-
-  }
+GET /DietRegimen/client/health/getDiseasesLists
 
 b.获取疾病详细信息
 
-- POST /DietRegimen/client/health/getDiseaseDetails
-
-body:{
-
-​	diseaseID  疾病id
-
-}
-
-- return:
-
-  body:{
-
-  ​	code   返回代码
-
-  ​	diseaseDetails     疾病详细信息
-
-  }
+GET /DietRegimen/client/health/getDiseaseDetails
 
 ## 6.6 疾病详细信息页
 
@@ -704,63 +536,19 @@ cond6(no)->e
 
 a.发表评论
 
-- POST  /DietRegimen/client/health/commentDisease
+POST  /DietRegimen/client/health/commentDisease
 
-  body:{
 
-  ​	token                 用户token
-
-  ​	diseaseID           食物id
-
-  ​    content              评论内容
-
-  }
-
-- return:
-
-  body:{
-
-  ​		code         返回代码
-
-  }
 
 b.获取语音播报
 
-- POST  /DietRegimen/client/health/diseaseVoice
-
-  body:{
-
-  ​	token             用户token
-
-  ​	diseaseID       疾病id
-
-  }
-
-- return:
-
-  diseaseVoice.mp3     语音文件
+GET  /DietRegimen/client/health/diseaseVoice
 
 通过http返回状态码判获取断成功与失败。
 
 c.收藏疾病
 
-- POST  /DietRegimen/client/user/collecDisease
-
-  body:{
-
-  ​	token                  用户token
-
-     diseaseID            疾病id
-
-  }
-
-- return
-
-  body:{
-
-  ​	code                  返回码
-
-  }
+POST  /DietRegimen/client/user/collecDisease
 
 ## 6.7 智能推荐页面
 
@@ -827,25 +615,7 @@ cond2(no)->e
 
 a.获取推荐信息 
 
-- POST /DietRegimen/client/recommend/getRecInfo
-
-  body:{
-
-​			token           用户token
-
-   }
-
-- return
-
-  body:{
-
-  ​		code               返回码
-
-  ​		info:{}             推荐信息
-
-  ​		foods:{}          食物清单
-
-  }
+POST /DietRegimen/client/recommend/getRecInfo
 
 ## 6.8 问卷填写页面
 
@@ -887,35 +657,9 @@ a.获取问卷信息
 
 GET  /DietRegimen/client/recommend/getQuestionnaireInfo
 
-- return
-
-  body:{
-
-  ​	code          返回码
-
-  ​    infoLists     问卷列表     
-
-  }
-
 b.提交问卷
 
-- POST  /DietRegimen/client/recommend/submitQuestionnaire
-
-  body:{
-
-  ​	token                      用户token
-
-  ​	answerInfoLists      问卷回答信息
-
-  }
-
-- return
-
-  body:{
-
-  ​		code       返回码
-
-  }
+POST  /DietRegimen/client/recommend/submitQuestionnaire
 
 
 
@@ -967,43 +711,21 @@ cond2(no)->e
 
 a.获取个人信息
 
-- POST  /DietRegimen/client/user/getUsertInfo
+POST  /DietRegimen/client/user/getUsertInfo
 
-  body:{
+b.获取收藏食物
 
-  ​	token                      用户token
+GET   /DietRegimen/client/user/getCollectFood
 
-  }
 
-- return
 
-  body:{
+c.获取收藏疾病
 
-  ​		code              返回码
+GET  /DietRegimen/client/user/getCollectDisease
 
-  ​		userInfo:{}         用户详细信息
 
-  }
 
-b.获取收藏信息
 
-- POST  /DietRegimen/client/user/getCollectInfo
-
-  body:{
-
-  ​	token                      用户token
-
-  }
-
-- return
-
-  body:{
-
-  ​	code                  返回码
-
-  ​    collectInfo:{}      收藏信息，包含疾病和食物信息
-
-  }
 
 ## 6.10 个人信息设置页
 
@@ -1048,21 +770,7 @@ a.个人信息设置
 
 POST /DietRegimen/client/user/postUsertInfo
 
-- body:{
 
-  ​	token                      用户token
-
-  ​	userInfo                  用户信息
-
-  }
-
-- return
-
-  body:{
-
-  ​		code              返回码
-
-  }
 
 ## 6.11收藏食物页
 
@@ -1108,23 +816,7 @@ cond2(no)->e
 
 a.获取食物详细信息
 
-- POST /DietRegimen/client/food/getFoodDetails
-
-  body:{
-
-  ​		foodID           食物id
-
-  }
-
-- retun:
-
-  body:{
-
-  ​		code:                  返回代码
-
-  ​		details:                 食物详细信息
-
-  }
+GET /DietRegimen/client/food/getFoodDetails
 
 
 
@@ -1172,21 +864,7 @@ cond2(no)->e
 
 a.获取疾病详细信息
 
-- POST /DietRegimen/client/health/getDiseaseDetails
+GET /DietRegimen/client/health/getDiseaseDetails
 
-  body:{
 
-  ​	diseaseID  疾病id
-
-  }
-
-- return:
-
-  body:{
-
-  ​	code   返回代码
-
-  ​	diseaseDetails     疾病详细信息
-
-  }
 
