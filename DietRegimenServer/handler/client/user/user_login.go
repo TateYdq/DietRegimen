@@ -30,16 +30,12 @@ type WechatLoginReponseBody struct {
 func UserLogin(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	var wxReqBody WechatLoginRequestBody
 	err := c.BindJSON(&wxReqBody)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
+			"code":utils.Failed,
 		})
 		logger.WithError(err).Errorf("params error")
 		return
@@ -53,7 +49,7 @@ func UserLogin(c *gin.Context){
 	body, err := ioutil.ReadAll(wxResp.Body)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
+			"code":utils.Failed,
 		})
 		logger.WithError(err).Errorf("get body error")
 		return
@@ -62,7 +58,7 @@ func UserLogin(c *gin.Context){
 	err = json.Unmarshal(body,&wxRespBody)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
+			"code":utils.Failed,
 		})
 		logger.WithError(err).Errorf("get body error")
 		return

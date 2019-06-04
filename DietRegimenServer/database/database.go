@@ -3,6 +3,7 @@ package database
 import (
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
+	_ "github.com/go-sql-driver/mysql"
 )
 
 var(
@@ -14,6 +15,8 @@ func InitMysql(dsn string) error {
 		logrus.WithError(err).Errorf("connect err")
 		return err
 	}
+	db.SingularTable(true)
+	db.LogMode(true)
 	DrDatabase = db
 	return nil
 }
