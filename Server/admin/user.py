@@ -27,9 +27,9 @@ def updateUser():
     url = URL.format(env=cur_url, term=admin_url, action="/updateUser")
     postReq(url,ss,data)
 
-
 def main():
     addUser()
+    # updateUser()
 
 if __name__ == '__main__':
     main()

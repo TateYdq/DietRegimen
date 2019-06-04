@@ -1,6 +1,7 @@
 .DS_Store
 */.DS_Store
 .idea/
+Client/.idea/
 DietRegimenServer/.idea/
-DietRegimenServer/secret/
+DietRegimenServer/secret/crypt.go
 DietRegimenServer/conf/config.online.yml

@@ -1,6 +1,7 @@
 package main
 
 import (
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/cache"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/database"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/food"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/health"
@@ -26,6 +27,11 @@ func main() {
 	err = database.InitMysql(config.Mysql.Database)
 	if err != nil {
 		logrus.WithError(err).Errorf("init passport mysql failed")
+		return
+	}
+	err = cache.Init()
+	if err != nil {
+		logrus.WithError(err).Errorf("init cache failed")
 		return
 	}
 	dietRegimenPage := router.Group("/DietRegimen")

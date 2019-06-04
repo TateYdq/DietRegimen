@@ -2,7 +2,7 @@ import requests
 
 
 staging_url = "http://127.0.0.1:8080/DietRegimen"
-online_url = "api.ydq6.com/DietRegimen"
+online_url = "http://api.ydq6.com/DietRegimen"
 
 admin_url="/control1/admin"
 

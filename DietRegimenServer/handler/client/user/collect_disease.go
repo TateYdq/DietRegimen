@@ -24,21 +24,15 @@ func CollectDisease(c *gin.Context){
 	defer func() {
 		recover()
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
 		return
 	}
-	userID, err := helper.GetUserID(c)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Failed,
-		})
-		return
-	}
 	var request CollectDiseaseRequest
-	err = c.BindJSON(&request)
+	err := c.BindJSON(&request)
 	if err != nil{
 		logrus.WithError(err).Errorf("BindJson error")
 		c.JSON(http.StatusOK, gin.H{
@@ -64,14 +58,7 @@ func GetCollectDisease(c *gin.Context){
 	defer func() {
 		recover()
 	}()
-	userID,err := helper.GetUserID(c)
-	if err != nil{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Failed,
-		})
-		return
-	}
-	success := helper.VerifyToken(c)
+	success,userID:= helper.VerifyToken(c)
 	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,

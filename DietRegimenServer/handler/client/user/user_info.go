@@ -18,21 +18,14 @@ func GetUserInfo(c *gin.Context){
 	defer func() {
 		recover()
 	}()
-	userID,err := helper.GetUserID(c)
-	if err != nil{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Failed,
-		})
-		return
-	}
-	success := helper.VerifyToken(c)
+	success,userID:= helper.VerifyToken(c)
 	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
 		return
 	}
-	userInfo,err := database.GetOrCreateUserInfoByOpenID(userID)
+	userInfo,err := database.GetUserInfoByUserID(userID)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
@@ -51,7 +44,8 @@ func UpdateUserInfo(c *gin.Context){
 	defer func() {
 		recover()
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
@@ -64,13 +58,6 @@ func UpdateUserInfo(c *gin.Context){
 			"code":utils.ServerError,
 		})
 		logrus.WithError(err).Errorf("BindJson error")
-		return
-	}
-	userID,err := helper.GetUserID(c)
-	if err != nil{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
-		})
 		return
 	}
 	userInfo := request.UserInfo

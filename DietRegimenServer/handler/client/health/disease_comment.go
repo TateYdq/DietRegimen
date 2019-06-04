@@ -25,7 +25,8 @@ func CommentDisease(c *gin.Context) {
 	defer func() {
 		recover()
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
@@ -36,13 +37,6 @@ func CommentDisease(c *gin.Context) {
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
-		})
-		return
-	}
-	userID,err := helper.GetUserID(c)
-	if err != nil{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
 		})
 		return
 	}
@@ -71,13 +65,6 @@ func GetComment(c *gin.Context){
 		})
 		return
 	}
-	if success := helper.VerifyToken(c);!success{
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Forbidden,
-		})
-		return
-	}
-
 	comments,err := database.GetCommentByDiseaseID(diseaseID)
 	if err != nil{
 		c.JSON(http.StatusOK, gin.H{

@@ -25,21 +25,16 @@ func CommentFood(c *gin.Context) {
 	defer func() {
 		recover()
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
-		})
-		return
+		"code":utils.Forbidden,
+	})
+	return
 	}
-	userID, err := helper.GetUserID(c)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Failed,
-		})
-		return
-	}
+
 	var cfq CommentFoodRequest
-	err = c.BindJSON(&cfq)
+	err := c.BindJSON(&cfq)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,

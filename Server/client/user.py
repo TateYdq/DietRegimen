@@ -56,10 +56,24 @@ def getCollectDisease():
     url = URL.format(env=cur_url, term=client_url, action="/user/getCollectDisease")
     getReq(url,ss,data=data)
 
+
+
+def login():
+    data = json.dumps({
+        "code":"081oGCV92py1zK0obwW92gBsV92oGCVQ",
+    })
+    url = URL.format(env=cur_url, term=client_url, action="/user/userLogin")
+    postReq(url, ss, data)
+
+
+
+
 def main():
+    login()
+    # getUserInfo()
     # collectFood()
     # getCollectFood()
-    collectDisease()
-    getCollectDisease()
+    # collectDisease()
+    # getCollectDisease()
 if __name__ == '__main__':
     main()
