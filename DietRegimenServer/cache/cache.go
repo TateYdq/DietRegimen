@@ -12,11 +12,11 @@ func setNx(){
 }
 
 
-func Init()(error){
+func Init(addr string,password string ,db int)(error){
 	client := redis.NewClient(&redis.Options{
-		Addr:     "127.0.0.1:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
+		Addr:     addr,
+		Password: password, // no password set
+		DB:       db,  // use default DB
 	})
 	Client = client
 	_, err := client.Ping().Result()

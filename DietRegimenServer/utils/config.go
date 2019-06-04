@@ -15,6 +15,11 @@ type YamlFile struct{
 	Mysql struct {
 		Database     string `yaml:"Database"`
 	} `yaml:"Mysql"`
+	Redis struct{
+		Addr string `yaml:"Addr"`
+		Password string `yaml:"Password"`
+		DbToken int `yaml:"DbToken"`
+	}`yaml:"Redis"`
 }
 
 func InitConfig()(YamlFile,error){

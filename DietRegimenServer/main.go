@@ -29,7 +29,7 @@ func main() {
 		logrus.WithError(err).Errorf("init passport mysql failed")
 		return
 	}
-	err = cache.Init()
+	err = cache.Init(config.Redis.Addr,config.Redis.Password,config.Redis.DbToken)
 	if err != nil {
 		logrus.WithError(err).Errorf("init cache failed")
 		return
