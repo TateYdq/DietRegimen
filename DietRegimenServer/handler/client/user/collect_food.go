@@ -5,6 +5,7 @@ import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/helper"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -14,14 +15,13 @@ type UserCollectFoodInfo struct {
 	FoodID int `json:"food_id"`
 	RecordTime string `json:"record_time"`
 }
-
+type CollectFoodRequest struct {
+	Token string `json:"token"`
+	FoodID int `json:"food_id"`
+}
 func CollectFood(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	if success := helper.VerifyToken(c);!success{
 		c.JSON(http.StatusOK,gin.H{
@@ -36,14 +36,16 @@ func CollectFood(c *gin.Context){
 		})
 		return
 	}
-	foodID,err := helper.GetFoodID(c)
+	var request CollectFoodRequest
+	err = c.BindJSON(&request)
 	if err != nil{
+		logrus.WithError(err).Errorf("BindJson error")
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Failed,
 		})
 		return
 	}
-	err = database.CreateCollectFoodInfo(userID,foodID)
+	err = database.CreateCollectFoodInfo(userID,request.FoodID)
 	if err != nil{
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Failed,
@@ -61,10 +63,6 @@ func CollectFood(c *gin.Context){
 func GetCollectFood(c *gin.Context) {
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	if success := helper.VerifyToken(c);!success{
 		c.JSON(http.StatusOK,gin.H{

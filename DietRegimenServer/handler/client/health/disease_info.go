@@ -8,24 +8,9 @@ import (
 	"net/http"
 )
 
-type DiseaseInfo struct{
-	DiseaseID int `json:"disease_id"`
-	Name string `json:"name"`
-	DiseaseKind string `json:"disease_kind"`
-	Info string `json:"info"`
-	PhotoPath string `json:"photo_path"`
-	VoicePath string `json:"voice_path"`
-	ViewCount int `json:"view_count"`
-	CollectCount string `json:"collect_count"`
-}
-
-func GetDiseaseDetail(c *gin.Context){
+func GetDiseaseDetails(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	diseaseID,err := helper.GetDiseaseID(c)
 	if err != nil{
@@ -48,4 +33,23 @@ func GetDiseaseDetail(c *gin.Context){
 		})
 		return
 	}
+}
+
+func GetDiseasesLists(c *gin.Context){
+	defer func() {
+		recover()
+	}()
+	keyword,_ := helper.GetKeyWord(c)
+	list,err:= database.GetDiseaseLists(keyword)
+	if err != nil {
+		c.JSON(http.StatusOK, gin.H{
+			"code": utils.Failed,
+		})
+		return
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+		"disease_list":list,
+	})
+	return
 }

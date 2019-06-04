@@ -29,7 +29,7 @@ func CreateCollectFoodInfo(userID int,foodID int)(err error){
 	db := DrDatabase.Create(&request)
 	err = db.Error
 	if err != nil{
-		logrus.WithError(err).Errorf("CreateCollectDiseaseInfo err,userID:%v,diseaseID:%v",userID,diseaseID)
+		logrus.WithError(err).Errorf("CreateCollectDiseaseInfo err,userID:%v,foodID:%v",userID,foodID)
 	}
 	return err
 }

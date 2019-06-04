@@ -30,10 +30,6 @@ type WechatLoginReponseBody struct {
 func UserLogin(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	var wxReqBody WechatLoginRequestBody
 	err := c.BindJSON(&wxReqBody)

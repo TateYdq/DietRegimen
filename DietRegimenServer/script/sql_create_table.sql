@@ -1,4 +1,4 @@
-create database ydq6_miniprogram default character set utf8mb4;
+# create database ydq6_miniprogram default character set utf8mb4;
 use ydq6_miniprogram;
 
 create table user_info(
@@ -19,7 +19,6 @@ food_kind  varchar(50),
 info   text,       #食物介绍
 effect  text,     #食物功效
 keyword  text,         #食物关键词
-taboo text,          #禁忌
 view_count bigint,
 collect_count bigint,
 photo_path  varchar(50) ,      #食物图片路径，只有一张
@@ -31,6 +30,7 @@ disease_id int auto_increment primary key,
 name varchar(50),
 disease_kind  varchar(50),
 info text, #疾病介绍
+taboo text,  #禁忌
 photo_path  varchar(50) ,#疾病图片路径，只有一张
 voice_path varchar(50),
 view_count bigint,

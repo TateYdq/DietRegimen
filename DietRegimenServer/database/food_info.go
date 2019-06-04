@@ -7,15 +7,13 @@ import (
 )
 
 type FoodInfo struct {
-	ID int
-	FoodID int `json:"food_id"`
+	FoodID int `json:"food_id" gorm:"column:food_id;primary_key"`
 	Name string `json:"name"`
 	FoodKindID int `json:"food_kind_id"`
 	FoodKind  string `json:"food_kind"`
 	Info   string `json:"info"`
 	Effect  string `json:"effect"`
 	Keyword  string `json:"keyword"`
-	Taboo string `json:"taboo"`
 	ViewCount int `json:"view_count"`
 	CollectCount int `json:"collect_count"`
 	PhotoPath  string `json:"photo_path"`
@@ -28,7 +26,7 @@ func CreateFoodAdmin(request FoodInfo)(int,error){
 	if  err != nil {
 		logrus.WithError(err).Error("CreateFoodAdmin failed")
 	}
-	foodID := request.ID
+	foodID := request.FoodID
 	return foodID,err
 }
 
@@ -36,7 +34,7 @@ func CreateFoodAdmin(request FoodInfo)(int,error){
 func GetFoodInfoByID(foodID int)(foodInfo FoodInfo,err error){
 	err = DrDatabase.Model(FoodInfo{}).Where("food_id = ?",foodID).First(&foodInfo).Error
 	if err != nil{
-		logrus.WithError(err).Errorf("GetFoodInfoByID err,foodID:%v",foodID)
+		logrus.WithError(err).Errorf("GetFoodInfoByID err,foodID:v",foodID)
 	}
 	return foodInfo,err
 }
@@ -53,4 +51,37 @@ func UpdateFoodInfo(request FoodInfo)(err error){
 	}
 	return err
 
+}
+
+func SearchByFoodKindID(foodKindID int)(foodList[] FoodInfo,err error){
+	err = DrDatabase.Model(FoodInfo{}).Where("food_kind_id = ?",foodKindID).Scan(&foodList).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("SearchByFoodKindID err,foodKindID:%v",foodKindID)
+	}
+	return foodList,err
+}
+
+func SearchByFoodKindIDAndKey(keyword string,foodKindID int)(foodList[] FoodInfo,err error){
+	keyword = "%"+keyword+"%"
+	err = DrDatabase.Model(FoodInfo{}).Where("food_kind_id = ? and (food_kind like ? or info like ?  or keyword like ? or effect like ? or name like ?) ",foodKindID,keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("SearchByFoodKindIDAndKey err,foodKindID:v,keyword:v",foodKindID,keyword)
+	}
+	return foodList,err
+}
+
+func SearchByKeyWord(keyword string)(foodList[] FoodInfo,err error){
+	if keyword == ""{
+		err = DrDatabase.Model(FoodInfo{}).Scan(&foodList).Error
+		if err != nil{
+			logrus.WithError(err).Errorf("SearchByKeyWord err")
+		}
+	}else {
+		keyword = "%"+keyword+"%"
+		err = DrDatabase.Model(FoodInfo{}).Where("food_kind like ? or info like ? or keyword like ? or effect like ? or name like ? ",keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
+		if err != nil {
+			logrus.WithError(err).Errorf("SearchByKeyWord err,keyword:v", keyword)
+		}
+	}
+	return foodList,err
 }

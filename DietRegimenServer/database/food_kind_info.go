@@ -7,8 +7,7 @@ import (
 )
 
 type FoodKindInfo struct {
-	ID int
-	KindID int `json:"kind_id"`
+	KindID int `json:"kind_id" gorm:"column:kind_id;primary_key"`
 	KindName string `json:"kind_name"`
 	KindInfo string `json:"kind_info"`
 	PhotoPath string `json:"photo_path"`
@@ -21,7 +20,7 @@ func CreateFoodKindAdmin(request FoodKindInfo)(int,error){
 	if  err != nil {
 		logrus.WithError(err).Error("CreateFoodKindAdmin failed")
 	}
-	kindID := request.ID
+	kindID := request.KindID
 	return kindID,err
 }
 
@@ -33,6 +32,15 @@ func GetFoodKindByID(kindID int)(foodKind FoodKindInfo,err error) {
 	}
 	return foodKind,err
 }
+
+func GetFoodKind()(foodKinds[] FoodKindInfo,err error) {
+	err = DrDatabase.Model(FoodKindInfo{}).Scan(&foodKinds).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("GetFoodKind err")
+	}
+	return foodKinds,err
+}
+
 
 func UpdateFoodKindInfo(request FoodKindInfo)(err error){
 	if request.KindID == 0{

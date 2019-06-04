@@ -54,10 +54,10 @@ func main() {
 				userPage.GET("/getUserInfo",user.GetUserInfo)
 				userPage.POST("/updateUserInfo",user.UpdateUserInfo)
 
-				userPage.GET("/collectFood",user.CollectFood)
+				userPage.POST("/collectFood",user.CollectFood)
 				userPage.GET("/getCollectFood",user.GetCollectFood)
 
-				userPage.GET("/collectDisease",user.CollectDisease)
+				userPage.POST("/collectDisease",user.CollectDisease)
 				userPage.GET("/getCollectDisease",user.GetCollectDisease)
 			}
 			foodPage := clientPage.Group("/food")
@@ -69,21 +69,22 @@ func main() {
 				foodPage.POST("/commentFood",food.CommentFood)
 				foodPage.GET("/getComment",food.GetComment)
 
-				foodPage.POST("/searchFood",food.SearchFood)
+				foodPage.GET("/searchFood",food.SearchFood)
 
 			}
 			healthPage := clientPage.Group("/health")
 			{
-				healthPage.GET("/getDiseaseDetail",health.GetDiseaseDetail)
+				healthPage.GET("/getDiseaseDetails",health.GetDiseaseDetails)
+
+				healthPage.GET("/getDiseasesLists",health.GetDiseasesLists)
+
 
 				healthPage.GET("/getComment",health.GetComment)
-				healthPage.GET("/commentDisease",health.CommentDisease)
+				healthPage.POST("/commentDisease",health.CommentDisease)
 			}
 
 		}
 	}
-
-
 	router.Run(":8080")
 
 }

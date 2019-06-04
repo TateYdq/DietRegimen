@@ -8,11 +8,10 @@ import (
 )
 
 type UserInfo struct{
-	ID int
-	UserID int `json:"user_id"`
+	UserID int `json:"user_id" gorm:"column:user_id;primary_key"`
 	Name string `json:"name"`
 	Age int `json:"age"`
-	Gender string `json:"gender",gorm:"default:'male'"`
+	Gender string `json:"gender" gorm:"default:'male'"`
 	UserImagePath string `json:"user_image_path"`
 	DiseasesFocus string `json:"diseases_focus"`
 	Keywords string `json:"keywords"`
@@ -26,7 +25,7 @@ func CreateUserAdmin(request UserInfo)(int,error){
 	if  err != nil {
 		logrus.WithError(err).Error("CreateUserAdmin failed")
 	}
-	userID := request.ID
+	userID := request.UserID
 	return userID,err
 }
 
