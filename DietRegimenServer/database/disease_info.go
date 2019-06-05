@@ -2,6 +2,7 @@ package database
 
 import (
 	"errors"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/ai"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -25,7 +26,24 @@ func CreateDiseaseAdmin(request DiseaseInfo)(int,error) {
 		logrus.WithError(err).Error("CreateDiseaseAdmin failed")
 	}
 	diseaseID := request.DiseaseID
+	//语音识别
+	go func() {
+		path,err := ai.CreateVoice("disease", diseaseID, request.Info)
+		if err != nil{
+			logrus.WithError(err).Error("CreateDiseaseVoice failed")
+			return
+		}
+		err = UpdateDiseaseField(diseaseID,path,"voice_path")
+		if err != nil{
+			logrus.WithError(err).Error("UpdateVoice failed")
+			return
+		}
+	}()
 	return diseaseID,err
+}
+
+func CreateDiseaseVoice(){
+
 }
 
 func GetDiseaseInfoByID(diseaseID int)(diseaseInfo DiseaseInfo,err error){
@@ -67,17 +85,18 @@ func UpdateDiseaseInfo(request DiseaseInfo)(err error){
 
 }
 
-func UpdateDiseasePath(diseaseID int,path string)(err error){
+func UpdateDiseaseField(diseaseID int,path string,field string)(err error){
 	if diseaseID == 0{
 		logrus.Errorf("diseaseID is equals to 0")
 		return errors.New("diseaseID is equals to 0")
 	}
 	record := make(map[string]interface{})
-	record["photo_path"] = path
+	record[field] = path
 	err = DrDatabase.Model(DiseaseInfo{}).Where("disease_id = ?",diseaseID).Updates(record).Error
 	if err != nil{
-		logrus.WithError(err).Errorf("UpdateFoodPath err,diseaseID:%v",diseaseID)
+		logrus.WithError(err).Errorf("UpdateFoodField err,diseaseID:%v",diseaseID)
 	}
-	logrus.WithError(err).Errorf("UpdateFoodPath success,diseaseID:%v",diseaseID)
+	logrus.WithError(err).Errorf("UpdateFoodField success,diseaseID:%v",diseaseID)
 	return err
 }
+

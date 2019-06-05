@@ -26,11 +26,11 @@ func UploadTable(num int,id int,path string)(err error){
 	if num == TypeUser{
 		return database.UpdateUserPath(id,path)
 	} else if num == TypeFood{
-		return database.UpdateFoodPath(id,path)
+		return database.UpdateFoodField(id,path,"photo_path")
 	}else if num == TypeKind{
 		return database.UpdateFoodKindPath(id,path)
 	}else if num == TypeDisease{
-		return database.UpdateDiseasePath(id,path)
+		return database.UpdateDiseaseField(id,path,"photo_path")
 	}
 	return nil
 }

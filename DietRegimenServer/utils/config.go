@@ -11,6 +11,7 @@ import (
 const (
 	LoadPath       = "./conf/config.yml"
 	StaticUploadPath = "static/uploadfile/"
+	StaticVoicePath = "static/voice/"
 )
 
 

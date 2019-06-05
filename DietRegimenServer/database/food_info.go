@@ -2,6 +2,7 @@ package database
 
 import (
 	"errors"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/ai"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -27,6 +28,19 @@ func CreateFoodAdmin(request FoodInfo)(int,error){
 		logrus.WithError(err).Error("CreateFoodAdmin failed")
 	}
 	foodID := request.FoodID
+	//语音识别
+	go func() {
+		path,err := ai.CreateVoice("food", foodID, request.Info)
+		if err != nil{
+			logrus.WithError(err).Error("CreateFoodVoice failed")
+			return
+		}
+		err = UpdateFoodField(foodID,path,"voice_path")
+		if err != nil{
+			logrus.WithError(err).Error("UpdateVoice failed")
+			return
+		}
+	}()
 	return foodID,err
 }
 
@@ -86,7 +100,7 @@ func SearchByKeyWord(keyword string)(foodList[] FoodInfo,err error){
 	return foodList,err
 }
 
-func UpdateFoodPath(foodID int,path string)(err error){
+func UpdateFoodField(foodID int,path string,field string)(err error){
 	if foodID == 0{
 		logrus.Errorf("foodID is equals to 0")
 		return errors.New("foodID is equals to 0")
@@ -95,8 +109,8 @@ func UpdateFoodPath(foodID int,path string)(err error){
 	record["photo_path"] = path
 	err = DrDatabase.Model(FoodInfo{}).Where("food_id = ?",foodID).Updates(record).Error
 	if err != nil{
-		logrus.WithError(err).Errorf("UpdateFoodPath err,foodID:%v",foodID)
+		logrus.WithError(err).Errorf("UpdateFoodField err,foodID:%v",foodID)
 	}
-	logrus.WithError(err).Errorf("UpdateFoodPath success,foodID:%v",foodID)
+	logrus.WithError(err).Errorf("UpdateFoodField success,foodID:%v",foodID)
 	return err
 }
