@@ -66,3 +66,18 @@ func UpdateDiseaseInfo(request DiseaseInfo)(err error){
 	return err
 
 }
+
+func UpdateDiseasePath(diseaseID int,path string)(err error){
+	if diseaseID == 0{
+		logrus.Errorf("diseaseID is equals to 0")
+		return errors.New("diseaseID is equals to 0")
+	}
+	record := make(map[string]interface{})
+	record["photo_path"] = path
+	err = DrDatabase.Model(DiseaseInfo{}).Where("disease_id = ?",diseaseID).Updates(record).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("UpdateFoodPath err,diseaseID:%v",diseaseID)
+	}
+	logrus.WithError(err).Errorf("UpdateFoodPath success,diseaseID:%v",diseaseID)
+	return err
+}

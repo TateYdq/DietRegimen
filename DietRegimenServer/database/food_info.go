@@ -85,3 +85,18 @@ func SearchByKeyWord(keyword string)(foodList[] FoodInfo,err error){
 	}
 	return foodList,err
 }
+
+func UpdateFoodPath(foodID int,path string)(err error){
+	if foodID == 0{
+		logrus.Errorf("foodID is equals to 0")
+		return errors.New("foodID is equals to 0")
+	}
+	record := make(map[string]interface{})
+	record["photo_path"] = path
+	err = DrDatabase.Model(FoodInfo{}).Where("food_id = ?",foodID).Updates(record).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("UpdateFoodPath err,foodID:%v",foodID)
+	}
+	logrus.WithError(err).Errorf("UpdateFoodPath success,foodID:%v",foodID)
+	return err
+}

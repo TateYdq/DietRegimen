@@ -55,3 +55,18 @@ func UpdateFoodKindInfo(request FoodKindInfo)(err error){
 	return err
 
 }
+
+func UpdateFoodKindPath(kindID int,path string)(err error){
+	if kindID == 0{
+		logrus.Errorf("kindID is equals to 0")
+		return errors.New("kindID is equals to 0")
+	}
+	record := make(map[string]interface{})
+	record["photo_path"] = path
+	err = DrDatabase.Model(FoodKindInfo{}).Where("kind_id = ?",kindID).Updates(record).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("UpdateFoodKindPath err,kindID:%v",kindID)
+	}
+	logrus.WithError(err).Errorf("UpdateFoodKindPath success,kindID:%v",kindID)
+	return err
+}

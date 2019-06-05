@@ -10,7 +10,11 @@ import (
 )
 const (
 	LoadPath       = "./conf/config.yml"
+	StaticUploadPath = "static/uploadfile/"
 )
+
+
+
 type YamlFile struct{
 	Mysql struct {
 		Database     string `yaml:"Database"`
@@ -26,7 +30,7 @@ func InitConfig()(YamlFile,error){
 	configInstance := &YamlFile{}
 	err := Load(configInstance)
 	if err != nil{
-		logrus.WithError(err).Error("load local yml config file failed!")
+		logrus.WithError(err).Error("load local yml config file_interact failed!")
 		return *configInstance,err
 	}
 	logrus.WithField("dsn",configInstance.Mysql.Database).Infof("connect success")
@@ -47,7 +51,7 @@ func getConfigFilePath(rawPath string, env string) string {
 		logrus.Infof("path not exist with specified env=%v, err=%v\n", env, err)
 		return rawPath
 	} else {
-		fmt.Printf("load conf from file: %v\n", pathName)
+		fmt.Printf("load conf from file_interact: %v\n", pathName)
 		return pathName
 	}
 }
@@ -68,5 +72,5 @@ func getConfigFileWithFileNameSuffix(file, suffix string) (string, error) {
 	if fileInfo, err := os.Stat(envFile); err == nil && fileInfo.Mode().IsRegular() {
 		return envFile, nil
 	}
-	return "", fmt.Errorf("failed to find file %v", envFile)
+	return "", fmt.Errorf("failed to find file_interact %v", envFile)
 }
