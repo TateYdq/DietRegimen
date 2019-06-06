@@ -111,6 +111,6 @@ func UpdateFoodField(foodID int,path string,field string)(err error){
 	if err != nil{
 		logrus.WithError(err).Errorf("UpdateFoodField err,foodID:%v",foodID)
 	}
-	logrus.WithError(err).Errorf("UpdateFoodField success,foodID:%v",foodID)
+	logrus.Infof("UpdateFoodField success,foodID:%v",foodID)
 	return err
 }

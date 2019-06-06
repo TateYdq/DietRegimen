@@ -82,7 +82,6 @@ func UpdateDiseaseInfo(request DiseaseInfo)(err error){
 		logrus.WithError(err).Errorf("UpdateDiseaseInfo err,diseaseID:%v",request.DiseaseID)
 	}
 	return err
-
 }
 
 func UpdateDiseaseField(diseaseID int,path string,field string)(err error){
@@ -96,7 +95,7 @@ func UpdateDiseaseField(diseaseID int,path string,field string)(err error){
 	if err != nil{
 		logrus.WithError(err).Errorf("UpdateFoodField err,diseaseID:%v",diseaseID)
 	}
-	logrus.WithError(err).Errorf("UpdateFoodField success,diseaseID:%v",diseaseID)
+	logrus.Infof("UpdateFoodField success,diseaseID:%v",diseaseID)
 	return err
 }
 

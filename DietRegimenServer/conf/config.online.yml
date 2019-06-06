@@ -7,3 +7,13 @@ Redis: {
   Password: "asda123qwe",
   DbToken: 1
 }
+
+Wechat: {
+  AppID: "wx88562f9e9cb98f7f",
+  AppSecret: "467ff3549e29d2d778fa380c05e33a1e"
+}
+
+Ai: {
+  ApiKey: "Gk6IixZFRc8GC2ZUOg1CXMRG",
+  SecretKey: "eB4SHcscWNk8npq6lNbCYkcYckNYilgM"
+}

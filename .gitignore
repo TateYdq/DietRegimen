@@ -6,5 +6,7 @@ Server/.idea/
 DietRegimenServer/.idea/
 DietRegimenServer/secret/crypt.go
 DietRegimenServer/conf/config.online.yml
-DietRegimenServer/output/
-DietRegimenServer/static/uploadfile/
+DietRegimenServer/output/*
+DietRegimenServer/static/image/*
+DietRegimenServer/static/voice/*
+

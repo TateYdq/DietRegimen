@@ -1,9 +1,0 @@
-Mysql: {
-  Database: "ydq6_miniprogram:dFZwYtwfRGb6mtAZ@tcp(127.0.0.1:3306)/ydq6_miniprogram?charset=utf8mb4&parseTime=True&loc=Local&readTimeout=500ms"
-}
-
-Redis: {
-  Addr: "127.0.0.1:13180",
-  Password: "asda123qwe",
-  DbToken: 1
-}

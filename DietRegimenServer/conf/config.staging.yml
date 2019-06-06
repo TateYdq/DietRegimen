@@ -7,3 +7,13 @@ Redis: {
   Password: "test123",
   DbToken: 1
 }
+
+Wechat: {
+  AppID: "test",
+  AppSecret: "test"
+}
+
+Ai: {
+  ApiKey: "test",
+  SecretKey: "test"
+}

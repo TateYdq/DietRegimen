@@ -38,6 +38,13 @@ func UploadTable(num int,id int,path string)(err error){
 
 /**上传方法**/
 func Fileupload(c *gin.Context){
+	defer func() {
+		recover()
+		c.JSON(http.StatusOK,gin.H{
+			"code": utils.Failed,
+		})
+		return
+	}()
 	//得到上传的文件
 	file, header, err := c.Request.FormFile("file")
 	if err != nil {
@@ -105,3 +112,7 @@ func Fileupload(c *gin.Context){
 func Filedown(c *gin.Context){
 	//暂时没有提供方法
 }
+
+
+
+

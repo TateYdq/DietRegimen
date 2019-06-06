@@ -1,7 +1,7 @@
 import requests
 
 
-staging_url = "http://127.0.0.1:8080/DietRegimen"
+staging_url = "http://127.0.0.1:8080"
 online_url = "http://api.ydq6.com/DietRegimen"
 
 admin_url="/control1/admin"
@@ -12,7 +12,7 @@ client_url="/client"
 URL="{env}{term}{action}"
 
 
-cur_url = online_url
+cur_url = staging_url
 
 
 def postReq(url,ss,data):

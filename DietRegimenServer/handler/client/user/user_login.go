@@ -44,7 +44,7 @@ func UserLogin(c *gin.Context){
 	}
 
 	//小程序验证请求
-	wxUrl := fmt.Sprintf(WechatUrl,secret.AppID,secret.AppSecret,wxReqBody.Code)
+	wxUrl := fmt.Sprintf(WechatUrl,utils.ConfigInstance.Wechat.AppID,utils.ConfigInstance.Wechat.AppSecret,wxReqBody.Code)
 	wxClient := &http.Client{}
 	wxResp,err := wxClient.Get(wxUrl)
 	defer wxResp.Body.Close()

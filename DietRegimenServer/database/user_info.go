@@ -136,6 +136,6 @@ func UpdateUserPath(userID int,path string)(err error){
 	if err != nil{
 		logrus.WithError(err).Errorf("UpdateUserPath err,userID:%v",userID)
 	}
-	logrus.WithError(err).Errorf("UpdateUserPath success,userID:%v",userID)
+	logrus.Infof("UpdateUserPath success,userID:%v",userID)
 	return err
 }

@@ -69,6 +69,8 @@ func main() {
 
 				userPage.POST("/collectDisease", user.CollectDisease)
 				userPage.GET("/getCollectDisease", user.GetCollectDisease)
+
+				userPage.POST("/uploadUserImage", user.UploadUserImage)
 			}
 			foodPage := clientPage.Group("/food")
 			{
@@ -91,13 +93,14 @@ func main() {
 				healthPage.GET("/getComment", health.GetComment)
 				healthPage.POST("/commentDisease", health.CommentDisease)
 			}
-
 		}
 		filePage := dietRegimenPage.Group("/file")
 		{
-			filePage.GET("/fileopt", file_interact.Fileopthtml)
+			//filePage.GET("/fileopt", file_interact.Fileopthtml)
 			filePage.POST("/fileUpload", file_interact.Fileupload)
 			filePage.GET("/fileDown", file_interact.Filedown)
+			filePage.GET("/getImage", file_interact.GetImage)
+			filePage.GET("/getVoice", file_interact.GetVoice)
 		}
 
 	}

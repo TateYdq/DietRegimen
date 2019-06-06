@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
+	"github.com/sirupsen/logrus"
 	"io/ioutil"
 	"net"
 	"net/http"
@@ -17,9 +18,6 @@ import (
 const POST_REMOTE_TIMEOUT = 30
 
 const (
-	// APP相关的两个KEY,需要从百度AI开放平台申请
-	API_KEY = "Gk6IixZFRc8GC2ZUOg1CXMRG"
-	SECRET_KEY = "eB4SHcscWNk8npq6lNbCYkcYckNYilgM"
 
 	// 发音人选择, 0为普通女声，1为普通男生，3为情感合成-度逍遥，4为情感合成-度丫丫，默认为普通女声
 	PER = 4
@@ -82,14 +80,14 @@ func CreateVoice(prefix string,id int,content string)(path string,err error){
 func fetch_token() string {
 	params := make(map[string]interface{}, 0)
 	params["grant_type"] = "client_credentials"
-	params["client_id"] = API_KEY
-	params["client_secret"] = SECRET_KEY
+	params["client_id"] = utils.ConfigInstance.Ai.ApiKey
+	params["client_secret"] = utils.ConfigInstance.Ai.SecretKey
 
 	response := sendRequest(TOKEN_URL, params, "GET")
 
 	var res CommResp
 	if err := json.Unmarshal([]byte(response), &res); err == nil {
-		fmt.Printf("res=[%v]\n", res)
+		logrus.Infof("res=[%v]\n", res)
 	}
 
 	return res.AccessToken
@@ -98,7 +96,7 @@ func fetch_token() string {
 func WriteWithIoutil(name, content string) {
 	data :=  []byte(content)
 	if ioutil.WriteFile(utils.StaticVoicePath+name,data,0644) == nil {
-		fmt.Println("生成音频文件成功:", name)
+		logrus.Info("生成音频文件成功:", name)
 	}
 }
 
@@ -148,17 +146,16 @@ func httpGet(url string) string {
 	}
 
 	client := &http.Client{Transport: tr, Timeout: time.Duration(3) * time.Second}
-	fmt.Println(url)
 	resp, err := client.Get(url)
 	if err != nil {
-		fmt.Println(err)
+		logrus.WithError(err)
 		return err.Error()
 	}
 
 	defer resp.Body.Close()
 	body, erro := ioutil.ReadAll(resp.Body)
 	if erro != nil {
-		fmt.Println("http wrong erro")
+		logrus.Error("http wrong erro")
 		return erro.Error()
 	}
 
@@ -168,7 +165,7 @@ func httpGet(url string) string {
 func httpPost(requesturl string, params map[string]interface{}) string {
 	b, err := json.Marshal(params)
 	if err != nil {
-		fmt.Errorf("json.Marshal failed[%v]", err)
+		logrus.Errorf("json.Marshal failed[%v]", err)
 		return err.Error()
 	}
 
@@ -183,14 +180,14 @@ func httpPost(requesturl string, params map[string]interface{}) string {
 	client := &http.Client{Transport: &transport, Timeout: time.Duration(30) * time.Second}
 	resp, err := client.Do(req)
 	if err != nil {
-		fmt.Println(err)
+		logrus.WithError(err)
 		return err.Error()
 	}
 
 	defer resp.Body.Close()
 	body, erro := ioutil.ReadAll(resp.Body)
 	if erro != nil {
-		fmt.Println("http wrong erro")
+		logrus.Error("http wrong erro")
 		return erro.Error()
 	}
 
@@ -206,7 +203,7 @@ func sendRequest(requesturl string, params map[string]interface{}, method string
 	} else if method == "POST" {
 		response = httpPost(requesturl, params)
 	} else {
-		fmt.Println("unsuppported http method")
+		logrus.Error("unsuppported http method")
 		return "unsuppported http method"
 	}
 

@@ -10,10 +10,9 @@ import (
 )
 const (
 	LoadPath       = "./conf/config.yml"
-	StaticUploadPath = "static/uploadfile/"
+	StaticUploadPath = "static/image/"
 	StaticVoicePath = "static/voice/"
 )
-
 
 
 type YamlFile struct{
@@ -25,17 +24,30 @@ type YamlFile struct{
 		Password string `yaml:"Password"`
 		DbToken int `yaml:"DbToken"`
 	}`yaml:"Redis"`
+	Wechat struct{
+		AppID string `yaml:"AppID"`
+		AppSecret string `yaml:"AppSecret"`
+	}`yaml:"Wechat"`
+	Ai struct{
+		ApiKey string `yaml:"ApiKey"`
+		SecretKey string `yaml:"SecretKey"`
+	}`yaml:"Ai"`
 }
 
+var(
+	ConfigInstance *YamlFile
+)
+
+
 func InitConfig()(YamlFile,error){
-	configInstance := &YamlFile{}
-	err := Load(configInstance)
+	ConfigInstance = &YamlFile{}
+	err := Load(ConfigInstance)
 	if err != nil{
 		logrus.WithError(err).Error("load local yml config file_interact failed!")
-		return *configInstance,err
+		return *ConfigInstance,err
 	}
-	logrus.WithField("dsn",configInstance.Mysql.Database).Infof("connect success")
-	return *configInstance,nil
+	logrus.WithField("dsn",ConfigInstance.Mysql.Database).Infof("connect success")
+	return *ConfigInstance,nil
 }
 
 
