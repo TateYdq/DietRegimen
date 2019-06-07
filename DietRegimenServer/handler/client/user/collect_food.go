@@ -46,6 +46,9 @@ func CollectFood(c *gin.Context){
 		})
 		return
 	}
+	go func() {
+		database.UpdateFoodCollect(request.FoodID)
+	}()
 	c.JSON(http.StatusOK, gin.H{
 		"code": utils.Success,
 	})

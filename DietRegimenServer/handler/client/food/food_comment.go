@@ -29,8 +29,8 @@ func CommentFood(c *gin.Context) {
 	if !success{
 		c.JSON(http.StatusOK,gin.H{
 		"code":utils.Forbidden,
-	})
-	return
+		})
+		return
 	}
 
 	var cfq CommentFoodRequest

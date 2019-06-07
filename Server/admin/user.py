@@ -4,7 +4,7 @@ from utils.config import *
 ss = requests.session()
 def addUser():
     data = json.dumps({
-        "token":"123",
+        "token":"1wqe213",
         "name":"123",
         "age":60,
         "gender":"female",
@@ -12,11 +12,11 @@ def addUser():
         "diseases_focus":"123"
     })
     url = URL.format(env=cur_url, term=admin_url, action="/addUser")
-    postReq(url,ss,data)
+    postReq(url,ss,data,admin_token)
 
 def updateUser():
     data = json.dumps({
-        "token":"123",
+        "token":"1wqe213",
         "user_id":8,
         "name":"uuuu",
         "age":63,
@@ -25,7 +25,7 @@ def updateUser():
         "diseases_focus":"高血脂"
     })
     url = URL.format(env=cur_url, term=admin_url, action="/updateUser")
-    postReq(url,ss,data)
+    postReq(url,ss,data,admin_token)
 
 def main():
     addUser()

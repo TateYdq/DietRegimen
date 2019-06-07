@@ -47,6 +47,9 @@ func CollectDisease(c *gin.Context){
 		})
 		return
 	}
+	go func() {
+		database.UpdateDiseaseCollect(request.DiseaseID)
+	}()
 	c.JSON(http.StatusOK, gin.H{
 		"code": utils.Success,
 	})

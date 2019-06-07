@@ -79,7 +79,7 @@ func SearchByFoodKindIDAndKey(keyword string,foodKindID int)(foodList[] FoodInfo
 	keyword = "%"+keyword+"%"
 	err = DrDatabase.Model(FoodInfo{}).Where("food_kind_id = ? and (food_kind like ? or info like ?  or keyword like ? or effect like ? or name like ?) ",foodKindID,keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
 	if err != nil{
-		logrus.WithError(err).Errorf("SearchByFoodKindIDAndKey err,foodKindID:v,keyword:v",foodKindID,keyword)
+		logrus.WithError(err).Errorf("SearchByFoodKindIDAndKey err,foodKindID:%v,keyword:%v",foodKindID,keyword)
 	}
 	return foodList,err
 }
@@ -94,23 +94,65 @@ func SearchByKeyWord(keyword string)(foodList[] FoodInfo,err error){
 		keyword = "%"+keyword+"%"
 		err = DrDatabase.Model(FoodInfo{}).Where("food_kind like ? or info like ? or keyword like ? or effect like ? or name like ? ",keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
 		if err != nil {
-			logrus.WithError(err).Errorf("SearchByKeyWord err,keyword:v", keyword)
+			logrus.WithError(err).Errorf("SearchByKeyWord err,keyword:%v", keyword)
 		}
 	}
 	return foodList,err
 }
 
-func UpdateFoodField(foodID int,path string,field string)(err error){
+func UpdateFoodField(foodID int, value string,field string)(err error){
 	if foodID == 0{
 		logrus.Errorf("foodID is equals to 0")
 		return errors.New("foodID is equals to 0")
 	}
 	record := make(map[string]interface{})
-	record["photo_path"] = path
+	record[field] = value
 	err = DrDatabase.Model(FoodInfo{}).Where("food_id = ?",foodID).Updates(record).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("UpdateFoodField err,foodID:%v",foodID)
 	}
 	logrus.Infof("UpdateFoodField success,foodID:%v",foodID)
 	return err
+}
+
+func UpdateFoodCollect(foodID int){
+	if foodID == 0{
+		logrus.Errorf("foodID is equals to 0")
+		return
+	}
+	err := DrDatabase.Raw("update food_info set collect_count=collect_count+1 where food_id = ?",foodID).Error
+	if err != nil{
+		logrus.Errorf("UpdateFoodCollect err")
+	}
+}
+
+func UpdateFoodView(foodID int)(){
+	if foodID == 0{
+		logrus.Errorf("foodID is equals to 0")
+		return
+	}
+	err := DrDatabase.Raw("update food_info set view_count=view_count+1 where food_id = ?",foodID).Error
+	if err != nil{
+		logrus.Errorf("UpdateFoodView err")
+	}
+}
+
+func GetFoodNameByFoodID(foodID int)(string){
+	var foodInfo FoodInfo
+	err := DrDatabase.Model(FoodInfo{}).Where("food_id = ?",).First(&foodInfo).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("GetFoodNameByFoodID err,foodID:%v",foodID)
+		return ""
+	}
+	return foodInfo.Name
+}
+
+func GetFoodIDByFoodName(foodName string)(int){
+	var foodInfo FoodInfo
+	err := DrDatabase.Model(FoodInfo{}).Where("name = ?",foodName).First(&foodInfo).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("GetFoodIDByFoodName err,name:%v",foodName)
+		return 0
+	}
+	return foodInfo.FoodID
 }

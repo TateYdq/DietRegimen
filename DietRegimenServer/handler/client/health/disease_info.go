@@ -20,19 +20,20 @@ func GetDiseaseDetails(c *gin.Context){
 		return
 	}
 	diseaseInfo,err := database.GetDiseaseInfoByID(diseaseID)
-	//TODO:ViewCount计数,CollectCount计数
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
 		})
 		return
-	}else{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Success,
-			"disease_detail":diseaseInfo,
-		})
-		return
 	}
+	go func() {
+		database.UpdateDiseaseView(diseaseID)
+	}()
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+		"disease_detail":diseaseInfo,
+	})
+	return
 }
 
 func GetDiseasesLists(c *gin.Context){

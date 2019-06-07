@@ -16,6 +16,8 @@ type UserInfo struct{
 	DiseasesFocus string `json:"diseases_focus"`
 	Keywords string `json:"keywords"`
 	OpenID string `json:"open_id"`
+	UserScore int `json:"user_score"`
+	UpdateTime string `json:"update_time"`
 }
 
 

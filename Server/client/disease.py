@@ -16,14 +16,14 @@ def searchDisease():
         "kind_id":0
     }
     url = URL.format(env=cur_url, term=client_url, action="/health/searchDisease")
-    getReq(url, ss, data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 def getDiseaseDetails():
     data = {
         "disease_id": 2
     }
     url = URL.format(env=cur_url, term=client_url, action="/health/getDiseaseDetails")
-    getReq(url, ss, data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 
 def commentDisease():
@@ -33,14 +33,14 @@ def commentDisease():
         "content":"难受"
     })
     url = URL.format(env=cur_url, term=client_url, action="/health/commentDisease")
-    postReq(url, ss, data)
+    postReq(url, ss, data=data,token=user_token)
 
 def getComment():
     data = {
         "disease_id": 4
     }
     url = URL.format(env=cur_url, term=client_url, action="/health/getComment")
-    getReq(url, ss, data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 
 def main():

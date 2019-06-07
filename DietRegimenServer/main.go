@@ -5,9 +5,11 @@ import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/database"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/food"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/health"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/recommend"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/client/user"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/file_interact"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/handler/server"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/midware"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -39,6 +41,7 @@ func main() {
 	dietRegimenPage := router.Group("/")
 	{
 		serverPage := dietRegimenPage.Group("/control1/admin")
+		serverPage.Use(midware.AdminVerify)
 		{
 			serverPage.POST("/addUser", server.AddUser)
 			serverPage.POST("/updateUser", server.UpdateUser)
@@ -51,8 +54,12 @@ func main() {
 
 			serverPage.POST("/addDisease", server.AddDisease)
 			serverPage.POST("/updateDisease", server.UpdateDisease)
+			serverPage.POST("/addDiseaseFoodRec", server.AddDiseaseFoodRec)
 
 			serverPage.POST("/uploadImage", file_interact.Fileupload)
+
+
+			serverPage.POST("/addQuestion", server.AddQuestion)
 
 		}
 		clientPage := dietRegimenPage.Group("/client")
@@ -82,7 +89,6 @@ func main() {
 				foodPage.GET("/getComment", food.GetComment)
 
 				foodPage.GET("/searchFood", food.SearchFood)
-
 			}
 			healthPage := clientPage.Group("/health")
 			{
@@ -93,12 +99,15 @@ func main() {
 				healthPage.GET("/getComment", health.GetComment)
 				healthPage.POST("/commentDisease", health.CommentDisease)
 			}
+			recommendPage := clientPage.Group("/recommend")
+			{
+				recommendPage.GET("/getQuestionnaire",recommend.GetQuestionnaire)
+				recommendPage.POST("/submitQuestionnaire",recommend.SubmitQuestionnaire)
+			}
 		}
 		filePage := dietRegimenPage.Group("/file")
 		{
 			//filePage.GET("/fileopt", file_interact.Fileopthtml)
-			filePage.POST("/fileUpload", file_interact.Fileupload)
-			filePage.GET("/fileDown", file_interact.Filedown)
 			filePage.GET("/getImage", file_interact.GetImage)
 			filePage.GET("/getVoice", file_interact.GetVoice)
 		}

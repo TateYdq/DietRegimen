@@ -74,6 +74,6 @@ Page({
     apiRequest.getUserInfo()
   },
   getfooddetails: function(){
-    apiRequest.getFoodDetails()
+    apiRequest.getFoodDetails(1)
   }
 })

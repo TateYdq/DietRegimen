@@ -19,6 +19,7 @@ type DiseaseInfo struct{
 	CollectCount int `json:"collect_count"`
 }
 
+
 func CreateDiseaseAdmin(request DiseaseInfo)(int,error) {
 	db := DrDatabase.Create(&request)
 	err := db.Error
@@ -99,3 +100,24 @@ func UpdateDiseaseField(diseaseID int,path string,field string)(err error){
 	return err
 }
 
+func UpdateDiseaseCollect(diseaseID int){
+	if diseaseID == 0{
+		logrus.Errorf("diseaseID is equals to 0")
+		return
+	}
+	err := DrDatabase.Raw("update disease_info set collect_count=collect_count+1 where disease_id = ?",diseaseID).Error
+	if err != nil{
+		logrus.Errorf("UpdateDiseaseCollect err")
+	}
+}
+
+func UpdateDiseaseView(diseaseID int)(){
+	if diseaseID == 0{
+		logrus.Errorf("diseaseID is equals to 0")
+		return
+	}
+	err := DrDatabase.Raw("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
+	if err != nil{
+		logrus.Errorf("UpdateDiseaseView err")
+	}
+}

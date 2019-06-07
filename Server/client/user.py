@@ -7,7 +7,7 @@ def getUserInfo():
         "token":"13"
     }
     url = URL.format(env=cur_url, term=client_url, action="/user/getUserInfo")
-    getReq(url,ss,data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 
 def updateUserInfo():
@@ -32,14 +32,14 @@ def collectFood():
         "food_id":1
     })
     url = URL.format(env=cur_url, term=client_url, action="/user/collectFood")
-    postReq(url, ss, data)
+    postReq(url, ss, data,token=user_token)
 
 def getCollectFood():
     data = {
         "token":"13"
     }
     url = URL.format(env=cur_url, term=client_url, action="/user/getCollectFood")
-    getReq(url,ss,data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 def collectDisease():
     data = json.dumps({
@@ -47,14 +47,14 @@ def collectDisease():
         "disease_id":1
     })
     url = URL.format(env=cur_url, term=client_url, action="/user/collectDisease")
-    postReq(url, ss, data)
+    postReq(url, ss, data,token=user_token)
 
 def getCollectDisease():
     data = {
         "token":"13"
     }
     url = URL.format(env=cur_url, term=client_url, action="/user/getCollectDisease")
-    getReq(url,ss,data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 
 
@@ -63,7 +63,7 @@ def login():
         "code":"081oGCV92py1zK0obwW92gBsV92oGCVQ",
     })
     url = URL.format(env=cur_url, term=client_url, action="/user/userLogin")
-    postReq(url, ss, data)
+    postReq(url, ss, data,token=user_token)
 
 
 

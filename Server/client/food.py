@@ -6,7 +6,7 @@ def getFoodCategory():
     data = {
     }
     url = URL.format(env=cur_url, term=client_url, action="/food/getFoodCategory")
-    getReq(url,ss,data=data)
+    getReq(url,ss,data=data,token=user_token)
 
 def searchFood():
     data = {
@@ -14,14 +14,14 @@ def searchFood():
         "kind_id":0
     }
     url = URL.format(env=cur_url, term=client_url, action="/food/searchFood")
-    getReq(url, ss, data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 def getFoodDetails():
     data = {
         "food_id": 2
     }
     url = URL.format(env=cur_url, term=client_url, action="/food/getFoodDetails")
-    getReq(url, ss, data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 
 def commentFood():
@@ -31,14 +31,14 @@ def commentFood():
         "content":"真香"
     })
     url = URL.format(env=cur_url, term=client_url, action="/food/commentFood")
-    postReq(url, ss, data)
+    postReq(url, ss, data,token=user_token)
 
 def getComment():
     data = {
         "food_id": 2
     }
     url = URL.format(env=cur_url, term=client_url, action="/food/getComment")
-    getReq(url, ss, data=data)
+    getReq(url, ss, data=data,token=user_token)
 
 
 def main():
