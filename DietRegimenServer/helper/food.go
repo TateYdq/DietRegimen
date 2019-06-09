@@ -28,8 +28,19 @@ func GetFoodID(c *gin.Context)(foodID int,err error){
 func GetFoodKindID(c *gin.Context)(kindID int,err error){
 	id := c.Query("food_kind_id")
 	if id == "" {
-		return 0,errors.New("get food_id error")
+		return 0,errors.New("get food_kind_id error")
 	}
 	kindID,err = strconv.Atoi(id)
 	return kindID,err
 }
+
+//获取食物ID2
+func GetKindID(c *gin.Context)(kindID int,err error){
+	id := c.Query("kind_id")
+	if id == "" {
+		return 0,errors.New("get kind_id error")
+	}
+	kindID,err = strconv.Atoi(id)
+	return kindID,err
+}
+

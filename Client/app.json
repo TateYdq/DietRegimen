@@ -12,7 +12,8 @@
     "pages/mine/collectDisease/collect_disease",
     "pages/diseases/diseaseList/disease_list",
     "pages/diseases/diseaseInfo/disease_info",
-    "pages/rec/recHome/rec_home"
+    "pages/rec/recHome/rec_home",
+    "pages/login/login"
   ],
   "window": {
     "backgroundTextStyle": "light",

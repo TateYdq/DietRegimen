@@ -2,7 +2,6 @@ package server
 
 import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/database"
-	"github.com/TateYdq/DietRegimen/DietRegimenServer/helper"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/sirupsen/logrus"
@@ -12,13 +11,6 @@ import (
 
 
 func AddUser(c *gin.Context){
-	if success := helper.VerifyAdminToken();!success{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
-		})
-		return
-	}
-	logrus.Infof("verify success")
 	var rq database.UserInfo
 	err := c.BindJSON(&rq)
 	if err != nil{
@@ -44,13 +36,6 @@ func AddUser(c *gin.Context){
 
 func UpdateUser(c *gin.Context){
 	var rq database.UserInfo
-	if success := helper.VerifyAdminToken();!success{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
-		})
-		return
-	}
-	logrus.Infof("verify success")
 	err := c.BindJSON(&rq)
 	if err != nil{
 		logrus.WithError(err).Error("UpdateUser BindJSON failed")

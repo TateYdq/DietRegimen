@@ -10,7 +10,9 @@ v0.1 创建文档
 
 v0.2 由于后端采用gin所以所有命名方式由小驼峰换为全小写模式。
 
-v0.3 修改疾病史字段，改为关心疾病
+v0.3 修改疾病史字段，改为关注疾病
+
+v0.4 决定所有Get请求默认为参数形式，所有Post请求默认为json格式。将taboo字段从食物信息表中去掉，并加到疾病信息表中
 
 
 
@@ -24,7 +26,7 @@ v0.3 修改疾病史字段，改为关心疾病
 
 ## 2.1. 用户信息表
 
-user_info(
+ user_info(
 
 ​	user_id  int auto_increment primary key,
 
@@ -62,15 +64,13 @@ food_info(
 
 ​	keyword  text,         #食物关键词
 
-​    taboo text,          #禁忌
+​	view_count bigint,	
 
-​	viewCount bigint,	
+​	collect_count bigint,
 
-​	collectCount bigint,
+​	photo_path  varchar(50) ,      #食物图片路径，只有一张
 
-​	photoPath  varchar(50) ,      #食物图片路径，只有一张
-
-​    voicePath varchar(50)       #语音路径
+​    voice_path varchar(50)       #语音路径
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -78,21 +78,23 @@ food_info(
 
 disease_info(
 
-​	diseaseID int auto_increment primary key,
+​	disease_id int auto_increment primary key,
 
 ​    name varchar(50),
 
-​	diseaseKind  varchar(50),
+​	disease_kind  varchar(50),
 
 ​	info   text,       #疾病介绍
 
-​	photoPath  varchar(50) ,      #疾病图片路径，只有一张
+​    taboo text,          #禁忌
 
-​	voicePath varchar(50),
+​	photo_path  varchar(50) ,      #疾病图片路径，只有一张
 
-​	viewCount bigint,
+​	voice_path varchar(50),
 
-​    collectCount bigint
+​	view_count bigint,
+
+​    collect_count bigint
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -108,11 +110,11 @@ food_comment_info(
 
 ​	user_id int,
 
-​	userName varchar(50),
+​	user_name varchar(50),
 
 ​	comment text,
 
-​	recordTime varchar(50),
+​	record_time varchar(50),
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -122,15 +124,15 @@ disease_comment_info(
 
 ​	id int auto_increment primary key,
 
-​    diseaseID int,
+​    disease_id int,
 
 ​	user_id int,
 
-​	userName varchar(50),
+​	user_namevarchar(50),
 
 ​	comment text,
 
-​	recordTime varchar(50),
+​	record_time varchar(50),
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -144,9 +146,9 @@ food_kind_info(
 
 ​		kindInfo   text,
 
-​		photoPath varchar(50),
+​		photo_path varchar(50),
 
-​		viewCount bigint,
+​		view_count bigint,
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -160,9 +162,9 @@ user_collect_food_info(
 
 ​	food_id int,
 
-​	recordTime varchar(50)
+​	record_time varchar(50)
 
-))ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 ## 2.8 用户收藏疾病表
 
@@ -172,51 +174,68 @@ user_collect_disease_info(
 
 ​	user_id int,
 
-​	diseaseID int,
+​	disease_id int,
 
-​	recordTime varchar(50)
-
-)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
-
-
-
-## 2.9 答题信息表
-
-question_info(
-
-​	id int auto_increment primary key,
-
-​	info text,      #问题内容
-
-​	answer text,  #问题回复选项，一般只有四个选项A，B,C,D
-
-​	response text  #问题选项对应的响应。具体内容TODO
+​	record_time varchar(50)
 
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-## 2.10 疾病推荐食物表
+## 2.9 问题表
 
-disease_food_info{
-
-​	id int auto_increment primary key,
-
-​	diseaseID int,
-
-​	diseaseName varchar(50),
-
-​	foodName varchar(50),
-
-​	food_id int,
-
+```
+create table question_info(
+question_id int auto_increment primary key,
+info text,      #问题内容
+answer_a text,  #问题A
+response_a text,  #问题A对应的响应。
+answer_b text,  #问题A
+response_b text,  #问题A对应的响应。
+answer_c text,  #问题A
+response_c text  #问题A对应的响应。
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 
 
 
-## 2.11 用户食物信息关系表
+
+
+## 2.10 答题表
+
+```
+create table answer_sheet(
+id int auto_increment primary key,
+question_id int,   #问题id
+user_id int,       #用户id
+answer text,  #答案
+record_time varchar(50)        #记录时间
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
 
 
 
-## 2.12 用户食物
+## 2.11 疾病推荐食物表
+
+```
+create table disease_food_rec(
+id int auto_increment primary key,
+disease_id int,
+food_id int,
+food_name varchar(50)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+## 2.12 用户食物信息关系表
+
+```
+create table user_food_relation(
+user_id int,
+food_id int,
+food_name varchar(50),
+score int #相关度分值,推荐的时候按此排序
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 # 三、URL接口
 
@@ -232,7 +251,7 @@ code 通用返回码
 
 
 
-
+所有Get请求默认为参数形式，所有Post请求默认为json格式。
 
 ##3.1.管理员端接口
 
@@ -242,44 +261,44 @@ code 通用返回码
 
 - 照片需要先上传得到路径后才增删修改，图片均保存为相对路径。
 - 不用修改的字段默认不填。
-- 所有请求必须给出token
+- 所有请求Token均在header
 - 修改，删除时必须给出对应id
 
 ### 3.1.1 用户信息表
 
 #### 3.1.1.1 添加用户
 
-POST /DietRegimen/control1/admin/addUser
+- [x] POST /DietRegimen/control1/admin/addUser
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	"name":"" ,
 
 ​     "age":0,     
 
-​      "gender":"",
+​      "gender":"male",       #male或female
 
 ​	 "user_image_path":"",
 
 ​     "diseases_focus":"",
 
+​	"keywords":"",
+
 }
 
 Resonse Body:{
 
-​	"code":""    #2000,4003,5000,5003
+​	"code":    
+
+​	"user_id": 
 
 }
 
 #### 3.1.1.2 修改用户信息
 
-POST /DietRegimen/control1/admin/uprecordTimeUser
+- [x] POST /DietRegimen/control1/admin/updateUser
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	user_id:0     #用户id
 
@@ -299,17 +318,15 @@ Request Body:{
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":    
 
 }
 
-#### 3.1.1.3 删除用户信息
+#### 3.1.1.3 删除用户信息[暂不提供]
 
 POST /DietRegimen/control1/admin/delUser
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	user_id:0    #用户id
 
@@ -317,7 +334,7 @@ Request Body:{
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":
 
 }
 
@@ -327,11 +344,9 @@ Resonse Body:{
 
 #### 3.1.2.1 添加食物
 
-POST /DietRegimen/control1/admin/addFood
+- [x] POST /DietRegimen/control1/admin/addFood
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	"name":"" ,
 
@@ -349,7 +364,7 @@ Request Body:{
 
 ​	"viewCount":0,	
 
-​	"photoPath":""  ,     
+​	"photo_path":""  ,     
 
 ​    "voicePath":""     
 
@@ -357,17 +372,17 @@ Request Body:{
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code": 
+
+​	"food_id":
 
 }
 
 #### 3.1.2.1 修改食物信息
 
-POST /DietRegimen/control1/admin/uprecordTimeFood
+- [x] POST /DietRegimen/control1/admin/updateFood
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	"food_id":0,   #食物id
 
@@ -387,9 +402,9 @@ Request Body:{
 
 ​	"viewCount":0,	
 
-​	"collectCount":0,
+​	"collect_count":0,
 
-​	"photoPath":""  ,     
+​	"photo_path":""  ,     
 
 ​    "voicePath":""     
 
@@ -397,27 +412,25 @@ Request Body:{
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":
 
 }
 
 
 
-#### 3.1.2.2 删除食物信息
+#### 3.1.2.2 删除食物信息[暂不提供]
 
 POST /DietRegimen/control1/admin/uprecordTimeFood
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
-​	"food_id":0,   #食物id
+​	"food_id":,   #食物id
 
 }
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":
 
 }
 
@@ -427,73 +440,87 @@ Resonse Body:{
 
 #### 3.1.3.1 添加疾病
 
-POST /DietRegimen/control1/admin/addDisease
+- [x] POST /DietRegimen/control1/admin/addDisease
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
 ​    "name":"",
 
-​	"diseaseKind":"",
+​	"disease_kind":"",
 
 ​	"voicePath":"",
 
 ​	"viewCount":0 ,
 
-​    ”collectCount“:0 ,
+​    ”collect_count“:0 ,
 
 }
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":
 
 }
 
 #### 3.1.3.2 修改疾病
 
-POST /DietRegimen/control1/admin/uprecordTimeDisease
+- [x] POST /DietRegimen/control1/admin/updateDisease
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
-​	"diseaseID":0,   #疾病id
+​	"disease_id":0,   #疾病id
 
 ​    "name":"",
 
-​	"diseaseKind":"",
+​	"disease_kind":"",
 
 ​	"voicePath":"",
 
 ​	"viewCount":0 ,
 
-​    ”collectCount“:0 ,
+​    ”collect_count“:0 ,
 
 }
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":
 
 }
 
-#### 3.1.3.2 删除疾病
+#### 3.1.3.3 添加疾病推荐食物
 
-POST /DietRegimen/control1/admin/uprecordTimeDisease
+- [x] POST /DietRegimen/control1/admin/addDiseaseFoodRec
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
+​	"disease_id":,       #疾病id
 
-​	"diseaseID":0,   #疾病id
+​	"food_names":[]  #食物名字列表
 
 }
 
 Resonse Body:{
 
-​	"code":"2000"    #2000,4003,5000,5003
+​	"code":
+
+}
+
+
+
+#### 3.1.3.4 删除疾病[暂不提供]
+
+POST /DietRegimen/control1/admin/deleteDisease
+
+Request Body:{
+
+​	"disease_id":,   #疾病id
+
+}
+
+Resonse Body:{
+
+​	"code":
 
 }
 
@@ -504,8 +531,6 @@ Resonse Body:{
 POST /DietRegimen/control1/admin/
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 }
 
@@ -521,9 +546,7 @@ POST /DietRegimen/control1/admin/
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
-​	"id":0
+​	"id":
 
 }
 
@@ -539,9 +562,7 @@ POST /DietRegimen/control1/admin/
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
-​	"id":0
+​	"id":
 
 }
 
@@ -611,11 +632,9 @@ Resonse Body:{
 
 #### 3.1.6.1 添加
 
-POST /DietRegimen/control1/admin/
+- [x] POST /DietRegimen/control1/admin/addFoodKind
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 }
 
@@ -627,13 +646,11 @@ Resonse Body:{
 
 #### 3.1.6.2 修改
 
-POST /DietRegimen/control1/admin/
+- [x] POST /DietRegimen/control1/admin/updateFoodKind
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
-​	"kindID":0
+​	"kindID":
 
 }
 
@@ -643,7 +660,7 @@ Resonse Body:{
 
 }
 
-#### 3.1.6.3 删除
+#### 3.1.6.3 删除[暂不提供]
 
 POST /DietRegimen/control1/admin/
 
@@ -779,11 +796,16 @@ Resonse Body:{
 
 #### 3.1.9.1 添加
 
-POST /DietRegimen/control1/admin/
+POST /DietRegimen/control1/admin/addQuestion
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
+  "info":""
+  "answer_a":""'
+  "response_a":"" 
+  "answer_b":""
+  "response_b":"" 
+  "answer_c":"" 
+  "response_c":""
 
 }
 
@@ -791,15 +813,15 @@ Resonse Body:{
 
 ​	"code":"2000"    #2000,4003,5000,5003
 
+​	"question_id":""  
+
 }
 
-#### 3.1.9.2 修改
+#### 3.1.9.2 修改(暂不提供)
 
-POST /DietRegimen/control1/admin/
+POST /DietRegimen/control1/admin/updateQuestion
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	"id":0
 
@@ -811,13 +833,11 @@ Resonse Body:{
 
 }
 
-#### 3.1.9.3 删除
+#### 3.1.9.3 删除(暂不提供)
 
-POST /DietRegimen/control1/admin/
+POST /DietRegimen/control1/admin/deleteQuestion
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	"id":0
 
@@ -839,8 +859,6 @@ POST /DietRegimen/control1/admin/uploadImage
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
 ​	"image":""
 
 }
@@ -859,8 +877,6 @@ POST /DietRegimen/control1/admin/downloadImage
 
 Request Body:{
 
-​	"token":"",    #此为管理员token
-
 ​	"path":""       #图片相对路径
 
 }
@@ -875,11 +891,9 @@ Resonse Body:{
 
 #### 3.1.10.1  修改图片
 
-POST /DietRegimen/control1/admin/uprecordTimeImage
+POST /DietRegimen/control1/admin/udpateImage
 
 Request Body:{
-
-​	"token":"",    #此为管理员token
 
 ​	 "path":""            #图片路径
 
@@ -897,87 +911,15 @@ Resonse Body:{
 
 统一前缀:/DietRegimen/client
 
-Request Header里存放sessionID,[非必须]
+所有请求Token均在Rquest Header
+
+所有Get请求默认为参数形式，所有Post请求默认为json格式。
 
 ### 3.2.1 用户相关
 
-#### 3.2.1.1 获取个人信息
+#### 3.2.1.1 登录
 
-POST  /DietRegimen/client/user/getUsertInfo
-
-Request Body:{
-
-​	token                      用户token
-
-}
-
-Resonse Body:{
-
-​		code              返回码
-
-​		user_info:{}         用户详细信息
-
-}
-
-#### 3.2.1.2 获取收藏信息
-
-POST  /DietRegimen/client/user/getCollectFood
-
-Request Body:{
-
-​	token                      用户token
-
-}
-
-Resonse Body:{
-
-​	code                  返回码
-
-​    collect_info:{}      收藏食物信息
-
-}
-
-
-
-POST  /DietRegimen/client/user/getCollectDisease
-
-Request Body:{
-
-​	token                      用户token
-
-}
-
-Resonse Body:{
-
-​	code                  返回码
-
-​    collect_info:{}      收藏疾病信息
-
-}
-
-#### 3.2.1.3 个人信息设置
-
-POST /DietRegimen/client/user/updateUserInfo
-
-Request Body:{
-
-​	token                      用户token
-
-​	user_info                  用户信息
-
-}
-
-Resonse Body:{
-
-body:{
-
-​		code              返回码
-
-}
-
-#### 3.2.1.4 登录
-
-POST /DietRegimen/client/user/userLogin
+- [x] POST /DietRegimen/client/user/userLogin
 
 Request Body:{
 
@@ -999,105 +941,89 @@ body:{
 
 [注]此处可参考小程序的登录API
 
-### 3.2.2 食物相关
+目前问题，照片问题。
 
-####  3.2.2.1 获取食物详细信息
+#### 3.2.1.2 获取个人信息
 
-POST /DietRegimen/client/food/getFoodDetails
-
-Request Body:{
-
-​		food_id         食物id
-
-}
-
-Resonse Body:{
-
-​		code:                  返回代码
-
-​		details:                 食物详细信息
-
-}
-
-
-
-#### 3.2.2.2 获取食物种类
-
-GET /DietRegimen/client/food/getFoodCategory
-
-Resonse Body:{
-
-​	code:               返回代码
-
-​	food_category :{}  食物种类列表
-
-}
-
-#### 3.2.2.3 搜索食物清单/获取指定食物种类的食物清单
-
-POST /DietRegimen/client/food/searchFood
+- [x] POST  /DietRegimen/client/user/getUsertInfo
 
 Request Body:{
 
-​		keywords:              关键词
+​	token                      用户token
 
 }
 
 Resonse Body:{
 
-​		code:                    返回代码
+​		code              返回码
 
-​		foods:{}                食物集合
+​		user_info:{}         用户详细信息
 
 }
 
 
 
-#### 3.2.2.4 发表评论
+- [x] 该接口带讨论
 
-POST  /DietRegimen/client/food/commentFood
+#### 3.2.1.3 获取收藏食物信息
+
+- [x] GET   /DietRegimen/client/user/getCollectFood
 
 Request Body:{
 
-​	token                 用户token
-
-​	food_id               食物id
-
-   content               评论内容
+​	token                      用户token
 
 }
 
 Resonse Body:{
 
-​		code         返回代码
+​	code                  返回码
+
+​    collect_info:{}      收藏食物信息
 
 }
 
+#### 3.2.1.4 获取收藏疾病信息
 
-
-#### 3.2.2.5 获取语音播报
-
-POST  /DietRegimen/client/food/foodVoice
+- [x] GET  /DietRegimen/client/user/getCollectDisease
 
 Request Body:{
 
-​	token         用户token
-
-​	food_id       食物id
+​	token                      用户token
 
 }
 
 Resonse Body:{
 
-​	food_voice.mp3     语音文件
+​	code                  返回码
+
+​    collect_info:{}      收藏疾病信息
 
 }
 
-通过http返回状态码判获取断成功与失败。
+#### 3.2.1.5 个人信息设置
+
+- [x] POST /DietRegimen/client/user/updateUserInfo
+
+Request Body:{
+
+​	token                      用户token
+
+​	user_info                  用户信息
+
+}
+
+Resonse Body:{
+
+body:{
+
+​		code              返回码
+
+}
 
 
 
-#### 3.2.2.6 收藏食物
+#### 3.2.1.6 收藏食物
 
 POST  /DietRegimen/client/user/collectFood
 
@@ -1117,11 +1043,158 @@ Resonse Body:{
 
 }
 
+
+
+#### 3.2.1.7 收藏疾病
+
+- [x] POST  /DietRegimen/client/user/collecDisease
+
+Request Body:{
+
+​	token                  用户token
+
+   disease_id            疾病id
+
+}
+
+Resonse Body:{
+
+​	code                  返回码
+
+}
+
+
+
+### 3.2.2 食物相关
+
+####  3.2.2.1 获取食物详细信息
+
+- [x] GET /DietRegimen/client/food/getFoodDetails
+
+Request Body:{
+
+​		food_id         食物id
+
+}
+
+Resonse Body:{
+
+​		code:                  返回代码
+
+​		details:                 食物详细信息
+
+}
+
+
+
+#### 3.2.2.2 获取食物种类
+
+- [x] GET /DietRegimen/client/food/getFoodCategory
+
+Request Body:{
+
+​	无
+
+}
+
+Resonse Body:{
+
+​	code:               返回代码
+
+​	food_category :{}  食物种类列表
+
+}
+
+#### 3.2.2.3 搜索食物清单/获取指定食物种类的食物清单
+
+- [x] Get /DietRegimen/client/food/searchFood
+
+Request Body:{
+
+​		keyword:              关键词(单关键词，可不填写)
+
+​		kindID:                  种类ID(可不填写)
+
+}
+
+Resonse Body:{
+
+​		code:                    返回代码
+
+​		food_list:{}                食物集合
+
+}
+
+
+
+#### 3.2.2.4 发表评论
+
+- [x] POST  /DietRegimen/client/food/commentFood
+
+Request Body:{
+
+​	token                 用户token
+
+​	food_id               食物id
+
+   content               评论内容
+
+}
+
+Resonse Body:{
+
+​		code         返回代码
+
+}
+
+#### 3.2.2.5 获取评论
+
+- [x] POST  /DietRegimen/client/food/getComment
+
+Request Body:{
+
+​	food_id               食物id
+
+}
+
+Resonse Body:{
+
+​		code         返回代码
+
+​	   comment_list:{}      评论列表
+
+}
+
+
+#### 3.2.2.6 TODO:获取语音播报
+
+- [ ] GET  /DietRegimen/client/food/foodVoice
+
+Request Body:{
+
+​	token         用户token
+
+​	food_id       食物id
+
+}
+
+Resonse Body:{
+
+​	food_voice.mp3     语音文件
+
+}
+
+通过http返回状态码判获取断成功与失败。
+
+
+
+
+
 ### 3.2.3 疾病相关
 
 #### 3.2.3.1 获取疾病详细信息
 
-POST /DietRegimen/client/health/getDiseaseDetail
+- [x] GET /DietRegimen/client/health/getDiseaseDetails
 
 Request Body:{
 
@@ -1141,19 +1214,25 @@ Resonse Body:{
 
 #### 3.2.3.2 获取疾病清单
 
-GET /DietRegimen/client/health/getDiseasesLists
+- [x] GET /DietRegimen/client/health/getDiseasesLists
+
+Request Body:{
+
+​	keyword      可以不填，不填默认为空，即搜索所有疾病
+
+}
 
 Resonse Body:{
 
 ​		code          返回代码
 
-​		diseases:{}      疾病清单
+​		disease_list:{}      疾病清单
 
 }
 
 #### 3.2.3.3 发表评论
 
-POST  /DietRegimen/client/health/commentDisease
+- [x] POST  /DietRegimen/client/health/commentDisease
 
 Request Body:{
 
@@ -1173,9 +1252,29 @@ body:{
 
 }
 
-#### 3.2.3.4 获取语音播报
 
-POST  /DietRegimen/client/health/diseaseVoice
+
+#### 3.2.3.5 获取评论
+
+- [x] POST  /DietRegimen/client/health/getComment
+
+Request Body:{
+
+​	disease_id          疾病id
+
+}
+
+Resonse Body:{
+
+​		code         返回代码
+
+​	   comment_list:{}      评论列表
+
+}
+
+#### 3.2.3.6 TODO:获取语音播报
+
+- [ ] GET  /DietRegimen/client/health/diseaseVoice
 
 Request Body:{
 
@@ -1193,29 +1292,13 @@ disease_voice.mp3     语音文件
 
 通过http返回状态码判获取断成功与失败。
 
-#### 3.2.3.5 收藏疾病
 
-POST  /DietRegimen/client/user/collecDisease
-
-Request Body:{
-
-​	token                  用户token
-
-   disease_id            疾病id
-
-}
-
-Resonse Body:{
-
-​	code                  返回码
-
-}
 
 ### 3.2.3 推荐相关
 
-#### 3.2.3.1 获取推荐信息
+#### 3.2.3.1 TODO:获取推荐信息
 
-POST /DietRegimen/client/recommend/getRecInfo
+- [ ] POST /DietRegimen/client/recommend/getRecInfo
 
 Request Body:{
 
@@ -1240,27 +1323,30 @@ Resonse Body:{
 
 #### 3.2.4.1 获取问卷信息
 
-GET  /DietRegimen/client/recommend/getQuestionnaireInfo
+- [x] GET  /DietRegimen/client/recommend/getQuestionnaire
 
 Resonse Body:{
 
 ​	code          返回码
 
-​    info_lists     问卷列表     
+​    question_lists:[]     问卷列表     
 
 }
+
+[注]此请求必须带token
+
+问卷列表数组每个元素包括,info,answer_a,response_a,answer_b,response_b,answer_c,response_c
+
 
 
 
 #### 3.2.4.2 提交问卷
 
-POST  /DietRegimen/client/recommend/submitQuestionnaire
+- [x] POST  /DietRegimen/client/recommend/submitQuestionnaire
 
 Request Body:{
 
-​	token                      用户token
-
-​	answer_info_Lists      问卷回答信息
+​	answer_sheets:[]      问卷回答信息
 
 }
 
@@ -1270,3 +1356,24 @@ Resonse Body:{
 
 }
 
+
+
+answer_sheets为数组，每个元素包括question_id,answer,record_time。
+
+其中answer为选项对应的响应。
+
+
+
+# 四、其他问题
+
+## 4.1 session,token,user_id问题
+
+待调研决定
+
+
+
+## 4.2 图片问题
+
+
+
+待调研决定

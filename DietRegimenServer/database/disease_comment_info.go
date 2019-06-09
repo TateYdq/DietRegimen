@@ -16,7 +16,7 @@ type DiseaseCommentInfo struct{
 }
 
 func GetCommentByDiseaseID(diseaseID int)(diseaseComments[] DiseaseCommentInfo,err error){
-	err = DrDatabase.Model(DiseaseCommentInfo{}).Where("disease_id"+string(diseaseID)).Find(&diseaseComments).Error
+	err = DrDatabase.Model(DiseaseCommentInfo{}).Where("disease_id = ? ",diseaseID).Scan(&diseaseComments).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("GetCommentByDiseaseID err,diseaseID:%v",diseaseID)
 	}
@@ -35,7 +35,7 @@ func CreateDiseaseComment(diseaseID int,userID int, content string)(err error){
 		Comment:content,
 		RecordTime:utils.GetCurTime(),
 	}
-	err = DrDatabase.Model(DiseaseCommentInfo{}).Create(fc).Error
+	err = DrDatabase.Model(DiseaseCommentInfo{}).Create(&fc).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("CreateDiseaseComment err,diseaseID:%v,userID:%v",diseaseID,userID)
 		return err

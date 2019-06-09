@@ -10,22 +10,44 @@ import (
 )
 const (
 	LoadPath       = "./conf/config.yml"
+	StaticUploadPath = "static/image/"
+	StaticVoicePath = "static/voice/"
 )
+
+
 type YamlFile struct{
 	Mysql struct {
 		Database     string `yaml:"Database"`
 	} `yaml:"Mysql"`
+	Redis struct{
+		Addr string `yaml:"Addr"`
+		Password string `yaml:"Password"`
+		DbToken int `yaml:"DbToken"`
+	}`yaml:"Redis"`
+	Wechat struct{
+		AppID string `yaml:"AppID"`
+		AppSecret string `yaml:"AppSecret"`
+	}`yaml:"Wechat"`
+	Ai struct{
+		ApiKey string `yaml:"ApiKey"`
+		SecretKey string `yaml:"SecretKey"`
+	}`yaml:"Ai"`
 }
 
+var(
+	ConfigInstance *YamlFile
+)
+
+
 func InitConfig()(YamlFile,error){
-	configInstance := &YamlFile{}
-	err := Load(configInstance)
+	ConfigInstance = &YamlFile{}
+	err := Load(ConfigInstance)
 	if err != nil{
-		logrus.WithError(err).Error("load local yml config file failed!")
-		return *configInstance,err
+		logrus.WithError(err).Error("load local yml config file_interact failed!")
+		return *ConfigInstance,err
 	}
-	logrus.WithField("dsn",configInstance.Mysql.Database).Infof("connect success")
-	return *configInstance,nil
+	logrus.WithField("dsn",ConfigInstance.Mysql.Database).Infof("connect success")
+	return *ConfigInstance,nil
 }
 
 
@@ -42,7 +64,7 @@ func getConfigFilePath(rawPath string, env string) string {
 		logrus.Infof("path not exist with specified env=%v, err=%v\n", env, err)
 		return rawPath
 	} else {
-		fmt.Printf("load conf from file: %v\n", pathName)
+		fmt.Printf("load conf from file_interact: %v\n", pathName)
 		return pathName
 	}
 }
@@ -63,5 +85,5 @@ func getConfigFileWithFileNameSuffix(file, suffix string) (string, error) {
 	if fileInfo, err := os.Stat(envFile); err == nil && fileInfo.Mode().IsRegular() {
 		return envFile, nil
 	}
-	return "", fmt.Errorf("failed to find file %v", envFile)
+	return "", fmt.Errorf("failed to find file_interact %v", envFile)
 }

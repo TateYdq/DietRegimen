@@ -5,6 +5,7 @@ import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/helper"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -14,42 +15,40 @@ type UserCollectFoodInfo struct {
 	FoodID int `json:"food_id"`
 	RecordTime string `json:"record_time"`
 }
-
+type CollectFoodRequest struct {
+	Token string `json:"token"`
+	FoodID int `json:"food_id"`
+}
 func CollectFood(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
 		return
 	}
-	userID, err := helper.GetUserID(c)
-	if err != nil {
+	var request CollectFoodRequest
+	err := c.BindJSON(&request)
+	if err != nil{
+		logrus.WithError(err).Errorf("BindJson error")
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Failed,
 		})
 		return
 	}
-	foodID,err := helper.GetFoodID(c)
+	err = database.CreateCollectFoodInfo(userID,request.FoodID)
 	if err != nil{
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Failed,
 		})
 		return
 	}
-	err = database.CreateCollectFoodInfo(userID,foodID)
-	if err != nil{
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Failed,
-		})
-		return
-	}
+	go func() {
+		database.UpdateFoodCollect(request.FoodID)
+	}()
 	c.JSON(http.StatusOK, gin.H{
 		"code": utils.Success,
 	})
@@ -61,21 +60,11 @@ func CollectFood(c *gin.Context){
 func GetCollectFood(c *gin.Context) {
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
-		})
-		return
-	}
-	userID, err := helper.GetUserID(c)
-	if err != nil {
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Failed,
 		})
 		return
 	}

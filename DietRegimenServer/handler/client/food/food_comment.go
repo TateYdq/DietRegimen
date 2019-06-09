@@ -5,6 +5,7 @@ import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/helper"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/gin-gonic/gin"
+	"github.com/sirupsen/logrus"
 	"net/http"
 )
 
@@ -23,47 +24,46 @@ type CommentFoodRequest struct{
 func CommentFood(c *gin.Context) {
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
+		"code":utils.Forbidden,
 		})
 		return
 	}
+
 	var cfq CommentFoodRequest
 	err := c.BindJSON(&cfq)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
 		})
+		logrus.WithError(err).Errorf("BindJson error")
 		return
 	}
+	err = database.CreateFoodComment(cfq.FoodID,userID,cfq.Content)
+	if err != nil{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Failed,
+		})
+		return
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+	})
+	return
 
 }
 
 func GetComment(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	foodID,err := helper.GetFoodID(c)
 	if err != nil{
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Failed,
-		})
-		return
-	}
-	success := helper.VerifyToken(c)
-	if !success{
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Forbidden,
 		})
 		return
 	}

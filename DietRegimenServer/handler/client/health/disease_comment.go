@@ -24,12 +24,9 @@ type CommentDiseaseRequest struct{
 func CommentDisease(c *gin.Context) {
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
-	if success := helper.VerifyToken(c);!success{
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
@@ -43,24 +40,23 @@ func CommentDisease(c *gin.Context) {
 		})
 		return
 	}
-	userID,err := helper.GetUserID(c)
+	err = database.CreateDiseaseComment(cdq.DiseaseID,userID,cdq.Content)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
+			"code":utils.Failed,
 		})
 		return
 	}
-	database.CreateDiseaseComment(cdq.DiseaseID,userID,cdq.Content)
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+	})
+	return
 
 }
 
 func GetComment(c *gin.Context){
 	defer func() {
 		recover()
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.ServerError,
-		})
-		return
 	}()
 	diseaseID,err := helper.GetDiseaseID(c)
 	if err != nil{
@@ -69,13 +65,6 @@ func GetComment(c *gin.Context){
 		})
 		return
 	}
-	if success := helper.VerifyToken(c);!success{
-		c.JSON(http.StatusOK, gin.H{
-			"code": utils.Forbidden,
-		})
-		return
-	}
-
 	comments,err := database.GetCommentByDiseaseID(diseaseID)
 	if err != nil{
 		c.JSON(http.StatusOK, gin.H{

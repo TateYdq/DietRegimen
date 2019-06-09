@@ -1,18 +1,20 @@
 package food
 
 import (
-	"errors"
-	"github.com/gin-gonic/gin"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/database"
 )
 
-func GetKeyWords(c *gin.Context)(keyword string,err error){
-	keyword = c.Query("keyword")
-	if keyword == "" {
-		return "",errors.New("get keywords error")
-	}
-	return keyword,nil
+
+func KindIDAndKeySearch(keyword string,kindID int)(foodList[] database.FoodInfo,err error){
+	return database.SearchByFoodKindIDAndKey(keyword,kindID)
 }
-//TODO:搜索算法待写
-func Search(keyword string)(foodList[] FoodInfo){
-	return nil
+
+
+func KindIDSearch(kindiD int)(foodList[] database.FoodInfo,err error){
+	return database.SearchByFoodKindID(kindiD)
 }
+
+func KeySearch(keyword string)(foodList[] database.FoodInfo,err error){
+	return database.SearchByKeyWord(keyword)
+}
+

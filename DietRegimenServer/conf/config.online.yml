@@ -1,3 +1,19 @@
 Mysql: {
-  Database: "root:test.123@tcp(127.0.0.1:3306)/ydq6_miniprogram?charset=utf8mb4&parseTime=True&loc=Local&readTimeout=500ms"
+  Database: "ydq6_miniprogram:dFZwYtwfRGb6mtAZ@tcp(127.0.0.1:3306)/ydq6_miniprogram?charset=utf8mb4&parseTime=True&loc=Local&readTimeout=500ms"
+}
+
+Redis: {
+  Addr: "127.0.0.1:13180",
+  Password: "asda123qwe",
+  DbToken: 1
+}
+
+Wechat: {
+  AppID: "wx88562f9e9cb98f7f",
+  AppSecret: "467ff3549e29d2d778fa380c05e33a1e"
+}
+
+Ai: {
+  ApiKey: "Gk6IixZFRc8GC2ZUOg1CXMRG",
+  SecretKey: "eB4SHcscWNk8npq6lNbCYkcYckNYilgM"
 }

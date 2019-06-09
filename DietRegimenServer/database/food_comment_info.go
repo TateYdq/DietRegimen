@@ -34,7 +34,7 @@ func CreateFoodComment(foodID int,userID int, content string)(err error){
 		Comment:content,
 		RecordTime:utils.GetCurTime(),
 	}
-	err = DrDatabase.Model(FoodCommentInfo{}).Create(fc).Error
+	err = DrDatabase.Model(FoodCommentInfo{}).Create(&fc).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("CreateFoodComment err,foodID:%v,userID:%v",foodID,userID)
 		return err
