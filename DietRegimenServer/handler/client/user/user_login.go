@@ -18,9 +18,7 @@ import (
 var(
 	WechatUrl = "https://api.weixin.qq.com/sns/jscode2session?appid=%v&secret=%v&js_code=%v&grant_type=authorization_code"
 )
-type WechatLoginRequestBody struct {
-	Code string `json:"code"`
-}
+
 
 type WechatLoginReponseBody struct {
 	Openid string `json:"openid"`
@@ -33,7 +31,7 @@ func UserLogin(c *gin.Context){
 	defer func() {
 		recover()
 	}()
-	var wxReqBody WechatLoginRequestBody
+	var wxReqBody database.WechatLoginRequestBody
 	err := c.BindJSON(&wxReqBody)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
@@ -72,7 +70,8 @@ func UserLogin(c *gin.Context){
 		logger.Errorf("auth.code2Session failed,Errcode: %v",wxRespBody.Errcode)
 		return
 	}
-	userInfo,err := database.GetOrCreateUserInfoByOpenID(wxRespBody.Openid)
+	//登录
+	userInfo,err := database.GetOrCreateUserInfoByOpenID(wxRespBody.Openid,wxReqBody)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{
 			"code": utils.Failed,

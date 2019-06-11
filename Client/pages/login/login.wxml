@@ -1,6 +1,9 @@
 <!--pages/login/login.wxml-->
 <text>登录页</text>
 
+<!-- <image> src={{touxiang}}></image> -->
+<open-data type="userAvatarUrl"></open-data>
+<button open-type="getUserInfo" bindgetuserinfo='login' >用户授权</button>
 <button bindtap='login'>点击登录</button>
 
 <!-- 

@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/cache"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/helper"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
@@ -23,6 +24,12 @@ type UserInfo struct{
 }
 
 
+type WechatLoginRequestBody struct {
+	Code string `json:"code"`
+	NickName string `json:"nick_name"`
+	AvatarUrl string `json:"avatar_url"`
+	Gender string `json:"gender"`
+}
 
 func CreateUserAdmin(request UserInfo)(int,error){
 	db := DrDatabase.Create(&request)
@@ -36,13 +43,18 @@ func CreateUserAdmin(request UserInfo)(int,error){
 
 
 //暂时userID就是openID
-func GetOrCreateUserInfoByOpenID(openID string)(userInfo UserInfo,err error){
+func GetOrCreateUserInfoByOpenID(openID string,request WechatLoginRequestBody)(userInfo UserInfo,err error){
 	userInfo,err = GetUserInfoByOpenID(openID)
-	//如果openID不存在的话
+	//如果openID不存在的话,证明为首次登录
 	if err != nil{
 		if err == gorm.ErrRecordNotFound{
 			logrus.WithError(err).Error("GetOrCreateInfoByOpenID get userInfo err,then try to create one ")
-			userInfo,err = CreateUserByOpenID(openID)
+			userImagePath,err := helper.GetJpegImg(request.AvatarUrl)
+			if err != nil{
+				logrus.WithError(err).Error("GetUserImage err")
+				return userInfo,err
+			}
+			userInfo,err = CreateUserByOpenID(openID,request.NickName,request.Gender,userImagePath)
 			if err != nil{
 				logrus.WithError(err).Error("GetOrCreateInfoByOpenID create err")
 				return userInfo,err
@@ -89,11 +101,13 @@ func GetUserInfoByOpenID(openID string)(userInfo UserInfo,err error){
 
 
 
-//创建用户，性别默认为男性,TODO:名字，id
-func CreateUserByOpenID(openID string)(newUserInfo UserInfo,err error){
+//创建用户，性别默认为男性
+func CreateUserByOpenID(openID string,name string,gender string,userImagePath string)(newUserInfo UserInfo,err error){
 	newUserInfo = UserInfo{
 		OpenID: openID,
-		Gender: "male",
+		Name: name,
+		Gender: gender,
+		UserImagePath: userImagePath,
 	}
 	err = DrDatabase.Model(UserInfo{}).Create(&newUserInfo).Error
 	return newUserInfo,err
