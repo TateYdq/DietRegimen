@@ -2,6 +2,8 @@ package database
 
 import (
 	"errors"
+	"fmt"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/cache"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/jinzhu/gorm"
 	"github.com/sirupsen/logrus"
@@ -139,5 +141,44 @@ func UpdateUserPath(userID int,path string)(err error){
 		logrus.WithError(err).Errorf("UpdateUserPath err,userID:%v",userID)
 	}
 	logrus.Infof("UpdateUserPath success,userID:%v",userID)
+	return err
+}
+
+func AddUserScore(userID int,score int)(err error){
+	//限制每天得到的分数
+	if score == utils.ScoreUserLook{
+		key := fmt.Sprint(cache.UserLookFreqKey,userID)
+		value,err := cache.CreateOrSetAddOne(key,utils.DurationUserScore)
+		if err != nil{
+			return err
+		}
+		if value > utils.LimitUserLookAwardDay{
+			return nil
+		}
+	}else if score == utils.ScoreUserComment{
+		key := fmt.Sprint(cache.UserCommentFreqKey,userID)
+		value,err :=  cache.CreateOrSetAddOne(key,utils.DurationUserScore)
+		if err != nil{
+			return err
+		}
+		if value > utils.LimitUserCommentAwardDay{
+			return nil
+		}
+	}else if score == utils.ScoreUserLogin{
+		key := fmt.Sprint(cache.UserLoginFreqKey,userID)
+		value,err :=  cache.CreateOrSetAddOne(key,utils.DurationUserScore)
+		if err != nil{
+			return err
+		}
+		if value > utils.LimitUserLoginAwardDay{
+			return nil
+		}
+	}else{
+		return nil
+	}
+	err = DrDatabase.Raw("update user_info set user_score = user_score + ? where user_id = ? ",score,userID).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("AddUserAndFoodScore,userID:%v",userID)
+	}
 	return err
 }

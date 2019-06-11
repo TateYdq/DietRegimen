@@ -28,11 +28,10 @@ func CommentFood(c *gin.Context) {
 	success,userID:= helper.VerifyToken(c)
 	if !success{
 		c.JSON(http.StatusOK,gin.H{
-		"code":utils.Forbidden,
+			"code":utils.Forbidden,
 		})
 		return
 	}
-
 	var cfq CommentFoodRequest
 	err := c.BindJSON(&cfq)
 	if err != nil{
@@ -53,7 +52,6 @@ func CommentFood(c *gin.Context) {
 		"code":utils.Success,
 	})
 	return
-
 }
 
 func GetComment(c *gin.Context){

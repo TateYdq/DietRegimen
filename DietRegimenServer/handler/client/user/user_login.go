@@ -79,6 +79,8 @@ func UserLogin(c *gin.Context){
 		})
 		return
 	}
+	//距离上一次登录超过24小时奖励积分
+	go database.AddUserScore(userInfo.UserID,utils.ScoreUserLogin)
 	token,err := secret.CreateToken(wxRespBody.Openid,userInfo.UserID)
 	if err != nil {
 		c.JSON(http.StatusOK, gin.H{

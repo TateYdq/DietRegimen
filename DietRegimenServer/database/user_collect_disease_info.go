@@ -31,6 +31,8 @@ func CreateCollectDiseaseInfo(userID int,diseaseID int)(err error){
 	err = db.Error
 	if err != nil{
 		logrus.WithError(err).Errorf("CreateCollectDiseaseInfo err,userID:%v,diseaseID:%v",userID,diseaseID)
+		return err
 	}
+	go AddUserAndDiseaseScore(userID,diseaseID,utils.ScoreDiseaseCollect)
 	return err
 }

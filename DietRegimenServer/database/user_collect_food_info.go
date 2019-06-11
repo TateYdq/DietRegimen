@@ -30,6 +30,8 @@ func CreateCollectFoodInfo(userID int,foodID int)(err error){
 	err = db.Error
 	if err != nil{
 		logrus.WithError(err).Errorf("CreateCollectDiseaseInfo err,userID:%v,foodID:%v",userID,foodID)
+		return err
 	}
+	go AddUserAndFoodScore(userID,foodID,utils.ScoreFoodCollect)
 	return err
 }

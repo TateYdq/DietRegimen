@@ -39,5 +39,8 @@ func CreateFoodComment(foodID int,userID int, content string)(err error){
 		logrus.WithError(err).Errorf("CreateFoodComment err,foodID:%v,userID:%v",foodID,userID)
 		return err
 	}
-	return nil
+	//奖励积分，加相关度
+	go AddUserAndFoodScore(userID,foodID,utils.ScoreFoodComment)
+	go AddUserScore(userID,utils.ScoreUserComment)
+	return err
 }

@@ -10,6 +10,7 @@ gender varchar(50),
 user_image_path varchar(50),
 diseases_focus text,
 keywords  text,   #用户关键词
+user_score int,
 update_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -128,4 +129,10 @@ food_name varchar(50),
 score int #相关度分值,推荐的时候按此排序
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+create table user_disease_relation(
+user_id int,
+disease_id int,
+disease_name varchar(50),
+score int #相关度分值,推荐的时候按此排序
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

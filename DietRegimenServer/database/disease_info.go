@@ -2,7 +2,9 @@ package database
 
 import (
 	"errors"
+	"fmt"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/ai"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/cache"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -43,9 +45,6 @@ func CreateDiseaseAdmin(request DiseaseInfo)(int,error) {
 	return diseaseID,err
 }
 
-func CreateDiseaseVoice(){
-
-}
 
 func GetDiseaseInfoByID(diseaseID int)(diseaseInfo DiseaseInfo,err error){
 	err = DrDatabase.Model(DiseaseInfo{}).Where("disease_id = ?",diseaseID).First(&diseaseInfo).Error
@@ -57,13 +56,13 @@ func GetDiseaseInfoByID(diseaseID int)(diseaseInfo DiseaseInfo,err error){
 
 func GetDiseaseLists(keyword string)(diseaseList[] DiseaseInfo,err error){
 	if keyword == ""{
-		err = DrDatabase.Model(DiseaseInfo{}).Scan(&diseaseList).Error
+		err = DrDatabase.Model(DiseaseInfo{}).Order("view_count desc").Scan(&diseaseList).Error
 		if err != nil{
 			logrus.WithError(err).Errorf("GetDiseaseLists err")
 		}
 	}else{
 		keyword = "%"+keyword+"%"
-		err = DrDatabase.Model(DiseaseInfo{}).Where("disease_kind like ? or info like ? or taboo like ?  or name like ? ",keyword,keyword,keyword,keyword).Scan(&diseaseList).Error
+		err = DrDatabase.Model(DiseaseInfo{}).Order("view_count desc").Where("disease_kind like ? or info like ? or taboo like ?  or name like ? ",keyword,keyword,keyword,keyword).Scan(&diseaseList).Error
 		if err != nil {
 			logrus.WithError(err).Errorf("SearchByKeyWord err,keyword:v", keyword)
 		}
@@ -94,20 +93,20 @@ func UpdateDiseaseField(diseaseID int,path string,field string)(err error){
 	record[field] = path
 	err = DrDatabase.Model(DiseaseInfo{}).Where("disease_id = ?",diseaseID).Updates(record).Error
 	if err != nil{
-		logrus.WithError(err).Errorf("UpdateFoodField err,diseaseID:%v",diseaseID)
+		logrus.WithError(err).Errorf("UpdateDiseaseField err,diseaseID:%v",diseaseID)
 	}
-	logrus.Infof("UpdateFoodField success,diseaseID:%v",diseaseID)
+	logrus.Infof("UpdateDiseaseField success,diseaseID:%v",diseaseID)
 	return err
 }
 
-func UpdateDiseaseCollect(diseaseID int){
+func UpdateDiseaseCollectCount(diseaseID int){
 	if diseaseID == 0{
 		logrus.Errorf("diseaseID is equals to 0")
 		return
 	}
 	err := DrDatabase.Raw("update disease_info set collect_count=collect_count+1 where disease_id = ?",diseaseID).Error
 	if err != nil{
-		logrus.Errorf("UpdateDiseaseCollect err")
+		logrus.Errorf("UpdateDiseaseCollectCount err")
 	}
 }
 
@@ -119,5 +118,22 @@ func UpdateDiseaseView(diseaseID int)(){
 	err := DrDatabase.Raw("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
 	if err != nil{
 		logrus.Errorf("UpdateDiseaseView err")
+	}
+}
+
+func GetDiseaseNameByDiseaseID(diseaseID int)(string){
+	key := fmt.Sprintf(cache.DiseaseIDToNameKey,diseaseID)
+	value,err := cache.Get(key)
+	if err != nil || value == ""{
+		var diseaseInfo DiseaseInfo
+		err := DrDatabase.Model(DiseaseInfo{}).Where("disease_id = ?",).First(&diseaseInfo).Error
+		if err != nil{
+			logrus.WithError(err).Errorf("GetDiseaseNameByDiseaseID err,diseaseID:%v",diseaseID)
+			return ""
+		}
+		go cache.Set(key,diseaseInfo.Name,0)
+		return diseaseInfo.Name
+	}else{
+		return value
 	}
 }

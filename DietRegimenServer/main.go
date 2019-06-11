@@ -17,11 +17,11 @@ import (
 )
 
 func main() {
-	router:=gin.Default()
+	router := gin.Default()
 	router.GET("/", func(c *gin.Context) {
-		c.String(http.StatusOK,"Hello World")
+		c.String(http.StatusOK, "Hello World")
 	})
-	config,err := utils.InitConfig()
+	config, err := utils.InitConfig()
 	if err != nil {
 		logrus.WithError(err).Errorf("init config failed")
 		return
@@ -32,12 +32,11 @@ func main() {
 		logrus.WithError(err).Errorf("init passport mysql failed")
 		return
 	}
-	err = cache.Init(config.Redis.Addr,config.Redis.Password,config.Redis.DbToken)
+	err = cache.Init(config.Redis.Addr, config.Redis.Password, config.Redis.DbToken)
 	if err != nil {
 		logrus.WithError(err).Errorf("init cache failed")
 		return
 	}
-	router.LoadHTMLGlob("views/*")
 	dietRegimenPage := router.Group("/")
 	{
 		serverPage := dietRegimenPage.Group("/control1/admin")
@@ -57,7 +56,6 @@ func main() {
 			serverPage.POST("/addDiseaseFoodRec", server.AddDiseaseFoodRec)
 
 			serverPage.POST("/uploadImage", file_interact.Fileupload)
-
 
 			serverPage.POST("/addQuestion", server.AddQuestion)
 
@@ -101,13 +99,14 @@ func main() {
 			}
 			recommendPage := clientPage.Group("/recommend")
 			{
-				recommendPage.GET("/getQuestionnaire",recommend.GetQuestionnaire)
-				recommendPage.POST("/submitQuestionnaire",recommend.SubmitQuestionnaire)
+				recommendPage.GET("/getQuestionnaire", recommend.GetQuestionnaire)
+				recommendPage.POST("/submitQuestionnaire", recommend.SubmitQuestionnaire)
+
+				recommendPage.POST("/getRecInfo", recommend.GetRecInfo)
 			}
 		}
 		filePage := dietRegimenPage.Group("/file")
 		{
-			//filePage.GET("/fileopt", file_interact.Fileopthtml)
 			filePage.GET("/getImage", file_interact.GetImage)
 			filePage.GET("/getVoice", file_interact.GetVoice)
 		}

@@ -26,8 +26,8 @@ def submitQuestionnaire():
     postReq(url, ss, data, token=user_token)
 
 def main():
-    # getQuestionnaire()
-    submitQuestionnaire()
+    getQuestionnaire()
+    # submitQuestionnaire()
 
 if __name__ == '__main__':
     main()

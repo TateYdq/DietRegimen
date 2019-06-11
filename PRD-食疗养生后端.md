@@ -14,6 +14,10 @@ v0.3 修改疾病史字段，改为关注疾病
 
 v0.4 决定所有Get请求默认为参数形式，所有Post请求默认为json格式。将taboo字段从食物信息表中去掉，并加到疾病信息表中
 
+V0.5 小程序和后端交互决定采用token方式，并且把token放在请求头中传输
+
+v0.6 修改文档中的错误的地方和增加了2.11，2.12，2.13表
+
 
 
 # 二、数据库
@@ -26,159 +30,133 @@ v0.4 决定所有Get请求默认为参数形式，所有Post请求默认为json�
 
 ## 2.1. 用户信息表
 
- user_info(
+ ```
+create table user_info(
+user_id  int auto_increment primary key,
+open_id varchar(50),
+name varchar(50),
+age int,
+gender varchar(50),
+user_image_path varchar(50),
+diseases_focus text,
+keywords  text,   #用户关键词
+update_time varchar(50)
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+ ```
 
-​	user_id  int auto_increment primary key,
 
-​	name varchar(50),
-
-​	age int,
-
-   gender varchar(50),
-
-​	user_image_path varchar(50),
-
-   diseases_focus text,
-
-​	keywords  text    #用户关键词
-
-​	)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 
 
 ## 2.2.食物信息表
 
-food_info(
-
-​	food_id int auto_increment primary key,
-
-​    name varchar(50),
-
-​	food_kind_id int,
-
-​	foodKind  varchar(50),     
-
-​	info   text,       #食物介绍
-
-​	effect  text,     #食物功效
-
-​	keyword  text,         #食物关键词
-
-​	view_count bigint,	
-
-​	collect_count bigint,
-
-​	photo_path  varchar(50) ,      #食物图片路径，只有一张
-
-​    voice_path varchar(50)       #语音路径
-
+```
+create table food_info(
+food_id int auto_increment primary key,
+name varchar(50),
+food_kind_id int,
+food_kind  varchar(50),
+info   text,       #食物介绍
+effect  text,     #食物功效
+keyword  text,         #食物关键词
+view_count bigint,
+collect_count bigint,
+photo_path  varchar(50) ,      #食物图片路径，只有一张
+voice_path varchar(50)       #语音路径
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 ## 2.3 疾病信息表
 
-disease_info(
-
-​	disease_id int auto_increment primary key,
-
-​    name varchar(50),
-
-​	disease_kind  varchar(50),
-
-​	info   text,       #疾病介绍
-
-​    taboo text,          #禁忌
-
-​	photo_path  varchar(50) ,      #疾病图片路径，只有一张
-
-​	voice_path varchar(50),
-
-​	view_count bigint,
-
-​    collect_count bigint
-
+```
+create table disease_info(
+disease_id int auto_increment primary key,
+name varchar(50),
+disease_kind  varchar(50),
+info text, #疾病介绍
+taboo text,  #禁忌
+photo_path  varchar(50) ,#疾病图片路径，只有一张
+voice_path varchar(50),
+view_count bigint,
+collect_count bigint
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 
 
 ## 2.4 用户评论食物信息表
 
-food_comment_info(
-
-​	id int auto_increment primary key,
-
-​    food_id int,
-
-​	user_id int,
-
-​	user_name varchar(50),
-
-​	comment text,
-
-​	record_time varchar(50),
-
+```
+create table food_comment_info(
+id int auto_increment primary key,
+food_id int,
+user_id int,
+user_name varchar(50),
+comment text,
+record_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 ## 2.5 用户评论疾病信息表
 
-disease_comment_info(
-
-​	id int auto_increment primary key,
-
-​    disease_id int,
-
-​	user_id int,
-
-​	user_namevarchar(50),
-
-​	comment text,
-
-​	record_time varchar(50),
-
+```
+create table disease_comment_info(
+id int auto_increment primary key,
+disease_id int,
+user_id int,
+user_name varchar(50),
+comment text,
+record_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 ## 2.6 食物种类表
 
-food_kind_info(
-
-​		kindID int auto_increment primary key,
-
-​		kindName varchar(50),
-
-​		kindInfo   text,
-
-​		photo_path varchar(50),
-
-​		view_count bigint,
-
+```
+create table food_kind_info(
+kind_id int auto_increment primary key,
+kind_name varchar(50),
+kind_info text,
+photo_path varchar(50),
+view_count bigint
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 ## 2.7 用户收藏食物表
 
-user_collect_food_info(
-
-​    id int auto_increment primary key,
-
-​	user_id int,
-
-​	food_id int,
-
-​	record_time varchar(50)
-
+```
+create table user_collect_food_info(
+id int auto_increment primary key,
+user_id int,
+food_id int,
+record_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 ## 2.8 用户收藏疾病表
 
-user_collect_disease_info(
-
-​    id int auto_increment primary key,
-
-​	user_id int,
-
-​	disease_id int,
-
-​	record_time varchar(50)
-
+```
+create table user_collect_disease_info(
+id int auto_increment primary key,
+user_id int,
+disease_id int,
+record_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 ## 2.9 问题表
 
@@ -224,7 +202,7 @@ food_name varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
 
-## 2.12 用户食物信息关系表
+## 2.12 用户食物关系表
 
 ```
 create table user_food_relation(
@@ -234,6 +212,19 @@ food_name varchar(50),
 score int #相关度分值,推荐的时候按此排序
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 ```
+
+## 2.13 用户疾病关系表
+
+```
+create table user_disease_relation(
+user_id int,
+disease_id int,
+disease_name varchar(50),
+score int #相关度分值,推荐的时候按此排序
+)ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+```
+
+
 
 
 
@@ -796,7 +787,7 @@ Resonse Body:{
 
 #### 3.1.9.1 添加
 
-POST /DietRegimen/control1/admin/addQuestion
+- [x] POST /DietRegimen/control1/admin/addQuestion
 
 Request Body:{
   "info":""
@@ -1065,6 +1056,28 @@ Resonse Body:{
 
 
 
+#### 3.2.1.8 上传图片
+
+- [x] POST  /DietRegimen/client/user/uploadUserImage
+
+Request Body:{
+
+​	file:              #文件
+
+}
+
+Resonse Body:{
+
+​	"code":"2000"    #2000,4003,5000,5003
+
+​	 "path":""            #图片路径
+
+}
+
+eg.curl -X POST 127.0.0.1:8080/client/user/uploadUserImage -F "file=@/Users/yudaoqing/Pictures/pingguo.jpeg" -H "token:123"  -H "Content-Type: multipart/form-data"
+
+[注]注意登录时候需要上传用户图片。
+
 ### 3.2.2 食物相关
 
 ####  3.2.2.1 获取食物详细信息
@@ -1165,26 +1178,9 @@ Resonse Body:{
 
 }
 
+#### 3.2.2.6 获取语音播报
 
-#### 3.2.2.6 TODO:获取语音播报
-
-- [ ] GET  /DietRegimen/client/food/foodVoice
-
-Request Body:{
-
-​	token         用户token
-
-​	food_id       食物id
-
-}
-
-Resonse Body:{
-
-​	food_voice.mp3     语音文件
-
-}
-
-通过http返回状态码判获取断成功与失败。
+用下载音频接口
 
 
 
@@ -1272,33 +1268,17 @@ Resonse Body:{
 
 }
 
-#### 3.2.3.6 TODO:获取语音播报
+#### 3.2.3.6 获取语音播报
 
-- [ ] GET  /DietRegimen/client/health/diseaseVoice
-
-Request Body:{
-
-​	token             用户token
-
-​	disease_id       疾病id
-
-}
-
-Resonse Body:{
-
-disease_voice.mp3     语音文件
-
-}
-
-通过http返回状态码判获取断成功与失败。
+用下载音频接口
 
 
 
 ### 3.2.3 推荐相关
 
-#### 3.2.3.1 TODO:获取推荐信息
+#### 3.2.3.1 获取推荐信息
 
-- [ ] POST /DietRegimen/client/recommend/getRecInfo
+- [x] POST /DietRegimen/client/recommend/getRecInfo
 
 Request Body:{
 
@@ -1310,9 +1290,9 @@ Resonse Body:{
 
 ​		code               返回码
 
-​		info:{}             推荐信息
+​		food_list:{}             食物清单
 
-​		foods:{}          食物清单
+​		disease_list:{}          推荐疾病清单
 
 }
 
@@ -1364,11 +1344,63 @@ answer_sheets为数组，每个元素包括question_id,answer,record_time。
 
 
 
+### 3.2.5 下载图片
+
+- [x] GET /DietRegimen/file/getImage
+
+Request Body:{
+
+​	"path":""       #图片路径
+
+}
+
+返回 ：文件
+
+
+
+[注]用户的头像用这个接口下载
+
+### 3.2.6 下载音频
+
+- [x] GET /DietRegimen/file/getVoice
+
+Request Body:{
+
+​	"path":""       #图片路径,path为数据库中存储的path
+
+}
+
+返回 ：文件
+
+
+
 # 四、其他问题
 
 ## 4.1 session,token,user_id问题
 
-待调研决定
+基于安全性考虑，使用token，不适用session,JWT。
+
+随机生成key, 关联openid，存入redis中，当请求带入key，直接从redis中获取openid得到当前用户信息，这个其实也就是我们自己去维护了会话信息
+
+
+
+具体机制:
+
+客户端利用微信自带wx.login接口获取code
+
+将code传给服务器端
+
+服务器端根据openID查找用户，
+
+若无则根据openID创建用户并得到userID，如果用户已经存在直接得到用户的userID.
+
+生成token,将token-userID存储在缓存里，缓存过期时间为24小时。
+
+最后返回token
+
+从客户端获取token加密保存在本地缓存里，以后每次会话都放在header里。
+
+
 
 
 

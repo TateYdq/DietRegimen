@@ -2,7 +2,9 @@ package database
 
 import (
 	"errors"
+	"fmt"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/ai"
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/cache"
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/sirupsen/logrus"
 )
@@ -68,7 +70,7 @@ func UpdateFoodInfo(request FoodInfo)(err error){
 }
 
 func SearchByFoodKindID(foodKindID int)(foodList[] FoodInfo,err error){
-	err = DrDatabase.Model(FoodInfo{}).Where("food_kind_id = ?",foodKindID).Scan(&foodList).Error
+	err = DrDatabase.Model(FoodInfo{}).Order("view_count desc").Where("food_kind_id = ?",foodKindID).Scan(&foodList).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("SearchByFoodKindID err,foodKindID:%v",foodKindID)
 	}
@@ -77,7 +79,7 @@ func SearchByFoodKindID(foodKindID int)(foodList[] FoodInfo,err error){
 
 func SearchByFoodKindIDAndKey(keyword string,foodKindID int)(foodList[] FoodInfo,err error){
 	keyword = "%"+keyword+"%"
-	err = DrDatabase.Model(FoodInfo{}).Where("food_kind_id = ? and (food_kind like ? or info like ?  or keyword like ? or effect like ? or name like ?) ",foodKindID,keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
+	err = DrDatabase.Model(FoodInfo{}).Order("view_count desc").Where("food_kind_id = ? and (food_kind like ? or info like ?  or keyword like ? or effect like ? or name like ?) ",foodKindID,keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("SearchByFoodKindIDAndKey err,foodKindID:%v,keyword:%v",foodKindID,keyword)
 	}
@@ -86,13 +88,13 @@ func SearchByFoodKindIDAndKey(keyword string,foodKindID int)(foodList[] FoodInfo
 
 func SearchByKeyWord(keyword string)(foodList[] FoodInfo,err error){
 	if keyword == ""{
-		err = DrDatabase.Model(FoodInfo{}).Scan(&foodList).Error
+		err = DrDatabase.Model(FoodInfo{}).Order("view_count desc").Scan(&foodList).Error
 		if err != nil{
 			logrus.WithError(err).Errorf("SearchByKeyWord err")
 		}
 	}else {
 		keyword = "%"+keyword+"%"
-		err = DrDatabase.Model(FoodInfo{}).Where("food_kind like ? or info like ? or keyword like ? or effect like ? or name like ? ",keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
+		err = DrDatabase.Model(FoodInfo{}).Order("view_count desc").Where("food_kind like ? or info like ? or keyword like ? or effect like ? or name like ? ",keyword,keyword,keyword,keyword,keyword).Scan(&foodList).Error
 		if err != nil {
 			logrus.WithError(err).Errorf("SearchByKeyWord err,keyword:%v", keyword)
 		}
@@ -138,13 +140,20 @@ func UpdateFoodView(foodID int)(){
 }
 
 func GetFoodNameByFoodID(foodID int)(string){
-	var foodInfo FoodInfo
-	err := DrDatabase.Model(FoodInfo{}).Where("food_id = ?",).First(&foodInfo).Error
-	if err != nil{
-		logrus.WithError(err).Errorf("GetFoodNameByFoodID err,foodID:%v",foodID)
-		return ""
+	key := fmt.Sprintf(cache.FoodIDToNameKey,foodID)
+	value,err := cache.Get(key)
+	if err != nil || value == ""{
+		var foodInfo FoodInfo
+		err := DrDatabase.Model(FoodInfo{}).Where("food_id = ?",).First(&foodInfo).Error
+		if err != nil{
+			logrus.WithError(err).Errorf("GetFoodNameByFoodID err,foodID:%v",foodID)
+			return ""
+		}
+		go cache.Set(key,foodInfo.Name,0)
+		return foodInfo.Name
+	}else{
+		return value
 	}
-	return foodInfo.Name
 }
 
 func GetFoodIDByFoodName(foodName string)(int){
@@ -156,3 +165,4 @@ func GetFoodIDByFoodName(foodName string)(int){
 	}
 	return foodInfo.FoodID
 }
+
