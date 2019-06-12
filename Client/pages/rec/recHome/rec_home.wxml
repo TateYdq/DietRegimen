@@ -1,2 +1,12 @@
 <!--pages/rec/recHome/rec_home.wxml-->
 <text>推荐页面\nTODO:待做</text>
+
+<view id="editor" class="editor">
+  <view class="editor-caption">
+    <view>
+      <view title="双击修改页面名称" class="editor-title ellipsis">
+        医药保健品
+      </view>
+    </view>
+  </view>
+</view>

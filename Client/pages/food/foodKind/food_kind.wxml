@@ -1,50 +1,104 @@
 <!--pages/food/foodKind/food_kind.wxml-->
+<view class="container">
+  <!-- 搜索框 -->
+  <view class="header {{scrollDown?'scrolled':''}}">
+		<view class="search" bindtap="tapSearch"> <!--bindtap="tapSearch"-->
+			<image class="icon" src="/imgs/icon/icon_search.png"/>
+			<i class="fa fa-home"></i>
+			搜索
+		</view>    
+	</view>
 
-<!-- <view class="content">
-  <view class="head-img">
-    <image src="../../../imgs/food/shiwu_begin.jpeg" style='height:200px;'></image>
-  </view>
-</view> -->
-
-
-<!-- <view class="nav">
-  <view class="nav-item">
-    <view>
-      <image src="../../../imgs/icon/list.jpg" style='width:25px;height:23px;'></image>
-    </view>
-    <view>食物清单</view>
-  </view>
-  <view class="nav-item">
-    <view>
-      <image src="../../../imgs/icon/meishi.jpg" style='width:25px;height:23px;'></image>
-    </view>
-    <view>分类</view>
-  </view>
-</view> -->
-
-<view class="hr">
-
-  <view class="head">
-    <!-- <view>推荐食物</view> -->
-    <view class="right"></view>
-  </view>
-
-  <view class="list">
-    <block wx:for="{{foodKindArray}}" wx:key="kindID">
-      <view class='item' bindtap='seeFoodLists' data-name="{{item.kindName}}">
-        <view>
-          <image src="{{item.photoPath}}" style='width:75px;height:58px'> </image>
-        </view>
-        <view class='desc'>
-          <view class="title">{{item.kindName}}</view>
-          <view class="count">
-            <view >{{item.kindInfo}}</view>
-          </view>
-        </view>
+	<scroll-view scroll-y="true" scroll-into-view="{{scrollIntoView}}" bindscroll="onScroll">
+		<!-- 轮播图 -->
+    <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="500">
+			<block wx:for="{{banners}}" wx:key="id">
+				<swiper-item>
+					<image bindtap="tapBanner" data-id="{{index}}" src="{{item.img}}"/>
+				</swiper-item>
+			</block>
+		</swiper>
+    <!-- 推荐列表 -->
+		<view class="section section-big discount">
+			<view class="title">每日推荐</view>
+        <!-- 推荐列表 -->
+      <!-- <view class='content'>
+        <block wx:for="{{foodKindArray}}" wx:key="kindID">
+          <view class='item' bindtap='seeFoodLists' id="{{item.kindName}}">
+            <view>
+              <image src="{{item.photoPath}}" style=''> </image>
+            </view>
+            <view class='desc'>
+              <view class="above">
+                <view class="title2">{{item.kindName}}</view>
+                <view class="count2">
+                  <view class="browse">{{item.viewCount}}浏览</view>
+                  <view class="collect">{{item.collectCount}}收藏</view>
+                </view>
+              </view>
+                <view class="below">{{item.kindInfo}}</view>
+            </view>
+          </view>  
+          <view class="hr2"></view>
+        </block>  
+      </view>    -->
+      <view class='content'>
+        <block wx:for="{{foodArray}}" wx:key="id">
+          <view class='item' bindtap='seeRecDetail'>
+            <view>
+              <image src="{{item.photoPath}}" style=''> </image>
+            </view>
+            <view class='desc'>
+              <view class="above">
+                <view class="title2">{{item.kindName}}</view>
+                <view class="count2">
+                  <view class="browse">{{item.viewCount}} 浏览</view>
+                  <view class="collect">{{item.collectCount}} 收藏</view>
+                </view>
+              </view>
+                <view class="below">{{item.kindInfo}}</view>
+            </view>
+          </view>  
+          <!-- <view class="hr2"></view> -->
+        </block>  
       </view>
-    <view class="hr2"></view>
-    </block>
-  </view>
+      <!-- <view class="more">查看更多</view> -->
+		</view>
+
+    
+
+      <!-- 新闻列表 -->
+		<view class="section section-big discount">
+			<view class="title">每日新闻</view>
+      <view class='content'>
+        <block wx:for="{{foodArray}}" wx:key="id">
+          <view class='item' bindtap='seeNewsDetail'>
+            <view>
+              <image src="{{item.photoPath}}" style=''> </image>
+            </view>
+            <view class='desc'>
+              <view class="above">
+                <view class="title2">{{item.kindName}}</view>
+                <view class="count2">
+                  <view class="browse">{{item.viewCount}} 浏览</view>
+                  <view class="collect">{{item.collectCount}} 收藏</view>
+                </view>
+              </view>
+                <view class="below">{{item.kindInfo}}</view>
+            </view>
+          </view>  
+        </block>  
+      </view>
+      <!-- <view class="more">查看更多</view> -->
+		</view>
+
+
+		<!-- <view id="nearby" class="section section-big nearby">
+			<view class="title">最新食谱</view>
+			<view class="shop" wx:for="{{shops}}" wx:key="id">
+      <image src="{{item.img}}"/>
+			</view>
+		</view> -->
+
+	</scroll-view>
 </view>
-
-
