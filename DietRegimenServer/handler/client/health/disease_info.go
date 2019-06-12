@@ -28,6 +28,12 @@ func GetDiseaseDetails(c *gin.Context){
 	}
 	go func() {
 		database.UpdateDiseaseView(diseaseID)
+		success,userID:= helper.VerifyToken(c)
+		if !success{
+			return
+		}
+		go database.AddUserScore(userID,utils.ScoreUserLook)
+		go database.AddUserAndDiseaseScore(userID,diseaseID,utils.ScoreDiseaseLook)
 	}()
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,

@@ -14,7 +14,7 @@ URL="{env}{term}{action}"
 admin_token = "1wqe213"
 user_token = "123"
 
-cur_url = staging_url
+cur_url = online_url
 
 
 def postReq(url,ss,data,token):

@@ -1,20 +1,24 @@
 // pages/mine/mycenter/mycenter.js
+const apiRequest = require("../../../utils/api_request.js")
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-      userInfo:{}
+      isLogin:false,
+      myUserInfo:{}
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-      this.setData({
-        userInfo:this.initData()
-      });
+    this.setData({
+      isLogin: app.globalData.isLogin
+    });
+    console.log(app.globalData.isLogin)
   },
 
   /**
@@ -69,7 +73,7 @@ Page({
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
-      userInfo: e.detail.userInfo,
+      myUserInfo: e.detail.userInfo,
       hasUserInfo: true
     })
   },
@@ -113,5 +117,17 @@ Page({
     wx.navigateTo({
       url: '../../food/foodList/food_list',
     })
+  }, 
+  login: function (e) {
+    app.globalData.userInfo = e.detail.userInfo
+    apiRequest.login(this.callbackLogin)
+  },
+  callbackLogin: function(success){
+    if(success){
+      this.setData({
+        isLogin: app.globalData.isLogin
+      });
+      console.log(app.globalData.isLogin)
+    }
   }
 })

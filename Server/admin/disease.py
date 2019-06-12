@@ -26,8 +26,8 @@ def updateDisease():
 
 def addDiseaseFoodRec():
     data = json.dumps({
-        "disease_id":3,
-        "food_names":["香蕉","菠萝"],
+        "disease_id":1,
+        "food_names":["西瓜","菠萝"],
     })
     url = URL.format(env=cur_url, term=admin_url, action="/addDiseaseFoodRec")
     postReq(url,ss,data,admin_token)

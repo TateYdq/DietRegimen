@@ -37,8 +37,22 @@ const GetDiseaseDetailsUrl= urlPrefix + '/health/getDiseaseDetails'
 const CommentDiseaseUrl = urlPrefix + '/health/commentDisease'
 const GetCommentDiseaseUrl = urlPrefix + '/health/getComment'
 
+//推荐相关
+const GetQuestionnaire = urlPrefix + '/recommend/getQuestionnaire'
+const SubmitQuestionnaire = urlPrefix + '/recommend/submitQuestionnaire'
+const GetRecInfo = urlPrefix + '/recommend/getRecInfo'
+
+//文件相关
+const GetImage = urlPrefix + '/file/getImage'
+const GetVoice = urlPrefix + '/file/getVoice'
 
 const crypt = require("../utils/crypt.js")
+
+const app = getApp()
+
+const promisify = require('./promisify.js')
+const myRequest = promisify(wx.request)
+const myLogin = promisify(wx.login)
 
 function getToken(){
   try{
@@ -106,65 +120,86 @@ function postRequest(data){
 }
 
 function getUserInfo(){
-  getRequest(GetUserInfoUrl, null)
+  return getRequest(GetUserInfoUrl, null)
 }
 
 function getFoodCategory(){
-  getRequest(GetFoodCategoryUrl,null)
+  return getRequest(GetFoodCategoryUrl,null)
 }
 function getFoodDetails(foodID){
-  var ar = {
+  var array = {
     "food_id":foodID
   }
-  getRequest(GetFoodDetailsUrl,ar)
+  return getRequest(GetFoodDetailsUrl, array)
 }
 
-function login(){
-  console.log("url:" + UserLoginUrl)
-  wx.login({
-    success(res) {
-      console.log("返回码: " + res.code)
-      if (res.code) {
-        var rData = JSON.stringify({ code:res.code})
-        wx.request({
-          url: UserLoginUrl,
-          method: 'POST',
-          header: {
-            "Content-Type": "application/x-www-form-urlencoded"
-          },
-          data: rData,
-          dataType:"json",
-          success: function(subRes) {
-            console.log("登录成功")
-            console.log(subRes.data.token)
-            if(subRes.data.code == SUCCESS){
-              try {
-                var token = subRes.data.token
-      
-                // console.log("加密前:", subRes.data.token)
-                // token = crypt.Encrypt(token)
-                // console.log("加密后:",token)
-                wx.setStorageSync('token', token)
-                console.log("存储成功")
-              } catch (e) {
-                console.log("token存储失败")
-              }
-            }
-           
-          },
-          fail: function(){
-            console.log("请求失败")
-          },
-          complete: function(){
-            console.log("完成")
-          }
+function getFoodListByKind(kind){
+  var array = {
+    "keyword":kind
+  }
+  return getRequest(SearchFoodUrl,array)
+}
 
-        })
-      } else {
-        console.log('登录失败！' + res.errMsg)
-      }
+function getFoodListByKind(kind) {
+  var array = {
+    "keyword": kind
+  }
+  return getRequest(SearchFoodUrl, array)
+}
+
+function login(callback){
+  console.log("url:" + app.globalData.userInfo.avatarUrl)
+  myLogin().then(res=>{
+    console.log("返回码: " + res.code)
+    if (res.code) {
+      var rData = JSON.stringify({ 
+        code: res.code,
+        nick_name: app.globalData.userInfo.nickName,
+        avatar_url: app.globalData.userInfo.avatarUrl,
+        gender: app.globalData.userInfo.gender=2?"female":"male"
+      })
+      myRequest({
+        url: UserLoginUrl,
+        method: 'POST',
+        header: {
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        data: rData,
+        dataType: "json",
+      }).then(subRes=>{
+        console.log(subRes.data.token)
+        if (subRes.data.code == SUCCESS) {
+          try {
+            var token = subRes.data.token
+            // console.log("加密前:", subRes.data.token)
+            // token = crypt.Encrypt(token)
+            // console.log("加密后:",token)
+            wx.setStorageSync('token', token)
+            console.log("存储成功")
+            app.globalData.isLogin = true
+            wx.showToast({
+              title: '登录成功',
+              icon: 'success',
+              image: '',
+              duration: 2000,
+              mask: false,
+            })
+            callback(true)
+          } catch (e) {
+            console.log("token存储失败")
+
+          }
+        }
+      }).catch(subRes=>{
+        console.log("请求失败")
+      })
+    }else{
+      console.log("登录失败")
     }
+  }).catch(res=>{
+    console.log("连接失败")
   })
+  callback(false)
 }
 
 module.exports = {
@@ -174,5 +209,6 @@ module.exports = {
   login:login,
   getUserInfo: getUserInfo,
   getFoodCategory: getFoodCategory,
-  getFoodDetails: getFoodDetails
+  getFoodDetails: getFoodDetails,
+  getFoodListByKind: getFoodListByKind
 }

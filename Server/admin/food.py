@@ -7,7 +7,7 @@ def addFood():
         "name":"菠萝",
         "food_kind_id":1,
         "food_kind":"水果",
-        "info":"菠萝有点甜",
+        "info":"菠萝菠萝",
         "view_count":12,
     })
     url = URL.format(env=cur_url, term=admin_url, action="/addFood")

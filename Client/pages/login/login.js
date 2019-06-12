@@ -1,12 +1,13 @@
 // pages/login/login.js
 const apiRequest = require("../../utils/api_request.js")
+const app = getApp()
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    touxiang:""
   },
 
   /**
@@ -63,9 +64,6 @@ Page({
    */
   onShareAppMessage: function () {
 
-  },
-  login: function(){
-    apiRequest.login()
   },
   getkind: function(){
     apiRequest.getFoodCategory()

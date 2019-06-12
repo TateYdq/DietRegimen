@@ -1,6 +1,6 @@
 // pages/food/foodKind/food_kind.js
 const static_data = require("../../../utils/static_data.js")
-
+const apiRequest = require("../../../utils/api_request.js")
 Page({
 
   /**

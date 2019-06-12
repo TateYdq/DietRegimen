@@ -1,4 +1,4 @@
-package food
+package recommend
 
 import (
 	"github.com/TateYdq/DietRegimen/DietRegimenServer/database"
@@ -8,36 +8,32 @@ import (
 	"net/http"
 )
 
-func GetFoodDetails(c *gin.Context){
-	defer func() {
-		recover()
-	}()
-	foodID,err := helper.GetFoodID(c)
-	if err != nil{
+func GetRecInfo(c *gin.Context){
+	success,userID:= helper.VerifyToken(c)
+	if !success{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Forbidden,
 		})
 		return
 	}
-	userInfo,err := database.GetFoodInfoByID(foodID)
+	foodInfoList,err:= database.GetRecFoodByUserID(userID)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
 		})
 		return
 	}
-	go func() {
-		database.UpdateFoodView(foodID)
-		success,userID:= helper.VerifyToken(c)
-		if !success{
-			return
-		}
-		go database.AddUserScore(userID,utils.ScoreUserLook)
-		go database.AddUserAndFoodScore(userID,foodID,utils.ScoreFoodLook)
-	}()
+	diseaseInfoList,err:= database.GetRecDiseaseByUserID(userID)
+	if err != nil{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Failed,
+		})
+		return
+	}
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,
-		"user_info":userInfo,
+		"food_list":foodInfoList,
+		"disease_list":diseaseInfoList,
 	})
 	return
 }

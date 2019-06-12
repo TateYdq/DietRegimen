@@ -40,5 +40,8 @@ func CreateDiseaseComment(diseaseID int,userID int, content string)(err error){
 		logrus.WithError(err).Errorf("CreateDiseaseComment err,diseaseID:%v,userID:%v",diseaseID,userID)
 		return err
 	}
+	//奖励积分，加相关度
+	go AddUserAndDiseaseScore(userID,diseaseID,utils.ScoreDiseaseComment)
+	go AddUserScore(userID,utils.ScoreUserComment)
 	return nil
 }

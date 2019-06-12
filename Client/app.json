@@ -41,7 +41,7 @@
       },
       {
         "text": "推荐",
-        "pagePath": "pages/rec/recHome/rec_home",
+        "pagePath": "pages/login/login",
         "iconPath": "imgs/icon/flag.png",
         "selectedIconPath": "imgs/icon/flag-fill.png"
       },
