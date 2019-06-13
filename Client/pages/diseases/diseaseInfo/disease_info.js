@@ -1,5 +1,8 @@
-// pages/food/foodInfo/food_info.js
-const static_data = require("../../../utils/static_data.js")
+// pages/diseases/diseasesInfo/diseases_info.js
+// const static_data = require("../../../utils/static_data.js")
+const apiRequest = require("../../../utils/api_request.js")
+const cache = require("../../../utils/cache.js")
+import { Alert } from '../../../dist/index';
 
 Page({
 
@@ -7,27 +10,15 @@ Page({
    * 页面的初始数据
    */
   data: {
-    foodArray: [],
-    foodInfo: {}
+    id:null,
+    diseaseInfo: {},
+    localImagePath: null
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // var foodID = options.id ;
-    // this.initData();
-    // var foodDetail = this.findFoodDetail(foodID);
-    // this.setData({
-    //   "foodInfo.foodID":foodID,
-    //   "foodInfo.name":foodDetail.name,
-    //   "foodInfo.viewCount":foodDetail.viewCount,
-    //   "foodInfo.foodKind":foodDetail.foodKind,
-    //   "foodInfo.collectCount":foodDetail.collectCount,
-    //   "foodInfo.info":foodDetail.info,
-    //   "foodInfo.photoPath":foodDetail.photoPath,
-    // })
-    // console.log("name:%s", this.data.foodInfo['name']);
 
     //收藏按钮、分享按钮、语言按钮---------------------------
     var postId = options.id;
@@ -43,6 +34,11 @@ Page({
       postCollected[postId] = false;
       wx.setStorageSync('postCollected', postCollected);
     }
+    var dID = Number(options.id);
+    this.setData({
+      id:dID
+    })
+    this.initData(dID);
   },
 
   /**
@@ -92,18 +88,58 @@ Page({
    */
   onShareAppMessage: function () {
 
+  }, 
+  initData: function (dID) {
+    apiRequest.getDiseaseDetails(dID, this.callbackGetDiseaseDetails)
   },
-  initData: function () {
-    this.setData({ foodArray: static_data.foodInfo });
-  },
-  findFoodDetail: function (foodID) {
-    var i = 0;
-    for (i = 0; i < this.data.foodArray.length; i++) {
-      if (this.data.foodArray[i].foodID == foodID) {
-        return this.data.foodArray[i];
-      }
+  callbackGetDiseaseDetails: function(res){
+    Alert({
+      title: '提示',
+      content: 'wuss weapp is good',
+      confirm: () => {
+        console.log('ok');
+      },
+    });
+    if (res.code == 2000) {
+      this.setData({
+        diseaseInfo: res["disease_detail"]
+      });
+    } else if (res.code == 4003) {
+      // Dialog.alert({
+      //   message:'未登录或登录过期'
+      // });
+      // Dialog.alert({
+      //   title: '标题',
+      //   message: '弹窗内容'
+      // }).then(() => {
+      //   // on close
+      // });
+
+    } else {
+      wx.showToast({
+        title: '失败',
+        icon: 'fail',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
     }
-    return null;
+    var value = cache.getDiseaseImageVlue(this.data.id)
+    if (value) {
+      this.setData({
+        localImagePath: value
+      });
+    } else {
+      apiRequest.getImage(0,this.data.id, this.data.diseaseInfo["photo_path"], this.getImageCallback)
+    }
+  },
+  getImageCallback: function (i, id, res) {
+    if (res.path) {
+      this.setData({
+        localImagePath: res.path
+      });
+      cache.setDiseaseImage(id,res.path)
+    }
   },
 
   //---------------------------------------
@@ -161,99 +197,31 @@ Page({
       //……
       this.setData({ isPlay: true });
     }
+  },
+  collect: function(){
+    apiRequest.collectDisease(this.data.id,this.callbackCollect)
+  },
+  callbackCollect: function(res){
+    if(res.code == 2000){
+      wx.showToast({
+        title: '收藏成功',
+        icon: 'success',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
+    } else if (res.code == 4003) {
+      Dialog.alert({
+        message: '未登录或登录过期'
+      });
+    } else {
+      wx.showToast({
+        title: '失败',
+        icon: 'fail',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
+    }
   }
 })
-
-
-// pages/diseases/diseasesInfo/diseases_info.js
-// const static_data = require("../../../utils/static_data.js")
-
-// Page({
-
-//   /**
-//    * 页面的初始数据
-//    */
-//   data: {
-//     diseasesArray: [],
-//     diseaseInfo: {}
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面加载
-//    */
-//   onLoad: function (options) {
-//     var dID = options.id;
-//     this.initData();
-//     var dDetail = this.findDiseaseDetail(dID);
-//     this.setData({
-//       "diseaseInfo.diseaseID": dID,
-//       "diseaseInfo.name": dDetail.name,
-//       "diseaseInfo.viewCount": dDetail.viewCount,
-//       "diseaseInfo.diseaseKind": dDetail.diseaseKind,
-//       "diseaseInfo.collectCount": dDetail.collectCount,
-//       "diseaseInfo.info": dDetail.info,
-//       "diseaseInfo.photoPath": dDetail.photoPath,
-//     })
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面初次渲染完成
-//    */
-//   onReady: function () {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面显示
-//    */
-//   onShow: function () {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面隐藏
-//    */
-//   onHide: function () {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面卸载
-//    */
-//   onUnload: function () {
-
-//   },
-
-//   /**
-//    * 页面相关事件处理函数--监听用户下拉动作
-//    */
-//   onPullDownRefresh: function () {
-
-//   },
-
-//   /**
-//    * 页面上拉触底事件的处理函数
-//    */
-//   onReachBottom: function () {
-
-//   },
-
-//   /**
-//    * 用户点击右上角分享
-//    */
-//   onShareAppMessage: function () {
-
-//   }, 
-//   initData: function () {
-//     this.setData({ diseasesArray: static_data.diseaseInfo });
-//   },
-//   findDiseaseDetail: function (dID) {
-//     var i = 0;
-//     for (i = 0; i < this.data.diseasesArray.length; i++) {
-//       if (this.data.diseasesArray[i].diseaseID == dID) {
-//         return this.data.diseasesArray[i];
-//       }
-//     }
-//     return null;
-//   },
-// })

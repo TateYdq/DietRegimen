@@ -1,7 +1,8 @@
 // pages/diseases/diseases_list.js
 
-const static_data = require("../../../utils/static_data.js")
-
+// const static_data = require("../../../utils/static_data.js")
+const apiRequest = require("../../../utils/api_request.js")
+const cache = require("../../../utils/cache.js")
 Page({
 
   /**
@@ -63,7 +64,6 @@ Page({
    */
   onLoad: function (options) {
     this.initData()
-
   },
 
   /**
@@ -123,15 +123,64 @@ Page({
 
   },
   initData: function(){
-    var diseases = static_data.diseaseInfo
-    this.setData({
-      diseasesArray: diseases
-    })
+    apiRequest.getDiseasesLists(this.callbackGetDiseasesLists)
+    // var diseases = static_data.diseaseInfo
+    // this.setData({
+    //   diseasesArray: diseases
+    // })
   }, 
+  callbackGetDiseasesLists: function(res){
+    if (res.code == 2000) {
+      this.setData({
+        diseasesArray: res["disease_list"]
+      });
+      var i;
+      for(i=0;i < this.data.diseasesArray.length;i++){
+        var id = this.data.diseasesArray[i]['disease_id']
+        var value = cache.getDiseaseImageVlue(id)
+        if(value){
+          var param = {};
+          var string = "diseasesArray[" + i + "].localImagePath";
+          param[string] = value;
+          this.setData(param);
+        }else{
+          apiRequest.getImage(i, id,this.data.diseasesArray[i]["photo_path"], this.getImageCallback)
+        }
+      }
+      
+    } else if (res.code == 4003) {
+      wx.showToast({
+        title: '没有登录',
+        icon: 'fail',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
+    } else{
+      wx.showToast({
+        title: '失败',
+        icon: 'fail',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
+    }
+  },
+  getImageCallback: function(i,id,res){
+      if(res.path){
+        var param = {};
+        var string = "diseasesArray[" + i + "].localImagePath";
+        param[string] = res.path;
+        this.setData(param);
+        cache.setDiseaseImage(id, res.path)
+        console.log(this.data.diseasesArray[i].localImagePath)
+      }
+  },
   seeDetail: function (e) {
     var id = e.currentTarget.id;
     wx.navigateTo({
       url: '../diseaseInfo/disease_info?id=' + id,
     })
+    
   }
 })

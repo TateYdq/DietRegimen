@@ -48,16 +48,16 @@
 
   <view class="list">
     <block wx:for="{{diseasesArray}}" wx:key="diseaseID">
-      <view class='item' bindtap='seeDetail' id="{{item.diseaseID}}">
+      <view class='item' bindtap='seeDetail' id="{{item.disease_id}}">
         <view>
-          <image src="{{item.photoPath}}" style='width:75px;height:58px'> </image>
+          <image src="{{item.localImagePath}}" style='width:75px;height:58px'> </image>
         </view>
         <view class='desc'>
           <view class="above">
             <view class="title">{{item.name}}</view>
             <view class="count">
-              <view class="browse">{{item.viewCount}}浏览</view>
-              <view class="collect">{{item.collectCount}}收藏</view>
+              <view class="browse">{{item.view_count}}浏览</view>
+              <view class="collect">{{item.collect_count}}收藏</view>
             </view>
           </view>
             <view class="below">{{item.info}}</view>

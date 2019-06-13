@@ -8,6 +8,7 @@ Page({
    */
   data: {
       isLogin:false,
+      userAvatarUrl: null,
       myUserInfo:{}
   },
 
@@ -32,7 +33,9 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    this.setData({
+      myUserInfo: app.globalData.myUserInfo
+    });
   },
 
   /**
@@ -77,15 +80,6 @@ Page({
       hasUserInfo: true
     })
   },
-  initData: function(){
-    var o = new Object();
-    o.name = "老大爷";
-    o.age = 65;
-    o.gender = "male";
-    o.userImagePath = "../../../imgs/mine/touxiang.jpg";
-    o.diseasesHistory = "";
-    return o;
-  },
   setMyInfo: function(){
     wx.navigateTo({
       url: '../myinfo/myinfo',
@@ -122,12 +116,38 @@ Page({
     app.globalData.userInfo = e.detail.userInfo
     apiRequest.login(this.callbackLogin)
   },
-  callbackLogin: function(success){
-    if(success){
+  callbackLogin: function(res){
+    if(res.code == 2000){
       this.setData({
-        isLogin: app.globalData.isLogin
+        isLogin: true,
+        userAvatarUrl: app.globalData.userInfo.avatarUrl
       });
-      console.log(app.globalData.isLogin)
+      apiRequest.getUserInfo(this.callbackGetUserInfo)
     }
-  }
+  },
+  callbackGetUserInfo: function(res){
+    console.log(res)
+    if (res.code == 2000) {
+      app.globalData.myUserInfo = res["user_info"]
+      this.setData({
+        myUserInfo: app.globalData.myUserInfo
+      });
+    } else if (res.code == 4003) {
+      wx.showToast({
+        title: '没有登录',
+        icon: 'fail',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
+    } else{
+      wx.showToast({
+        title: '失败',
+        icon: 'fail',
+        image: '',
+        duration: 2000,
+        mask: false,
+      })
+    }
+}
 })

@@ -16,7 +16,6 @@ type UserCollectDiseaseInfo struct {
 	RecordTime string `json:"record_time"`
 }
 type CollectDiseaseRequest struct {
-	Token string `json:"token"`
 	DiseaseID int `json:"disease_id"`
 }
 

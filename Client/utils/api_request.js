@@ -5,6 +5,7 @@ const shema = 'https://'
 const domain='api.ydq6.com'
 const urlPrefix= shema + domain+'/DietRegimen/client'
 
+const filePrefix = shema + domain +'/DietRegimen/file'
 const SUCCESS = 2000
 const Forbidden = 4003
 const Failed = 5000
@@ -43,8 +44,8 @@ const SubmitQuestionnaire = urlPrefix + '/recommend/submitQuestionnaire'
 const GetRecInfo = urlPrefix + '/recommend/getRecInfo'
 
 //文件相关
-const GetImage = urlPrefix + '/file/getImage'
-const GetVoice = urlPrefix + '/file/getVoice'
+const GetImageUrl = filePrefix + '/getImage'
+const GetVoiceUrl = filePrefix + '/getVoice'
 
 const crypt = require("../utils/crypt.js")
 
@@ -70,7 +71,7 @@ function getToken(){
 核心函数，get请求api,data以json格式传入
 用法:
 */
-function getRequest(url,data){
+function getRequest(url, data, callback){
   var token = getToken()
   wx.request({
     url:url,
@@ -82,10 +83,9 @@ function getRequest(url,data){
     success(res){
       console.log("res:\n")
       console.log(res.data)
-      return res
+      callback(res.data)
     },
     fail(){
-      return null
       console.log("error")
     }
   })
@@ -94,11 +94,11 @@ function getRequest(url,data){
   核心函数，post请求api,data以json格式传入
 用法:
 */
-function postRequest(data){
+function postRequest(url,data,callback){
   var token = getToken()
   var rData = JSON.stringify(data)
   wx.request({
-    url: GetUserInfoUrl,
+    url: url,
     method: 'POST',
     header: {
       "Content-Type": "application/x-www-form-urlencoded",
@@ -106,9 +106,9 @@ function postRequest(data){
     },
     data: rData,
     dataType: "json",
-    success: function (subRes) {
-      console.log(subRes.data)
-      return subRes.data
+    success: function (res) {
+      console.log(res.data)
+      callback(res.data)
     },
     fail: function () {
       console.log("请求失败")
@@ -119,35 +119,88 @@ function postRequest(data){
   })
 }
 
-function getUserInfo(){
-  return getRequest(GetUserInfoUrl, null)
+function getUserInfo(callback){
+  getRequest(GetUserInfoUrl, null, callback)
 }
 
-function getFoodCategory(){
-  return getRequest(GetFoodCategoryUrl,null)
+
+
+function getFoodCategory(callback){
+  getRequest(GetFoodCategoryUrl, null, callback)
 }
-function getFoodDetails(foodID){
+function getFoodDetails(foodID, callback){
   var array = {
     "food_id":foodID
   }
-  return getRequest(GetFoodDetailsUrl, array)
+  getRequest(GetFoodDetailsUrl, array, callback)
 }
 
-function getFoodListByKind(kind){
+function getFoodListByKind(kind, callback){
   var array = {
     "keyword":kind
   }
-  return getRequest(SearchFoodUrl,array)
+  getRequest(SearchFoodUrl, array, callback)
 }
 
-function getFoodListByKind(kind) {
+function getFoodListByKind(kind,callback) {
   var array = {
     "keyword": kind
   }
-  return getRequest(SearchFoodUrl, array)
+  getRequest(SearchFoodUrl, array,callback)
+}
+function getDiseasesLists(callback){
+  getRequest(GetDiseasesListsUrl, null, callback)
+}
+
+function getDiseaseDetails(diseaseID,callback){
+  var array = {
+    "disease_id": diseaseID
+  }
+  getRequest(GetDiseaseDetailsUrl, array, callback)
+}
+
+function updateUserInfo(name, age, gender, diseasesFocus, callback){
+  var userInfo = {
+    "user_info":{
+      "name":name,
+      "age":age,
+      "gender":gender,
+      "diseases_focus": diseasesFocus
+    }
+  }
+  postRequest(UpdateUserInfoUrl,userInfo,callback)
+
+}
+
+function collectDisease(diseaseID, callback){
+  var data ={
+    "disease_id":diseaseID
+  }
+  postRequest(CollectDiseaseUrl, data, callback)
+}
+
+function collectFood(foodID, callback) {
+  var data = {
+    "food_id": foodID
+  }
+  postRequest(CollectFoodUrl, data, callback)
+}
+
+function getImage(i,id,photoPath,callback){
+  wx.getImageInfo({
+    src: GetImageUrl+"?path="+photoPath,
+    success(res) {
+      callback(i,id,res)
+    },
+    fail(res) {
+      callback(i,id,res)
+    }
+  })
 }
 
 function login(callback){
+  var result = new Array()
+  result.code = 5003
   console.log("url:" + app.globalData.userInfo.avatarUrl)
   myLogin().then(res=>{
     console.log("返回码: " + res.code)
@@ -184,7 +237,7 @@ function login(callback){
               duration: 2000,
               mask: false,
             })
-            callback(true)
+            callback(subRes.data)
           } catch (e) {
             console.log("token存储失败")
 
@@ -199,7 +252,6 @@ function login(callback){
   }).catch(res=>{
     console.log("连接失败")
   })
-  callback(false)
 }
 
 module.exports = {
@@ -210,5 +262,12 @@ module.exports = {
   getUserInfo: getUserInfo,
   getFoodCategory: getFoodCategory,
   getFoodDetails: getFoodDetails,
-  getFoodListByKind: getFoodListByKind
+  getFoodListByKind: getFoodListByKind,
+  getDiseasesLists: getDiseasesLists,
+  getDiseaseDetails: getDiseaseDetails,
+  getImage: getImage,
+  updateUserInfo: updateUserInfo,
+  collectDisease: collectDisease,
+  collectFood: collectFood,
+
 }

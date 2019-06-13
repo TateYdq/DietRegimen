@@ -79,34 +79,13 @@ func GetUserInfoByOpenID(openID string)(userInfo UserInfo,err error){
 
 
 
-//func GetOrCreateUserInfoUserID(userID int)(userInfo UserInfo,err error){
-//	userInfo,err = GetUserInfoByID(userID)
-//	if err != nil{
-//		if err == gorm.ErrRecordNotFound{
-//			logrus.WithError(err).Error("GetOrCreateInfoByOpenID get userInfo err,then try to create one ")
-//			userInfo,err = CreateUserByOpenID(userID)
-//			if err != nil{
-//				logrus.WithError(err).Error("GetOrCreateInfoByOpenID create err")
-//				return userInfo,err
-//			}
-//			return userInfo,nil
-//		}else{
-//			logrus.WithError(err).Error("GetOrCreateInfoByOpenID err")
-//			return userInfo,err
-//		}
-//	}else{
-//		return userInfo,nil
-//	}
-//}
-
-
-
-//创建用户，性别默认为男性
+//创建用户，性别默认为男性,默认60岁
 func CreateUserByOpenID(openID string,name string,gender string,userImagePath string)(newUserInfo UserInfo,err error){
 	newUserInfo = UserInfo{
 		OpenID: openID,
 		Name: name,
 		Gender: gender,
+		Age: 60,
 		UserImagePath: userImagePath,
 	}
 	err = DrDatabase.Model(UserInfo{}).Create(&newUserInfo).Error

@@ -70,3 +70,15 @@
   width: 40%;
   text-align: right;
 }
+.show {
+  display: none;
+  text-align: center;
+  position: absolute;
+  top: 45%;
+  left: 20%;
+  width: 53%;
+  height: 10%;
+  padding: 8px;
+  z-index: 1002;
+  overflow: auto;
+}

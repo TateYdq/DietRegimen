@@ -1,17 +1,17 @@
 <!--pages/mine/mycenter/mycenter.wxml-->
-<view wx:if="{{isLogin}}">
+<view>
   <view class="amountBg">
     <view class="img"> 
-      <image src="{{userInfo.userImagePath}}" style="width:49px;height:47px;"></image>
+      <image src="{{userAvatarUrl}}" style="width:49px;height:47px;"></image>
     </view>
     <view class="account">
-      <view>{{userInfo.name}}</view>
-      <view>{{userInfo.age}}岁</view>
+      <view>{{myUserInfo.name}}</view>
+      <view>{{myUserInfo.age}}岁</view>
     </view>
-    <view class="nav">></view>
+    <view class="nav"></view>
   </view>
 
-  <view class="content">
+  <view class="content" hidden="{{isLogin == false}}">
     <view class="order">
       <view class="desc" bindtap="gotoFoodList">
         <view>
@@ -52,4 +52,16 @@
     </view>
   </view>
 </view>
-<button wx:else open-type="getUserInfo" bindgetuserinfo='login' >用户授权</button>
+<!-- <button wx:else open-type="getUserInfo" bindgetuserinfo='login' >用户授权</button> -->
+
+<!-- <view  padding> -->
+  <van-button
+  class="show"  style='display:{{isLogin == false?"block":none}}'
+    plain
+    type="primary"
+    open-type="getUserInfo"
+    bindgetuserinfo='login'
+  >
+  点击登录
+  </van-button>
+<!-- </view> -->

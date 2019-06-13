@@ -17,7 +17,6 @@ import (
 )
 
 type UpdateUserInfoRequest struct {
-	Token string `json:"token"`
 	UserInfo database.UserInfo `json:"user_info"`
 }
 //需验证token
