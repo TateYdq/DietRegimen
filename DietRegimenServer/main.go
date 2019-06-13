@@ -87,6 +87,7 @@ func main() {
 				foodPage.GET("/getComment", food.GetComment)
 
 				foodPage.GET("/searchFood", food.SearchFood)
+				foodPage.GET("/isCollected", food.IsCollected)
 			}
 			healthPage := clientPage.Group("/health")
 			{
@@ -96,6 +97,8 @@ func main() {
 
 				healthPage.GET("/getComment", health.GetComment)
 				healthPage.POST("/commentDisease", health.CommentDisease)
+
+				healthPage.GET("/isCollected", health.IsCollected)
 			}
 			recommendPage := clientPage.Group("/recommend")
 			{

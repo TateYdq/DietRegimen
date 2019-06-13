@@ -36,3 +36,12 @@ func CreateCollectDiseaseInfo(userID int,diseaseID int)(err error){
 	go AddUserAndDiseaseScore(userID,diseaseID,utils.ScoreDiseaseCollect)
 	return err
 }
+
+func IsUserCollectedDisease(userID int,diseaseID int)(bool){
+	count := 0
+	DrDatabase.Model(UserCollectFoodInfo{}).Where("user_id = ? and disease_id = ?",userID,diseaseID).Count(&count)
+	if count == 1{
+		return true
+	}
+	return false
+}

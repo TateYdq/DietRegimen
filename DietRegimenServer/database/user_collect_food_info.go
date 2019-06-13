@@ -35,3 +35,13 @@ func CreateCollectFoodInfo(userID int,foodID int)(err error){
 	go AddUserAndFoodScore(userID,foodID,utils.ScoreFoodCollect)
 	return err
 }
+
+
+func IsUserCollectedFood(userID int,foodID int)(bool){
+	count := 0
+	DrDatabase.Model(UserCollectFoodInfo{}).Where("user_id = ? and food_id = ?",userID,foodID).Count(&count)
+	if count == 1{
+		return true
+	}
+	return false
+}

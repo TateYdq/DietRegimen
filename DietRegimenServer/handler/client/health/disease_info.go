@@ -60,3 +60,25 @@ func GetDiseasesLists(c *gin.Context){
 	})
 	return
 }
+
+func IsCollected(c *gin.Context){
+	success,userID:= helper.VerifyToken(c)
+	if !success{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Forbidden,
+		})
+		return
+	}
+	foodID,err := helper.GetDiseaseID(c)
+	if err != nil{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Failed,
+		})
+		return
+	}
+	result := database.IsUserCollectedDisease(userID,foodID)
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+		"exist":result,
+	})
+}
