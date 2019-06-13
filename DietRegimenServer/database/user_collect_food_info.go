@@ -45,3 +45,12 @@ func IsUserCollectedFood(userID int,foodID int)(bool){
 	}
 	return false
 }
+
+func DeleteCollectedFood(userID int,foodID int)(bool){
+	err := DrDatabase.Where("user_id = ? and food_id = ?",userID,foodID).Delete(UserCollectFoodInfo{}).Error
+	if err != nil {
+		return false
+	}else {
+		return true
+	}
+}

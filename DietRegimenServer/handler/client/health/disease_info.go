@@ -69,16 +69,38 @@ func IsCollected(c *gin.Context){
 		})
 		return
 	}
-	foodID,err := helper.GetDiseaseID(c)
+	diseaseID,err := helper.GetDiseaseID(c)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
 		})
 		return
 	}
-	result := database.IsUserCollectedDisease(userID,foodID)
+	result := database.IsUserCollectedDisease(userID,diseaseID)
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,
-		"exist":result,
+		"result":result,
+	})
+}
+
+func CancelCollected(c *gin.Context){
+	success,userID:= helper.VerifyToken(c)
+	if !success{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Forbidden,
+		})
+		return
+	}
+	diseaseID,err := helper.GetDiseaseID(c)
+	if err != nil{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Failed,
+		})
+		return
+	}
+	result := database.DeleteCollectedDisease(userID,diseaseID)
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+		"result":result,
 	})
 }

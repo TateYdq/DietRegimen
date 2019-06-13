@@ -45,3 +45,12 @@ func IsUserCollectedDisease(userID int,diseaseID int)(bool){
 	}
 	return false
 }
+
+func DeleteCollectedDisease(userID int,disease_id int)(bool){
+	err := DrDatabase.Where("user_id = ? and disease_id = ?",userID,disease_id).Delete(UserCollectDiseaseInfo{}).Error
+	if err != nil {
+		return false
+	}else {
+		return true
+	}
+}
