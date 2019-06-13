@@ -848,9 +848,19 @@ Resonse Body:{
 
 POST /DietRegimen/control1/admin/uploadImage
 
+Request Header:{
+
+​	"token":"",    #此为管理员token
+
+}
+
 Request Body:{
 
-​	"image":""
+​	file:              #文件
+
+​	"num"          #编号,1为用户，2为食物，3为食物种类，4为疾病
+
+​	"id"              #id号对应num,可能为user_id，food_id,kind_id,disease_id,
 
 }
 
@@ -861,6 +871,12 @@ Resonse Body:{
 ​	 "path":""            #图片路径
 
 }
+
+eg.curl -X POST 127.0.0.1:8080/file/fileUpload -F "file=@/Users/yudaoqing/Pictures/pingguo.jpeg" -F "num=3" -F "id=3" -H "Content-Type: multipart/form-data"
+
+
+
+curl -X POST https://api.ydq6.com/DietRegimen//control1/admin/uploadImage -F "file=@/Users/yudaoqing/go/src/github.com/TateYdq/DietRegimen/Client/imgs/diseases/tangniaobing.jpeg" -F "num=4" -F "id=1" -H "Content-Type: multipart/form-data"
 
 #### 3.1.10.1  下载图片
 
@@ -882,7 +898,7 @@ Resonse Body:{
 
 #### 3.1.10.1  修改图片
 
-POST /DietRegimen/control1/admin/udpateImage
+POST /DietRegimen/control1/admin/uprecord_timeImage
 
 Request Body:{
 
@@ -954,7 +970,7 @@ Resonse Body:{
 
 
 
-- [x] 该接口带讨论
+
 
 #### 3.2.1.3 获取收藏食物信息
 
@@ -1041,8 +1057,6 @@ Resonse Body:{
 - [x] POST  /DietRegimen/client/user/collecDisease
 
 Request Body:{
-
-​	token                  用户token
 
    disease_id            疾病id
 

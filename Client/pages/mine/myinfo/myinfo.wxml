@@ -1,36 +1,70 @@
 <!--pages/mine/myinfo/myinfo.wxml-->
-<form>
-  <view class="content">
-    <view class="hr"></view>
-      <view class="item">
-        <text class="txt">昵称:</text>
-        <view class="sub">
-        <input type="text" name="name" value="{{userInfo.name}}"></input>
-         </view>
-      </view>
 
-      <view class="item">
-        <text class="txt">年龄:</text>
-        <view class="sub">
-          <input class="inp" type="text" name="age" value="{{userInfo.age}}"/>
-        </view>
-      </view>
+  
+ <w-pane
+ title="个人信息设置"
+/>
+<w-form bind:onSubmit="wussFormSubmit" bind:onReset="wussFormReset" isValidateBtn>
+	<w-cell-group>
+		<w-validate rules="{{ userNameRules }}">
+			<w-input name="userName" value='{{myUserInfo.name}}' clear label="昵称" />
+		</w-validate>
 
-      <view class="item">
-        <text class="txt">性别:</text>
-        <view>
-          <radio-group >
-            <radio value='male' checked="{{userInfo.gender=='male'?true:false}}"/>男
-            <radio value='female' checked="{{userInfo.gender=='female'?true:false}}"/>女
-          </radio-group>
-         </view>
-      </view>
-      <view class="item">
-        <text class="txt">疾病史:</text>
-        <view class="sub">
-          <input type="text" name="diseasesHistory" value="{{userInfo.diseasesHistory}}"/>
-        </view>
-      </view>
-      <button class="btn">提交</button>
-  </view>
-</form>
+
+		<w-validate firstValidate rules="{{ isRequired }}">
+      <w-cell-picker
+	      label="性别"
+			  title="请选择性别"
+	      options="{{gend_items}}"
+        defaultValue="male"
+        name="gender"
+        bind:onSelect="handleSelect"
+      />
+    </w-validate>
+
+		<w-validate firstValidate rules="{{ isRequired }}">
+      <w-cell-picker
+			 label="年龄"
+			 title="请设置年龄"
+       defaultValue="{{myUserInfo.age}}"
+			 options="{{ [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75,76,77,78,79,80,81,82,83,84,85,86,87,88,89,90,91,92,93,94,95,96,97,98,99,100,101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120] }}"
+			 name="age"
+			/>
+		</w-validate>
+  <w-pane desc="关注的疾病"></w-pane>
+  <w-checkbox
+    label="关注的疾病"
+    title="请选择关注的疾病"
+		name="diseasesFocus"
+    direction="right"
+		options="{{ diseases_items}}"
+		/>
+
+
+		<w-cell label="同意用户协议信息">
+			<w-switch
+			 name="isVip"
+			 slot="content"
+			/>
+		</w-cell>
+
+
+		<w-cell>
+				<w-button
+			 inline
+			 type="info"
+			 formType="submit"
+			>
+				提交
+			</w-button>
+			<w-button
+			 inline
+			 type="warn"
+			 formType="reset"
+			>
+				重置
+			</w-button>
+		</w-cell>
+	</w-cell-group>
+</w-form>
+

@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 )
-
 func GetFoodDetails(c *gin.Context){
 	defer func() {
 		recover()
@@ -15,7 +14,7 @@ func GetFoodDetails(c *gin.Context){
 	foodID,err := helper.GetFoodID(c)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
+			"code":utils.Failed,
 		})
 		return
 	}
@@ -40,4 +39,26 @@ func GetFoodDetails(c *gin.Context){
 		"user_info":userInfo,
 	})
 	return
+}
+
+func IsCollected(c *gin.Context){
+	success,userID:= helper.VerifyToken(c)
+	if !success{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Forbidden,
+		})
+		return
+	}
+	foodID,err := helper.GetFoodID(c)
+	if err != nil{
+		c.JSON(http.StatusOK,gin.H{
+			"code":utils.Failed,
+		})
+		return
+	}
+	result := database.IsUserCollectedFood(userID,foodID)
+	c.JSON(http.StatusOK,gin.H{
+		"code":utils.Success,
+		"exist":result,
+	})
 }
