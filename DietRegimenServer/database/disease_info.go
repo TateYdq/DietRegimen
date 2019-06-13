@@ -51,6 +51,12 @@ func GetDiseaseInfoByID(diseaseID int)(diseaseInfo DiseaseInfo,err error){
 	if err != nil{
 		logrus.WithError(err).Errorf("GetDiseaseInfoByID err,diseaseID:%v",diseaseID)
 	}
+	go func() {
+		err := DrDatabase.Raw("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
+		if err != nil{
+			logrus.Errorf("UpdateDiseaseViewCount err")
+		}
+	}()
 	return diseaseInfo,err
 }
 

@@ -108,7 +108,7 @@ func main() {
 				recommendPage.GET("/getQuestionnaire", recommend.GetQuestionnaire)
 				recommendPage.POST("/submitQuestionnaire", recommend.SubmitQuestionnaire)
 
-				recommendPage.POST("/getRecInfo", recommend.GetRecInfo)
+				recommendPage.GET("/getRecInfo", recommend.GetRecInfo)
 			}
 		}
 		filePage := dietRegimenPage.Group("/file")

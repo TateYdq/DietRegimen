@@ -52,6 +52,12 @@ func GetFoodInfoByID(foodID int)(foodInfo FoodInfo,err error){
 	if err != nil{
 		logrus.WithError(err).Errorf("GetFoodInfoByID err,foodID:v",foodID)
 	}
+	go func() {
+		err := DrDatabase.Raw("update food_info set view_count=view_count+1 where food_id = ?",foodID).Error
+		if err != nil{
+			logrus.Errorf("UpdateFoodView err")
+		}
+	}()
 	return foodInfo,err
 }
 

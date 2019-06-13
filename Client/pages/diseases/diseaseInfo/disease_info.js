@@ -2,7 +2,6 @@
 // const static_data = require("../../../utils/static_data.js")
 const apiRequest = require("../../../utils/api_request.js")
 const cache = require("../../../utils/cache.js")
-import { Alert } from '../../../dist/index';
 
 Page({
 
@@ -12,6 +11,7 @@ Page({
   data: {
     id:null,
     diseaseInfo: {},
+    collected: false,
     localImagePath: null
   },
 
@@ -19,26 +19,25 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
-    //收藏按钮、分享按钮、语言按钮---------------------------
-    var postId = options.id;
-    this.data.currentPostId = postId;
-    this.data.isPaly = false;
-
-    var postCollected = wx.getStorageSync('postCollected');
-    if (postCollected) { //取到缓存,设置相应的状态
-      var collection = postCollected[postId];
-      this.setData({ collected: collection });
-    } else {//没有取到缓存
-      postCollected = {};
-      postCollected[postId] = false;
-      wx.setStorageSync('postCollected', postCollected);
-    }
     var dID = Number(options.id);
     this.setData({
-      id:dID
+      id: dID
     })
-    this.initData(dID);
+    apiRequest.getDiseaseDetails(dID, this.callbackGetDiseaseDetails)
+    //收藏按钮、分享按钮、语言按钮---------------------------
+    var postId = dID;
+    this.data.currentPostId = postId;
+    this.data.isPaly = false;
+    apiRequest.isCollectedDisease(dID, this.isCollectCallback)
+    // var postCollected = wx.getStorageSync('postCollected');
+    // if (postCollected) { //取到缓存,设置相应的状态
+    //   var collection = postCollected[postId];
+    //   this.setData({ collected: collection });
+    // } else {//没有取到缓存
+    //   postCollected = {};
+    //   postCollected[postId] = false;
+    //   wx.setStorageSync('postCollected', postCollected);
+    // }
   },
 
   /**
@@ -89,31 +88,12 @@ Page({
   onShareAppMessage: function () {
 
   }, 
-  initData: function (dID) {
-    apiRequest.getDiseaseDetails(dID, this.callbackGetDiseaseDetails)
-  },
   callbackGetDiseaseDetails: function(res){
-    Alert({
-      title: '提示',
-      content: 'wuss weapp is good',
-      confirm: () => {
-        console.log('ok');
-      },
-    });
     if (res.code == 2000) {
       this.setData({
         diseaseInfo: res["disease_detail"]
       });
     } else if (res.code == 4003) {
-      // Dialog.alert({
-      //   message:'未登录或登录过期'
-      // });
-      // Dialog.alert({
-      //   title: '标题',
-      //   message: '弹窗内容'
-      // }).then(() => {
-      //   // on close
-      // });
 
     } else {
       wx.showToast({
@@ -124,7 +104,7 @@ Page({
         mask: false,
       })
     }
-    var value = cache.getDiseaseImageVlue(this.data.id)
+    var value = cache.getDiseaseImageValue(this.data.id)
     if (value) {
       this.setData({
         localImagePath: value
@@ -144,34 +124,40 @@ Page({
 
   //---------------------------------------
   // 收藏btn
-  onCollectedTap: function (event) {
-    var that = this;
+  onCollectedTap: function (event){
+    var collected = this.data.collected
+    if (collected){
+      apiRequest.cancelCollectedDisease(this.data.id, this.callbackCollect)
+    }else{
+      apiRequest.collectDisease(this.data.id, this.callbackCollect)
+    }
+    // var that = this;
 
-    //异步获取缓存数据
-    wx.getStorage({
-      key: 'postCollected',
-      success: function (res) {
-        var postCollected = res.data;
-        var collection = postCollected[that.data.currentPostId];
-        that.showToast(collection, postCollected);
-      }
-    })
-    var collection = postCollected[this.data.currentPostId];
+    // //异步获取缓存数据
+    // wx.getStorage({
+    //   key: 'postCollected',
+    //   success: function (res) {
+    //     var postCollected = res.data;
+    //     var collection = postCollected[that.data.currentPostId];
+    //     that.showToast(collection, postCollected);
+    //   }
+    // })
+    // var collection = postCollected[this.data.currentPostId];
   },
 
-  showToast: function (collection, postCollected) {
-    wx.showToast({
-      title: collection ? "取消成功" : "收藏成功",
-      icon: 'success',
-      duration: 1000
-    });
-    collection = !collection;
-    postCollected[this.data.currentPostId] = collection;
-    //更新缓存
-    wx.setStorageSync('postCollected', postCollected);
-    //同步数据
-    this.setData({ collected: collection });
-  },
+  // showToast: function (collection, postCollected) {
+  //   wx.showToast({
+  //     title: collection ? "取消成功" : "收藏成功",
+  //     icon: 'success',
+  //     duration: 1000
+  //   });
+  //   collection = !collection;
+  //   postCollected[this.data.currentPostId] = collection;
+  //   //更新缓存
+  //   wx.setStorageSync('postCollected', postCollected);
+  //   //同步数据
+  //   this.setData({ collected: collection });
+  // },
 
   // 分享btn
   onShareTap: function (event) {
@@ -202,26 +188,37 @@ Page({
     apiRequest.collectDisease(this.data.id,this.callbackCollect)
   },
   callbackCollect: function(res){
+    var collected = this.data.collected 
     if(res.code == 2000){
       wx.showToast({
-        title: '收藏成功',
+        title: collected? "取消成功" : "收藏成功",
         icon: 'success',
-        image: '',
-        duration: 2000,
-        mask: false,
+        duration: 1000
+      })
+      this.setData({
+        collected:!collected,
       })
     } else if (res.code == 4003) {
-      Dialog.alert({
-        message: '未登录或登录过期'
-      });
+      wx.showToast({
+        title: '没有登录或登录过期',
+        icon: 'fail',
+        duration: 1000
+      })
     } else {
       wx.showToast({
         title: '失败',
         icon: 'fail',
-        image: '',
-        duration: 2000,
-        mask: false,
+        duration: 1000
       })
+    }
+  },
+  isCollectCallback: function (res) {
+    if(res.code==2000){
+      if(res.result==true){
+        this.setData({
+          collected:true
+        })
+      }
     }
   }
 })
