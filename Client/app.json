@@ -17,9 +17,9 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#20B2AA",
+    "navigationBarTitleText": "曹总营养食谱搭配指南",
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999999",
@@ -38,12 +38,6 @@
         "pagePath": "pages/diseases/diseaseList/disease_list",
         "iconPath": "imgs/icon/board.png",
         "selectedIconPath": "imgs/icon/board-actived.png"
-      },
-      {
-        "text": "推荐",
-        "pagePath": "pages/login/login",
-        "iconPath": "imgs/icon/flag.png",
-        "selectedIconPath": "imgs/icon/flag-fill.png"
       },
       {
         "text": "我的",

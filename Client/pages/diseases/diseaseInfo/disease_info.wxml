@@ -1,7 +1,59 @@
 <!--pages/diseases/diseasesInfo/diseases_info.wxml-->
 
-<!--pages/food/foodInfo/food_info.wxml-->
+<view class ="detail-container">
+    <image class="head-img" src="/imgs/images/articleDisBig1.jpg"></image>    <!-- {{isPlay ? posterData.music.coverImg : posterData.headImgSrc}} -->
+    <image class="music-img" catchtap="onMusicTap" src="{{isPlay ? '/imgs/btn/music-stop.png' : '/imgs/btn/music-start.png'}}"></image>
 
+    <!-- 作者介绍栏 -->
+    <view class="auto-container">
+        <!-- 作者头像 -->
+        <image class="auto-img" src="/imgs/images/author.jpg"></image>
+        <text class = "auto-name">曹总</text>
+        <text class="const-text">发表于</text>
+        <text class="pub-time">2019-6-16</text>
+    </view>
+
+    <!-- 标题 -->
+    <text class="title">重大突破！2016年糖尿病患者有望实现一年给药一次</text>
+
+    <!-- 分割线 -->
+    <view class="operation-container">
+        <!-- 收藏分享按钮 -->
+        <view class="operation-imgs" bindtap="onCollectedTap">
+            <image wx:if="{{collected}}"  class="collection-img"   src="/imgs/btn/collection.png"></image>
+            <image wx:else class="collection-img" src="/imgs/btn/collection-anti.png"></image>
+            <image class="share-img" catchtap="onShareTap" src="/imgs/btn/share.png"></image>
+        </view>
+        <!-- 横线 -->
+        <view class="horizon-line"></view>
+    </view>
+    
+    <!-- 文章内容 -->
+    <text class="details-content">自2012年以来，该公司一直从事于一年使用一次的糖尿病疗法的开发。CEO表示，预计将于今年完成与默沙东公司糖尿病药物Januvia的对比研究，并最早将于2016年向有关部门提交上市申请。
+
+　　糖尿病用药
+
+　　IntarciaTherapeutics的CEOKurtGraves
+
+　　Ⅱ型糖尿病是一种使人逐渐衰弱和致命的疾病，目前全球有近3亿5千万患者。并且患者需要每天监测血糖，服用药物，十分痛苦。来自美国的IntarciaTherapeutics公司决心改变这种状况。
+
+　　IntarciaTherapeutics成立于1997年，这是一家生物医药公司，也是医疗行业最早进入独角兽俱乐部的公司，2014年4月正式跨入“独角兽俱乐部”，估值达到了55亿美元。目前，这家位于美国波士顿的公司已经在10轮融资中累计获得了超过7.59亿美元投资。
+
+　　该公司主要致力于研发结合科技与药物的创新性疗法，并主要专注于流行病和极难控制的疾病。自2012年以来，该公司一直从事于一年使用一次的糖尿病疗法的开发。
+
+　　一直以来，糖尿病等重大慢性疾病的研发都充斥着各个医药巨头的身影，许多分析人士都认为小型生物医药公司很难有足够的创造力、财力和执行力来完成这些重大疾病药物的研发。显然Intarcia公司希望挑战这一铁律。
+
+　　目前糖尿病市场中，GLP-1药物正方兴未艾，其中尤以糖尿病药物巨头诺和诺德开发的GLP-1药物Victoza最为著名，但是这种药物需要每周甚至每天进行注射以保持患者血糖稳定在一定浓度。
+
+　　而IntarciaTherapeutics开发的糖尿病药物ITCA650则是一种植入皮下的微型真空泵，这款火柴棒大小的渗透泵将提供持续的GLP-1激动剂艾塞那肽，进而达到降低糖尿病患者血糖水平的目的，并且该药物最大特点是一年只需给药一次。
+
+　　IntarciaTherapeutics还表示，有资格的医师、护士或医师助理可以在医生办公室通过一个简单的5分钟操作就可以放置ITCA650，如果获得批准，ITCA650将成为首款也是仅有的无需注射的GLP-1治疗药物，它可通过一次剂量输送一整年的治疗药物。
+
+　　在公司进行的第一项临床三期研究中，研究人员招募了约460名血糖水平在7.5%-10%之间的二型糖尿病患者，经过约39周的治疗后，数据显示相对于安慰剂组，接受ITCA650治疗的患者血糖被稳定控制在7%以下，达到了研究之初的首要终点设计。在另一项关于治疗血糖浓度在10%以上的患者的临床三期研究中，数据显示经过9个月的治疗，有25%的患者血糖浓度降低至7%以下。而这一结果也被认为是Intarcia公司取得的一项重大突破。
+
+　　在今年4月获得了一笔高达2.25亿美元的投资之后，IntarciaTherapeutics的CEOKurtGraves也表示公司暂时并不打算寻找共同开发ITCA650的合作伙伴。他同时也表示，预计将于今年完成与默沙东公司糖尿病药物Januvia的对比研究，并最早将于2016年向有关部门提交上市申请。</text>
+</view>
+<!-- 
 <view style="height:1200px;background-color:#F9F9F9;">
     <view class="diseaseInfo">
       <view>
@@ -25,7 +77,7 @@
     <view class="intro">
       <image src="../../../imgs/icon/bofang.png" style='width:20px;height:16px;'></image>
       <text>{{diseaseInfo.info}}</text>
-    </view>
+    </view> -->
     <!-- <block wx:for="{{directors}}">
       <view class="personInfo">
         <view>
@@ -50,4 +102,4 @@
         </view>
       </view>
     </block> -->
-</view>
+<!-- </view> -->
