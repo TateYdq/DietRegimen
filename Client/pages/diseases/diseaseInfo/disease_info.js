@@ -23,7 +23,7 @@ Page({
     this.setData({
       id: dID
     })
-    apiRequest.getDiseaseDetails(dID, this.callbackGetDiseaseDetails)
+    apiRequest.getDiseaseDetails(dID, this.callbackGetDetails)
     //收藏按钮、分享按钮、语言按钮---------------------------
     var postId = dID;
     this.data.currentPostId = postId;
@@ -88,7 +88,7 @@ Page({
   onShareAppMessage: function () {
 
   }, 
-  callbackGetDiseaseDetails: function(res){
+  callbackGetDetails: function(res){
     if (res.code == 2000) {
       this.setData({
         diseaseInfo: res["disease_detail"]
@@ -183,9 +183,6 @@ Page({
       //……
       this.setData({ isPlay: true });
     }
-  },
-  collect: function(){
-    apiRequest.collectDisease(this.data.id,this.callbackCollect)
   },
   callbackCollect: function(res){
     var collected = this.data.collected 

@@ -130,8 +130,7 @@ Page({
       this.setData({
         newsArray: res["food_list"]
       });
-      var i;
-      for (i = 0; i < this.data.newsArray.length; i++) {
+      for (var i = 0; i < this.data.newsArray.length; i++) {
         var id = this.data.newsArray[i]['food_id']
         // cache.setFoodInfo(id, this.data.newsArray[i])
         var value = cache.getFoodImageValue(id)
@@ -180,6 +179,20 @@ Page({
         foodArray: res["food_list"],
         isRec:true
       })
+      for (var i = 0; i < this.data.foodArray.length; i++) {
+        var id = this.data.foodArray[i]['food_id']
+        // cache.setFoodInfo(id, this.data.foodArray[i])
+        var value = cache.getFoodImageValue(id)
+        if (value) {
+          var param = {};
+          var string = "foodArray[" + i + "].localImagePath";
+          param[string] = value;
+          this.setData(param);
+        } else {
+          var path = this.data.foodArray[i]["photo_path"]
+          apiRequest.getImage(i, id, path, this.getImageCallback)
+        }
+      }
     }
   },
   seeFoodLists: function (e) {

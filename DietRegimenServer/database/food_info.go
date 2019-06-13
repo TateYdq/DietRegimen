@@ -124,6 +124,7 @@ func UpdateFoodField(foodID int, value string,field string)(err error){
 }
 
 func UpdateFoodCollect(foodID int){
+	logrus.Infof("UpdateFoodCollect +1")
 	if foodID == 0{
 		logrus.Errorf("foodID is equals to 0")
 		return
@@ -135,6 +136,7 @@ func UpdateFoodCollect(foodID int){
 }
 
 func UpdateFoodView(foodID int)(){
+	logrus.Infof("UpdateFoodView +1")
 	if foodID == 0{
 		logrus.Errorf("foodID is equals to 0")
 		return
@@ -172,3 +174,10 @@ func GetFoodIDByFoodName(foodName string)(int){
 	return foodInfo.FoodID
 }
 
+
+func DecreaseFoodCollectCount(foodID int){
+	err := DrDatabase.Raw("update food_info set collect_count = collect_count-1 where food_id = ?",foodID).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("DecreaseCollectCount err,foodID = %v",foodID)
+	}
+}

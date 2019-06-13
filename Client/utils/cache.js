@@ -36,7 +36,7 @@ function getFoodImageValue(id) {
   var foodImageKey = foodImageKeyStr.format({ 'id': id })
   try {
     var value = wx.getStorageSync(foodImageKey)
-    return valuezc
+    return value
   } catch (e) {
     console.log(e)
   }
@@ -56,7 +56,7 @@ function getDiseaseImageValue(id){
   var diseaseImageKey = diseaseImageKeyStr.format({ 'id': id })
   try {
     var value = wx.getStorageSync(diseaseImageKey)
-    return valuezc
+    return value
   } catch (e) {
     console.log(e)
     // Do something when catch error

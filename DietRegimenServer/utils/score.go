@@ -18,6 +18,9 @@ const(
 
 )
 
+const(
+	RecNum = 5
+)
 
 const(
 	LimitUserLoginAwardDay = 1

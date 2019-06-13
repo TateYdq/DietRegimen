@@ -73,8 +73,8 @@
 		<view class="section section-big discount">
 			<view class="title">每日新闻</view>
       <view class='content'>
-        <block wx:for="{{newsArray}}" wx:key="id">
-          <view class='item' bindtap='seeNewsDetail'>
+        <block wx:for="{{newsArray}}" wx:key="food_id">
+          <view class='item' bindtap='seeNewsDetail' id="{{item.food_id}}">
             <view>
               <image src="{{item.localImagePath}}" style=''> </image>
             </view>

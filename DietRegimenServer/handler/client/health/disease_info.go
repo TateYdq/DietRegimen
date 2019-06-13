@@ -99,6 +99,11 @@ func CancelCollected(c *gin.Context){
 		return
 	}
 	result := database.DeleteCollectedDisease(userID,diseaseID)
+	go func() {
+		if result{
+			database.DecreaseFoodCollectCount(diseaseID)
+		}
+	}()
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,
 		"result":result,

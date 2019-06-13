@@ -18,7 +18,7 @@ func GetFoodDetails(c *gin.Context){
 		})
 		return
 	}
-	userInfo,err := database.GetFoodInfoByID(foodID)
+	foodInfo,err := database.GetFoodInfoByID(foodID)
 	if err != nil{
 		c.JSON(http.StatusOK,gin.H{
 			"code":utils.Failed,
@@ -36,7 +36,7 @@ func GetFoodDetails(c *gin.Context){
 	}()
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,
-		"user_info":userInfo,
+		"food_detail":foodInfo,
 	})
 	return
 }
@@ -79,6 +79,11 @@ func CancelCollected(c *gin.Context){
 		return
 	}
 	result := database.DeleteCollectedFood(userID,foodID)
+	go func() {
+		if result{
+			database.DecreaseFoodCollectCount(foodID)
+		}
+	}()
 	c.JSON(http.StatusOK,gin.H{
 		"code":utils.Success,
 		"result":result,

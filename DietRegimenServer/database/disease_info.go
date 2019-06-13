@@ -143,3 +143,10 @@ func GetDiseaseNameByDiseaseID(diseaseID int)(string){
 		return value
 	}
 }
+
+func DecreaseDiseaseCollectCount(diseaseID int){
+	err := DrDatabase.Raw("update disease_info set collect_count = collect_count-1 where disease_id = ?",diseaseID).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("DecreaseCollectCount err,diseaseID = %v",diseaseID)
+	}
+}
