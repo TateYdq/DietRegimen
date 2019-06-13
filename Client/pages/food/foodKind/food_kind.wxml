@@ -3,9 +3,11 @@
   <!-- 搜索框 -->
   <view class="header {{scrollDown?'scrolled':''}}">
 		<view class="search" bindtap="tapSearch"> <!--bindtap="tapSearch"-->
-			<image class="icon" src="/imgs/icon/icon_search.png"/>
-			<i class="fa fa-home"></i>
-			搜索
+			<image class="icon" src="/imgs/icon/icon_search.png"/>		
+      <view class="section">
+        <input placeholder="请输入关键字" value="{{searchValue}}" auto-focus/>
+      </view>
+      <image class="arraw" src="/imgs/icon/search-arraw.png"/>
 		</view>    
 	</view>
 
@@ -71,7 +73,7 @@
 		<view class="section section-big discount">
 			<view class="title">每日新闻</view>
       <view class='content'>
-        <block wx:for="{{foodArray}}" wx:key="id">
+        <block wx:for="{{newsArray}}" wx:key="id">
           <view class='item' bindtap='seeNewsDetail'>
             <view>
               <image src="{{item.photoPath}}" style=''> </image>

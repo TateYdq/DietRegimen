@@ -17,9 +17,9 @@
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#fff",
-    "navigationBarTitleText": "WeChat",
-    "navigationBarTextStyle": "black"
+    "navigationBarBackgroundColor": "#20B2AA",
+    "navigationBarTitleText": "曹总营养食谱搭配指南",
+    "navigationBarTextStyle": "white"
   },
   "tabBar": {
     "color": "#999999",
