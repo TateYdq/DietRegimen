@@ -33,7 +33,7 @@ func AddUserAndDiseaseScore(userID int,diseaseID int,score int)(err error){
 		CreateUserAndDiseaseScore(userID,diseaseID)
 	}
 
-	err = DrDatabase.Raw("update user_disease_relation set score = score + ? where user_id = ? and disease_id = ? ",score,userID,diseaseID).Error
+	err = DrDatabase.Exec("update user_disease_relation set score = score + ? where user_id = ? and disease_id = ? ",score,userID,diseaseID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("AddUserAndDiseaseScore,userID:%v,diseaseID:%v",userID,diseaseID)
 	}

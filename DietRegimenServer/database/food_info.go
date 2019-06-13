@@ -53,7 +53,7 @@ func GetFoodInfoByID(foodID int)(foodInfo FoodInfo,err error){
 		logrus.WithError(err).Errorf("GetFoodInfoByID err,foodID:v",foodID)
 	}
 	go func() {
-		err := DrDatabase.Raw("update food_info set view_count=view_count+1 where food_id = ?",foodID).Error
+		err := DrDatabase.Exec("update food_info set view_count=view_count+1 where food_id = ?",foodID).Error
 		if err != nil{
 			logrus.Errorf("UpdateFoodView err")
 		}
@@ -129,7 +129,7 @@ func UpdateFoodCollect(foodID int){
 		logrus.Errorf("foodID is equals to 0")
 		return
 	}
-	err := DrDatabase.Raw("update food_info set collect_count=collect_count+1 where food_id = ?",foodID).Error
+	err := DrDatabase.Exec("update food_info set collect_count=collect_count+1 where food_id = ?",foodID).Error
 	if err != nil{
 		logrus.Errorf("UpdateFoodCollect err")
 	}
@@ -141,7 +141,7 @@ func UpdateFoodView(foodID int)(){
 		logrus.Errorf("foodID is equals to 0")
 		return
 	}
-	err := DrDatabase.Raw("update food_info set view_count=view_count+1 where food_id = ?",foodID).Error
+	err := DrDatabase.Exec("update food_info set view_count=view_count+1 where food_id = ?",foodID).Error
 	if err != nil{
 		logrus.Errorf("UpdateFoodView err")
 	}
@@ -176,7 +176,7 @@ func GetFoodIDByFoodName(foodName string)(int){
 
 
 func DecreaseFoodCollectCount(foodID int){
-	err := DrDatabase.Raw("update food_info set collect_count = collect_count-1 where food_id = ?",foodID).Error
+	err := DrDatabase.Exec("update food_info set collect_count = collect_count-1 where food_id = ?",foodID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,foodID = %v",foodID)
 	}

@@ -52,7 +52,7 @@ func GetDiseaseInfoByID(diseaseID int)(diseaseInfo DiseaseInfo,err error){
 		logrus.WithError(err).Errorf("GetDiseaseInfoByID err,diseaseID:%v",diseaseID)
 	}
 	go func() {
-		err := DrDatabase.Raw("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
+		err := DrDatabase.Exec("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
 		if err != nil{
 			logrus.Errorf("UpdateDiseaseViewCount err")
 		}
@@ -110,7 +110,7 @@ func UpdateDiseaseCollectCount(diseaseID int){
 		logrus.Errorf("diseaseID is equals to 0")
 		return
 	}
-	err := DrDatabase.Raw("update disease_info set collect_count=collect_count+1 where disease_id = ?",diseaseID).Error
+	err := DrDatabase.Exec("update disease_info set collect_count=collect_count+1 where disease_id = ?",diseaseID).Error
 	if err != nil{
 		logrus.Errorf("UpdateDiseaseCollectCount err")
 	}
@@ -121,7 +121,7 @@ func UpdateDiseaseView(diseaseID int)(){
 		logrus.Errorf("diseaseID is equals to 0")
 		return
 	}
-	err := DrDatabase.Raw("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
+	err := DrDatabase.Exec("update disease_info set view_count=view_count+1 where disease_id = ?",diseaseID).Error
 	if err != nil{
 		logrus.Errorf("UpdateDiseaseView err")
 	}
@@ -145,7 +145,7 @@ func GetDiseaseNameByDiseaseID(diseaseID int)(string){
 }
 
 func DecreaseDiseaseCollectCount(diseaseID int){
-	err := DrDatabase.Raw("update disease_info set collect_count = collect_count-1 where disease_id = ?",diseaseID).Error
+	err := DrDatabase.Exec("update disease_info set collect_count = collect_count-1 where disease_id = ?",diseaseID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,diseaseID = %v",diseaseID)
 	}
