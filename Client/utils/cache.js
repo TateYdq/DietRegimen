@@ -1,4 +1,8 @@
 var diseaseImageKeyStr = "disease_{id}_image" 
+var diseaseInfoKeyStr = "disease_{id}_info"
+
+var foodImageKeyStr = "food_{id}_image"
+var foodInfoKeyStr = "food_{id}_info"
 String.prototype.format = function (args) {
   var result = this;
   if (arguments.length < 1) {
@@ -19,6 +23,26 @@ String.prototype.format = function (args) {
   return result;
 }
 
+function setFoodImage(id, value) {
+  var foodImageKey = foodImageKeyStr.format({ 'id': id })
+  try {
+    wx.setStorageSync(foodImageKey, value)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function getFoodImageValue(id) {
+  var foodImageKey = foodImageKeyStr.format({ 'id': id })
+  try {
+    var value = wx.getStorageSync(foodImageKey)
+    return value
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+
 function setDiseaseImage(id,value){
   var diseaseImageKey = diseaseImageKeyStr.format({'id':id})
   try {
@@ -28,7 +52,7 @@ function setDiseaseImage(id,value){
   }
 }
 
-function getDiseaseImageVlue(id){
+function getDiseaseImageValue(id){
   var diseaseImageKey = diseaseImageKeyStr.format({ 'id': id })
   try {
     var value = wx.getStorageSync(diseaseImageKey)
@@ -39,8 +63,34 @@ function getDiseaseImageVlue(id){
   }
 }
 
+function setDiseaseInfo(id, value) {
+  var diseaseInfoKey = diseaseInfoKeyStr.format({ 'id': id })
+  try {
+    var newvalue = JSON.stringify(value)
+    wx.setStorageSync(diseaseInfoKey, newvalue)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function getDiseaseInfo(){
+  var diseaseInfoKey = diseaseInfoKeyStr.format({ 'id': id })
+  try {
+    var newvalue = wx.getStorageSync(diseaseInfoKey)
+    var value = JSON.parse(newvalue)
+    return value
+  } catch (e) {
+    console.log(e)
+    // Do something when catch error
+  }
+}
 
 module.exports = {
+  setFoodImage: setFoodImage,
+  getFoodImageValue: getFoodImageValue,
+
   setDiseaseImage: setDiseaseImage,
-  getDiseaseImageVlue: getDiseaseImageVlue,
+  getDiseaseImageValue: getDiseaseImageValue,
+  setDiseaseInfo: setDiseaseInfo,
+  getDiseaseInfo: getDiseaseInfo,
 }

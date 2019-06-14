@@ -30,6 +30,9 @@ const GetFoodDetailsUrl = urlPrefix + '/food/getFoodDetails'
 const CommentFoodUrl = urlPrefix + '/food/commentFood'
 const GetCommentFoodUrl = urlPrefix + '/food/getComment'
 
+const IsCollectedFoodUrl = urlPrefix + '/food/isCollected'
+const CancelCollectedFoodUrl = urlPrefix + '/food/cancelCollected'
+
 //疾病相关URL
 const GetDiseasesListsUrl = urlPrefix + '/health/getDiseasesLists'
 const SearchDiseaseUrl = urlPrefix + '/health/searchDisease'
@@ -38,10 +41,13 @@ const GetDiseaseDetailsUrl= urlPrefix + '/health/getDiseaseDetails'
 const CommentDiseaseUrl = urlPrefix + '/health/commentDisease'
 const GetCommentDiseaseUrl = urlPrefix + '/health/getComment'
 
+const IsCollectedDiseaseUrl = urlPrefix + '/health/isCollected'
+const CancelCollectedDiseaseUrl = urlPrefix + '/health/cancelCollected'
+
 //推荐相关
 const GetQuestionnaire = urlPrefix + '/recommend/getQuestionnaire'
 const SubmitQuestionnaire = urlPrefix + '/recommend/submitQuestionnaire'
-const GetRecInfo = urlPrefix + '/recommend/getRecInfo'
+const GetRecInfoUrl = urlPrefix + '/recommend/getRecInfo'
 
 //文件相关
 const GetImageUrl = filePrefix + '/getImage'
@@ -122,8 +128,19 @@ function postRequest(url,data,callback){
 function getUserInfo(callback){
   getRequest(GetUserInfoUrl, null, callback)
 }
+function isCollectedFood(foodID, callback) {
+  var array = {
+    "food_id": foodID
+  }
+  getRequest(IsCollectedFoodUrl, array, callback)
+}
 
-
+function isCollectedDisease(diseaseID,callback){
+  var array = {
+    "disease_id": diseaseID
+  }
+  getRequest(IsCollectedDiseaseUrl, array,callback)
+}
 
 function getFoodCategory(callback){
   getRequest(GetFoodCategoryUrl, null, callback)
@@ -142,22 +159,24 @@ function getFoodListByKind(kind, callback){
   getRequest(SearchFoodUrl, array, callback)
 }
 
-function getFoodListByKind(kind,callback) {
-  var array = {
-    "keyword": kind
-  }
-  getRequest(SearchFoodUrl, array,callback)
+function getFoodList(callback) {
+  getRequest(SearchFoodUrl, null,callback)
 }
 function getDiseasesLists(callback){
   getRequest(GetDiseasesListsUrl, null, callback)
 }
 
 function getDiseaseDetails(diseaseID,callback){
-  var array = {
+  var data = {
     "disease_id": diseaseID
   }
-  getRequest(GetDiseaseDetailsUrl, array, callback)
+  getRequest(GetDiseaseDetailsUrl, data, callback)
 }
+
+function getRecInfo(callback){
+  getRequest(GetRecInfoUrl, null, callback)
+}
+
 
 function updateUserInfo(name, age, gender, diseasesFocus, callback){
   var userInfo = {
@@ -186,16 +205,33 @@ function collectFood(foodID, callback) {
   postRequest(CollectFoodUrl, data, callback)
 }
 
+function cancelCollectedFood(foodID, callback) {
+  var data = {
+    "food_id": foodID
+  }
+  getRequest(CancelCollectedFoodUrl, data, callback)
+}
+
+function cancelCollectedDisease(diseaseID, callback) {
+  var data = {
+    "disease_id": diseaseID
+  }
+  getRequest(CancelCollectedDiseaseUrl, data, callback)
+}
+
 function getImage(i,id,photoPath,callback){
-  wx.getImageInfo({
-    src: GetImageUrl+"?path="+photoPath,
-    success(res) {
-      callback(i,id,res)
-    },
-    fail(res) {
-      callback(i,id,res)
-    }
-  })
+  if(photoPath){
+    console.log("url:"+GetImageUrl + "?path=" + photoPath)
+    wx.getImageInfo({
+      src: GetImageUrl+"?path="+photoPath,
+      success(res) {
+        callback(i,id,res)
+      },
+      fail(res) {
+        callback(i,id,res)
+      }
+    })
+  }
 }
 
 function login(callback){
@@ -262,12 +298,17 @@ module.exports = {
   getUserInfo: getUserInfo,
   getFoodCategory: getFoodCategory,
   getFoodDetails: getFoodDetails,
-  getFoodListByKind: getFoodListByKind,
+  getFoodList: getFoodList,
   getDiseasesLists: getDiseasesLists,
   getDiseaseDetails: getDiseaseDetails,
   getImage: getImage,
   updateUserInfo: updateUserInfo,
   collectDisease: collectDisease,
   collectFood: collectFood,
+  isCollectedDisease: isCollectedDisease,
+  isCollectedFood: isCollectedFood,
+  cancelCollectedFood: cancelCollectedFood,
+  cancelCollectedDisease: cancelCollectedDisease,
 
+  getRecInfo: getRecInfo,
 }

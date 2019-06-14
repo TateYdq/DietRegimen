@@ -14,7 +14,8 @@
     </view>
 
     <!-- 标题 -->
-    <text class="title">清炒藕丁：防治胃病</text>
+    <text class="title">{{foodInfo.name}}</text>
+    <!-- <text class="title">清炒藕丁：防治胃病</text> -->
 
     <!-- 分割线 -->
     <view class="operation-container">
@@ -29,8 +30,9 @@
     </view>
     
     <!-- 文章内容 -->
-    <text class="details-content"> 1、藕丁切好后，要让在水里泡一下，还要放一白醋，这样藕丁不会变黑。
-2、勾况欠汁时，看要勾薄欠，还是勾后欠。炒蔬菜可以薄欠，放一点生粉和水勾况后，在往锅里放。</text>
+    <text class="details-content">{{foodInfo.info}} </text>
+    <!-- <text class="details-content"> 1、藕丁切好后，要让在水里泡一下，还要放一白醋，这样藕丁不会变黑。
+2、勾况欠汁时，看要勾薄欠，还是勾后欠。炒蔬菜可以薄欠，放一点生粉和水勾况后，在往锅里放。</text> -->
 </view>
 
 

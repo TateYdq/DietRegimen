@@ -4,11 +4,12 @@ from utils.config import *
 ss = requests.session()
 def addFood():
     data = json.dumps({
-        "name":"菠萝",
-        "food_kind_id":1,
-        "food_kind":"水果",
-        "info":"菠萝菠萝",
-        "view_count":12,
+        "name":"养生菇粥",
+        # "food_kind_id":1,
+        # "food_kind":"水果",
+        "info":"做法：1.羊肉洗净，切块；虾子，洗净；山药洗净，切片备用。",
+        "effect":"安定凝神、利尿通便、健胃消食。",
+        "view_count":0,
     })
     url = URL.format(env=cur_url, term=admin_url, action="/addFood")
     postReq(url,ss,data,admin_token)

@@ -1108,7 +1108,7 @@ Resonse Body:{
 
 ​		code:                  返回代码
 
-​		details:                 食物详细信息
+​		food_detail:                 食物详细信息
 
 }
 

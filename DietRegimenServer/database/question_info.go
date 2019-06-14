@@ -32,7 +32,7 @@ func AddQuestion(question QuestionInfo)(id int,err error){
 
 
 func SelectQuestionInfo(userID int)(questionLists[] QuestionInfo,err error){
-	err = DrDatabase.Raw("select * from question_info").Scan(&questionLists).Error
+	err = DrDatabase.Model(QuestionInfo{}).Scan(&questionLists).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("SelectQuestionInfo err")
 	}

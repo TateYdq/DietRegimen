@@ -17,20 +17,20 @@
 		<view class="section section-big discount">
 			<view class="title">疾病咨讯</view>
       <view class='content'>
-        <block wx:for="{{diseaArray}}" wx:key="id">
-          <view class='item' bindtap='seeDiseaDetail'>
+        <block wx:for="{{diseaseArray}}" wx:key="{{disease_id}}">
+          <view class='item' bindtap='seeDiseaseDetail' id="{{item.disease_id}}">
             <view>
-              <image src="{{item.photoPath}}" style=''> </image>
+              <image src="{{item.localImagePath}}" style=''> </image>
             </view>
             <view class='desc'>
               <view class="above">
-                <view class="title2">{{item.kindName}}</view>
+                <view class="title2">{{item.kind_name}}</view>
                 <view class="count2">
-                  <view class="browse">{{item.viewCount}} 浏览</view>
-                  <view class="collect">{{item.collectCount}} 收藏</view>
+                  <view class="browse">{{item.view_count}} 浏览</view>
+                  <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{item.kindInfo}}</view>
+                <view class="below">{{item.info}}</view>
             </view>
           </view>  
         </block>  
