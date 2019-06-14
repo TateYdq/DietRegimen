@@ -1,9 +1,9 @@
 <!--pages/mine/myinfo/myinfo.wxml-->
 
-  
- <w-pane
- title="个人信息设置"
-/>
+ <view class = 'quesContainer'> 
+ <view class='quesBox'>
+ <view class="info-title">个人信息设置</view>
+ <!-- <w-pane title="个人信息设置"/> -->
 <w-form bind:onSubmit="wussFormSubmit" bind:onReset="wussFormReset" isValidateBtn>
 	<w-cell-group>
 		<w-validate rules="{{ userNameRules }}">
@@ -48,24 +48,14 @@
 			 slot="content"
 			/>
 		</w-cell>
-
-
-		<w-cell>
-				<w-button
-			 inline
-			 type="info"
-			 formType="submit"
-			>
-				提交
-			</w-button>
-			<w-button
-			 inline
-			 type="warn"
-			 formType="reset"
-			>
-				重置
-			</w-button>
-		</w-cell>
 	</w-cell-group>
+
+    <!-- 按钮 -->
+  	<view class='btn-center'>
+			<w-button inline type="info" formType="submit"> 提 交 </w-button>
+			<w-button inline type="warn" formType="reset"> 重 置 </w-button>
+		</view>
 </w-form>
+</view>
+</view>
 

@@ -124,7 +124,7 @@ scroll-view {
 }
 /* 每日推荐的列表图片 */
 .section image{
-  background: yellow;
+  /* background: yellow; */
   width: 80px;
   height: 80px;
   border-radius: 20rpx;
