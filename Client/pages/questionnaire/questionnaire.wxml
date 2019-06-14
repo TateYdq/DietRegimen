@@ -1,0 +1,30 @@
+<!--Pages/questionnaire/questionnaire.wxml-->
+<view class = 'quesContainer'>
+  <view class='quesBox'>
+		<view class="section section-big discount">
+			<view class="title">问题 1/20</view>
+      <view class='ques-title'>
+        <text>我常常被这样的状况困扰</text>
+      </view>
+      <view class='options'>
+        <!-- radiogroup 布局 -->
+        <radio-group class="radio-group" bindchange="radioChange">
+          <label class="radio" wx:for="{{items}}">
+              <radio value="{{item.name}}" checked="{{item.checked}}"/>{{item.value}}
+              <view>\n</view>
+          </label>
+        </radio-group>
+      </view>
+      <!-- <view class="divLine"></view> -->
+      <view class='btn'>
+        <view class="arraw a1">
+          上一题
+        </view>
+        <view class="shuLine"></view>
+        <view class="arraw a2">
+          下一题
+        </view>
+      </view>
+		</view>
+  </view>
+</view>

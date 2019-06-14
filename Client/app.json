@@ -1,5 +1,7 @@
 {
   "pages": [
+    
+    "pages/questionnaire/questionnaire",
     "pages/food/foodKind/food_kind",
     "pages/food/foodList/food_list",
     "pages/index/index",
@@ -13,10 +15,11 @@
     "pages/diseases/diseaseList/disease_list",
     "pages/diseases/diseaseInfo/disease_info",
     "pages/login/login"
+    
   ],
   "window": {
     "backgroundTextStyle": "light",
-    "navigationBarBackgroundColor": "#20B2AA",
+    "navigationBarBackgroundColor": "#FFA500",
     "navigationBarTitleText": "曹总营养食谱搭配指南",
     "navigationBarTextStyle": "white"
   },
