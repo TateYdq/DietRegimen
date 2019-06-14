@@ -107,7 +107,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
   },
   // findFoodDetail: function (foodID) {
   //   var i = 0;
@@ -215,7 +214,6 @@ Page({
       itemList: itemList,
       itemColor: "#405f80",
       success: function (res) {
-
       }
     });
   },
@@ -241,14 +239,13 @@ Page({
       })
     } else if (res.code == 4003) {
       wx.showToast({
-        title: '没有登录',
-        icon: 'fail',
+        title: '没有登录或登录过期',
+        icon:"none",
         duration: 1000
       })
     } else {
       wx.showToast({
         title: '失败',
-        icon: 'fail',
         duration: 1000
       })
     }

@@ -1,5 +1,16 @@
 <!--pages/mine/collectFood/collect_food.wxml-->
-
+<wxs module="fn">
+      module.exports = {
+          substring: function(str,begin,end){
+          str = str.trim()
+            if(str.length > end){
+              return str.substring(begin,end)+"...";
+            }else{
+              return str
+            }
+          }
+      }
+  </wxs>
 	<scroll-view scroll-y="true" scroll-into-view="{{scrollIntoView}}" bindscroll="onScroll">
 <view class="section section-big discount" >
 <view class="title">收藏食物</view>
@@ -17,7 +28,7 @@
                   <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{item.info}}</view>
+                <view class="below">{{fn.substring(item.info,0,30)}}</view>
             </view>
           </view>  
           <!-- <view class="hr2"></view> -->

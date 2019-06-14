@@ -253,7 +253,7 @@ Page({
     } else if (res.code == 4003) {
       wx.showToast({
         title: '没有登录或登录过期',
-        icon: 'fail',
+        icon: "none",
         duration: 1000
       })
     } else {

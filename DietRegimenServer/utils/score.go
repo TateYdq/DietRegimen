@@ -24,8 +24,8 @@ const(
 
 const(
 	LimitUserLoginAwardDay = 1
-	LimitUserLookAwardDay = 30
-	LimitUserCommentAwardDay = 15
+	LimitUserLookAwardDay = 50
+	LimitUserCommentAwardDay = 30
 )
 
 const(

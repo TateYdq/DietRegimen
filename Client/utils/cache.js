@@ -50,7 +50,10 @@ function clearAllQuestion(){
     var key = questionAnswerdKeyStr.format({ 'id': i })
     // console.log("key:"+key)
     wx.removeStorage({
-      key: 'key',
+      key: key,
+      // success:function(res){
+      //     console.log(res)
+      // }
     })
   }
 }

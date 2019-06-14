@@ -102,7 +102,8 @@ Page({
     //登录后没有推荐
     if(this.data.isLogin==true&&this.data.isRec==false){
       apiRequest.getRecInfo(this.callbackGetRec)
-      setInterval(this.questionPermit,1000*30)
+      //设置时间间隔:2分钟一次
+      setInterval(this.questionPermit,1000*60*2)
     }
     //显示问卷
     this.putQuestion()
@@ -126,6 +127,7 @@ Page({
   },
   putQuestion: function(){
     if(this.data.shouldQuestion && this.data.isLogin == true){
+      if (app.globalData.myUserInfo.no_attention == undefined || app.globalData.myUserInfo.no_attention < 1){
       console.log("should")
       for (var i = 0; i < this.data.questionLists.length;i++)
         if (!cache.isQuestionAnswered(this.data.questionLists[i].question_id)){
@@ -135,6 +137,7 @@ Page({
           })
           return
         }
+      }
     }else{
       console.log("banned")
     }

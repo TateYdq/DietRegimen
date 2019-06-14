@@ -35,7 +35,8 @@ App({
         }
       }
     })
-    setInterval(cache.clearAllQuestion,1000*60*3)
+    //定时1小时清除全部
+    setInterval(cache.clearAllQuestion,1000*60*60)
   },
   globalData: {
     userInfo: null,

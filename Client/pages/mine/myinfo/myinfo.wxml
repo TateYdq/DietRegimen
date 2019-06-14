@@ -43,6 +43,7 @@
 
 		<w-cell label="vip服务">
 			<w-switch
+       value="{{myUserInfo.no_attention<1}}"
 			 name="isVip"
 			 slot="content"
 			/>
