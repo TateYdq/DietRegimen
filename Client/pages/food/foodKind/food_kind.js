@@ -114,33 +114,48 @@ Page({
   submitCallback: function () {
 
   },
+  radioChange: function (e) {
+    this.choice=e.detail.value
+    // console.log('radio发生change事件，携带value值为：', e)
+  },
   handleCloseQ: function(e){
     this.setData({
       qvisible: false,
       shouldQuestion: false,
     })
+    if (this.choice == undefined||this.choice==""){
+      return
+    }
     var id = e.target.id
-    var resp = e.target.resp
+    var resp = this.choice
     // console.log(e)
     apiRequest.submitQuestion(id,resp,this.submitCallback)
     cache.answerQuestion(id)
   },
+  handleCancelQ: function(){
+    this.setData({
+      qvisible: false,
+    })
+  },
   putQuestion: function(){
     if(this.data.shouldQuestion && this.data.isLogin == true){
       if (app.globalData.myUserInfo.no_attention == undefined || app.globalData.myUserInfo.no_attention < 1){
-      console.log("should")
+      // console.log("should")
       for (var i = 0; i < this.data.questionLists.length;i++)
         if (!cache.isQuestionAnswered(this.data.questionLists[i].question_id)){
+          this.choice=""
           this.setData({
             qvisible: true,
             cquetsion: this.data.questionLists[i]
           })
+          
           return
         }
       }
-    }else{
-      console.log("banned")
     }
+    // else{
+    //   console.log("banned")
+    // }
   },
     /**
    * 跳转到推荐文章
@@ -174,13 +189,13 @@ Page({
     console.log(value)
     for(var i = 0;i < this.data.newsArray.length;i++){
       if (value == "" || this.isExists(value,this.data.newsArray[i])){
-        console.log("false")
+        // console.log("false")
         var param = {}
         var string = "newsArray[" + i + "].hidden"
         param[string] = false
         this.setData(param)
       }else{
-        console.log("true")
+        // console.log("true")
         var param = {}
         var string = "newsArray[" + i + "].hidden"
         param[string] = true

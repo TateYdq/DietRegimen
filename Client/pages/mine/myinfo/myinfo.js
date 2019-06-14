@@ -11,11 +11,11 @@ Page({
     userNameRules: {
     maxLength: {
       value: 10,
-      message: '姓名最多6个字',
+      message: '姓名最多10个字',
     },
     minLength: {
-      value: 3,
-      message: '姓名最少三个字',
+      value: 1,
+      message: '姓名最少1个字',
     },
     },
     isRequired: {
@@ -41,7 +41,7 @@ Page({
         text: '老年痴呆症',
       },
       {
-        text: '骨质疏松症',
+        text: '骨质疏松',
       },
       {
         text: '冠心病',

@@ -35,12 +35,49 @@
       visible="{{ qvisible }}"
       bind:onClose="handleClose"
     >
-    <view class="example-dialog" hover-class="none" hover-stop-propagation="false">
+    <view class='quesBox'>
+    <view class="section section-big discount">
+			<view class="title">特别关心</view>
+      <view class='ques-title'>
+        <text>{{cquetsion.info}}</text>
+      </view>
+      <view class='options'>
+        <!-- radiogroup 布局 -->
+        <radio-group class="radio-group" bindchange="radioChange" >
+          <label class="radio">
+              <radio value="{{cquetsion.response_a}}" />{{cquetsion.answer_a}}
+              <view>\n</view>
+          </label>
+          <label class="radio">
+              <radio value="{{cquetsion.response_b}}" />{{cquetsion.answer_b}}
+              <view>\n</view>
+          </label>
+          <label class="radio">
+              <radio  value="{{cquetsion.response_c}}" />{{cquetsion.answer_c}}
+              <view>\n</view>
+          </label>
+        </radio-group>
+      </view>
+
+      <!-- <view class="divLine"></view> -->
+      <view class='btn'>
+        <view class="arraw a1" bindtap='handleCloseQ' id="{{cquetsion.question_id}}">
+          确认
+        </view>
+        <view class="shuLine"></view>
+        <view class="arraw a2"  bindtap='handleCancelQ'>
+          取消
+        </view>
+      </view>
+      </view>
+  </view>
+
+    <!-- <view class="example-dialog" hover-class="none" hover-stop-propagation="false">
     <text>{{cquetsion.info}}</text>
     <w-button bind:onClick="handleCloseQ" id="{{cquetsion.question_id}}" data-resp="{{cquetsion.response_a}}" type="info">{{cquetsion.answer_a}}</w-button>
     <w-button bind:onClick="handleCloseQ" id="{{cquetsion.question_id}}" data-resp="{{cquetsion.response_b}}" type="info">{{cquetsion.answer_b}}</w-button>
     <w-button bind:onClick="handleCloseQ" id="{{cquetsion.question_id}}" data-resp="{{cquetsion.response_c}}" type="info">{{cquetsion.answer_c}}</w-button>
-  </view>
+  </view> -->
     </w-dialog>
 
     <!-- 推荐列表 -->
