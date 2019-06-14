@@ -43,10 +43,7 @@ func SubmitQuestionnaire(c *gin.Context){
 func GetQuestionnaire(c *gin.Context){
 	success,userID:= helper.VerifyToken(c)
 	if !success{
-		c.JSON(http.StatusOK,gin.H{
-			"code":utils.Forbidden,
-		})
-		return
+		userID = 0
 	}
 	questionLists,err := database.SelectQuestionInfo(userID)
 	if err != nil{

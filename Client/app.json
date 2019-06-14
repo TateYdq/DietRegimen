@@ -12,6 +12,7 @@
     "pages/mine/collectDisease/collect_disease",
     "pages/diseases/diseaseList/disease_list",
     "pages/diseases/diseaseInfo/disease_info",
+    "pages/rec/test/test",
     "pages/login/login"
   ],
   "window": {
@@ -29,6 +30,7 @@
       {
         "text": "食谱",
         "pagePath": "pages/food/foodKind/food_kind",
+
         "iconPath": "imgs/icon/read.png",
         "selectedIconPath": "imgs/icon/read-fill.png"
       },

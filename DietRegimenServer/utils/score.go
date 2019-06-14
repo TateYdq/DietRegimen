@@ -19,7 +19,7 @@ const(
 )
 
 const(
-	RecNum = 5
+	RecNum = 3
 )
 
 const(

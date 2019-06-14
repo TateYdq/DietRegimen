@@ -1,6 +1,9 @@
 package database
 
-import "github.com/sirupsen/logrus"
+import (
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
+	"github.com/sirupsen/logrus"
+)
 
 type QuestionInfo struct {
 	QuestionID int `json:"question_id" gorm:"column:question_id;primary_key"`
@@ -40,6 +43,7 @@ func SelectQuestionInfo(userID int)(questionLists[] QuestionInfo,err error){
 }
 
 func CreateQuestionSheet(request AnswerSheet)(err error){
+	request.RecordTime = utils.GetCurTime()
 	err = DrDatabase.Create(&request).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("CreateQuestionSheet err")

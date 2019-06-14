@@ -145,7 +145,7 @@ func GetDiseaseNameByDiseaseID(diseaseID int)(string){
 }
 
 func DecreaseDiseaseCollectCount(diseaseID int){
-	err := DrDatabase.Exec("update disease_info set collect_count = collect_count-1 where disease_id = ?",diseaseID).Error
+	err := DrDatabase.Exec("update disease_info set collect_count = collect_count-1 where disease_id = ? and collect_count > 0",diseaseID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,diseaseID = %v",diseaseID)
 	}

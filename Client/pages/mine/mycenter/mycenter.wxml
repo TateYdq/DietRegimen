@@ -1,6 +1,6 @@
 <!--pages/mine/mycenter/mycenter.wxml-->
 <view>
-  <view class="amountBg">
+  <view wx:if="{{isLogin}}" class="amountBg">
     <view class="img"> 
       <image src="{{userAvatarUrl}}" style="width:49px;height:47px;"></image>
     </view>
@@ -10,10 +10,27 @@
     </view>
     <view class="nav"></view>
   </view>
+   <view wx:if="{{isLogin==false}}" class="amountBg">
+    <view class="img"> 
+      <image src="../../../imgs/icon/default_profile.png" style="width:49px;height:47px;"></image>
+    </view>
+    
+     <button
+  class="account"  
+    type="primary"
+    open-type="getUserInfo"
+    bindgetuserinfo='login'
+  >
+  点击登录
+  </button>
+    <view class="nav"></view>
+  </view>
 
-  <view class="content" hidden="{{isLogin == false}}">
-    <view class="order">
-      <view class="desc" bindtap="gotoFoodList">
+      
+
+  <view class="content" >
+     <!--<view class="order">
+       <view class="desc" bindtap="gotoFoodList">
         <view>
           <image src="../../../imgs/icon/qingdan.png" style='width:22px;height:25px;'></image>
         </view>
@@ -30,15 +47,15 @@
           <image src="../../../imgs/icon/shouchang.png" style='width:22px;height:25px;'></image>
         </view>
         <view>收藏疾病</view>
-      </view>
+      </view> 
         <view class="desc">
         <view>
           <image src="../../../imgs/icon/mingci.png" style='width:22px;height:25px;'></image>
         </view>
         <view>我的词云</view>
-      </view>
-    </view>
-    <view class="clear"></view>
+      </view> 
+    </view> -->
+    <!-- <view class="clear"></view> -->
     <view class="item" bindtap='setMyInfo'>
       <view class="icon">
         <image src="../../../imgs/icon/shezhi.png" style="width:22px;height:21px"></image>
@@ -50,17 +67,32 @@
         <text class="opr">填写疾病史</text>>
       </view>
     </view>
-  </view>
+  <view class="item" bindtap='gotoCollectFood'>
+        <view class="icon">
+          <image src="../../../imgs/icon/shouchang3.png" style="width:22px;height:21px"></image>
+        </view>
+        <view class="itemName">
+          <view>收藏食物</view>
+        </view>
+        <view class="right">
+          <text class="opr">查看食物</text>>
+        </view>
+      </view>
+     <view class="item" bindtap='gotoCollectDisease'>
+        <view class="icon">
+          <image src="../../../imgs/icon/shouchang.png" style="width:22px;height:21px"></image>
+        </view>
+        <view class="itemName">
+          <view>收藏健康信息</view>
+        </view>
+        <view class="right">
+          <text class="opr">了解疾病</text>>
+        </view>
+      </view>
+    </view>
 </view>
 <!-- <button wx:else open-type="getUserInfo" bindgetuserinfo='login' >用户授权</button> -->
 
 <!-- <view  padding> -->
-  <button
-  class="show"  style='display:{{isLogin == false?"block":none}}'
-    type="primary"
-    open-type="getUserInfo"
-    bindgetuserinfo='login'
-  >
-  点击登录
-  </button>
+  
 <!-- </view> -->

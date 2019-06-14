@@ -20,6 +20,7 @@ type UserInfo struct{
 	Keywords string `json:"keywords"`
 	OpenID string `json:"open_id"`
 	UserScore int `json:"user_score"`
+	NoAttention int `json:"no_attention"`
 	UpdateTime string `json:"update_time"`
 }
 

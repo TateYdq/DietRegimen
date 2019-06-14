@@ -148,11 +148,15 @@ Page({
   },
   wussFormSubmit(e) {
     console.log('提交了:', e.detail);
+    var i = 0
+    if(e.detail.isVip == false){
+      i = 1
+    }
     var diseasesFocusStr = ""
     for (var i = 0; i < e.detail.diseasesFocus.length;i++){
       diseasesFocusStr += e.detail.diseasesFocus[i].text+";"
     }
-    apiRequest.updateUserInfo(e.detail.userName,e.detail.age,e.detail.gender,diseasesFocusStr,this.callbackSubmit)
+    apiRequest.updateUserInfo(e.detail.userName,e.detail.age,e.detail.gender,diseasesFocusStr,i,this.callbackSubmit)
   },
   wussFormReset(e) {
     console.log('重置了:', e.detail);

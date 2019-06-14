@@ -9,10 +9,27 @@ Page({
    * 页面的初始数据
    */
   data: {
-    id:null,
+    id: null,
     diseaseInfo: {},
     collected: false,
-    localImagePath: null
+    localImagePath: null,
+    localVoicePath: null,
+    isPlay: false,
+    currentPostId: null,
+  },
+  registerAudioContext: function () {
+    this.innerAudioContext = wx.createInnerAudioContext()
+    this.innerAudioContext.src = this.data.localVoicePath
+    this.innerAudioContext.onPlay(() => {
+      console.log('开始播放')
+    })
+    this.innerAudioContext.onError((res) => {
+      console.log(res.errMsg)
+      console.log(res.errCode)
+    })
+    this.innerAudioContext.onEnded((res)=>{
+      this.setData({ isPlay: false });
+    })
   },
 
   /**
@@ -23,12 +40,17 @@ Page({
     this.setData({
       id: dID
     })
+
+    
     apiRequest.getDiseaseDetails(dID, this.callbackGetDetails)
     //收藏按钮、分享按钮、语言按钮---------------------------
     var postId = dID;
-    this.data.currentPostId = postId;
-    this.data.isPaly = false;
+    this.setData({
+      currentPostId: postId,
+      isPlay: false
+    })
     apiRequest.isCollectedDisease(dID, this.isCollectCallback)
+    this.registerAudioContext();
     // var postCollected = wx.getStorageSync('postCollected');
     // if (postCollected) { //取到缓存,设置相应的状态
     //   var collection = postCollected[postId];
@@ -39,7 +61,20 @@ Page({
     //   wx.setStorageSync('postCollected', postCollected);
     // }
   },
-
+  registerAudioContext: function () {
+    this.innerAudioContext = wx.createInnerAudioContext()
+    this.innerAudioContext.src = this.data.localVoicePath
+    this.innerAudioContext.onPlay(() => {
+      console.log('开始播放')
+    })
+    this.innerAudioContext.onError((res) => {
+      console.log(res.errMsg)
+      console.log(res.errCode)
+    })
+    this.innerAudioContext.onEnded((res) => {
+      this.setData({ isPlay: false });
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */
@@ -93,6 +128,7 @@ Page({
       this.setData({
         diseaseInfo: res["disease_detail"]
       });
+      cache.setDiseaseInfo(this.data.id, res["disease_detail"])
     } else if (res.code == 4003) {
 
     } else {
@@ -112,13 +148,29 @@ Page({
     } else {
       apiRequest.getImage(0,this.data.id, this.data.diseaseInfo["photo_path"], this.getImageCallback)
     }
+    var file = cache.getDiseaseVoiceValue(this.data.id)
+    if (file) {
+      this.setData({
+        localVoicePath: file
+      });
+    } else {
+      apiRequest.downloadVoice(this.data.id, this.data.diseaseInfo["voice_path"], this.getVoiceCallback)
+    }
   },
-  getImageCallback: function (i, id, res) {
+  getImageCallback: function (id, res) {
     if (res.path) {
       this.setData({
         localImagePath: res.path
       });
       cache.setDiseaseImage(id,res.path)
+    }
+  },
+  getVoiceCallback: function (id, res) {
+    if (res.tempFilePath) {
+      this.setData({
+        localVoicePath: res.tempFilePath
+      });
+      cache.setDiseaseVoice(id, res.tempFilePath)
     }
   },
 
@@ -173,12 +225,15 @@ Page({
   },
   // 播放语音btn
   onMusicTap: function (event) {
+    this.innerAudioContext.src = this.data.localVoicePath
     var isPlayed = this.data.isPlay;//正在播放true
     if (isPlayed) {
       //暂停播放（或者关闭音乐：下次从头播放）
       //……
+      this.innerAudioContext.pause()
       this.setData({ isPlay: false });
     } else {
+      this.innerAudioContext.play()
       //开始播放
       //……
       this.setData({ isPlay: true });

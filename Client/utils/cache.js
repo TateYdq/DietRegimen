@@ -1,8 +1,14 @@
 var diseaseImageKeyStr = "disease_{id}_image" 
 var diseaseInfoKeyStr = "disease_{id}_info"
+var diseaseVoiceKeyStr = "disease_{id}_voice"
 
 var foodImageKeyStr = "food_{id}_image"
 var foodInfoKeyStr = "food_{id}_info"
+var foodVoiceKeyStr = "food_{id}_voice"
+
+
+var questionInfoKyeStr = "question_{id}_info"
+var questionAnswerdKeyStr = "question_{id}_ans"
 String.prototype.format = function (args) {
   var result = this;
   if (arguments.length < 1) {
@@ -21,6 +27,50 @@ String.prototype.format = function (args) {
     }
   }
   return result;
+}
+
+function isQuestionAnswered(id){
+  console.log("clear")
+  var key = questionAnswerdKeyStr.format({ 'id': id })
+  try {
+    var value = wx.getStorageSync(key)
+    if(value){
+      return true
+    }else{
+      return false
+    }
+  } catch (e) {
+    console.log(e)
+    return false
+  }
+}
+
+function clearAllQuestion(){
+  for(var i = 1;i < 100;i++){
+    var key = questionAnswerdKeyStr.format({ 'id': i })
+    // console.log("key:"+key)
+    wx.removeStorage({
+      key: 'key',
+    })
+  }
+}
+
+function removeAnswer(id){
+  var key = questionAnswerdKeyStr.format({ 'id': id })
+  try {
+    wx.removeStorageSync(key)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function answerQuestion(id) {
+  var key = questionAnswerdKeyStr.format({ 'id': id })
+  try {
+    wx.setStorageSync(key, "true")
+  } catch (e) {
+    console.log(e)
+  }
 }
 
 function setFoodImage(id, value) {
@@ -63,6 +113,46 @@ function getDiseaseImageValue(id){
   }
 }
 
+function setDiseaseVoice(id, value) {
+  var diseaseVoiceKey = diseaseVoiceKeyStr.format({ 'id': id })
+  try {
+    wx.setStorageSync(diseaseVoiceKey, value)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function getDiseaseVoiceValue(id) {
+  var diseaseVoiceKey = diseaseVoiceKeyStr.format({ 'id': id })
+  try {
+    var value = wx.getStorageSync(diseaseVoiceKey)
+    return value
+  } catch (e) {
+    console.log(e)
+    // Do something when catch error
+  }
+}
+
+function setFoodVoice(id, value) {
+  var foodVoiceKey = foodVoiceKeyStr.format({ 'id': id })
+  try {
+    wx.setStorageSync(foodVoiceKey, value)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function getFoodVoiceValue(id) {
+  var foodVoiceKey = foodVoiceKeyStr.format({ 'id': id })
+  try {
+    var value = wx.getStorageSync(foodVoiceKey)
+    return value
+  } catch (e) {
+    console.log(e)
+    // Do something when catch error
+  }
+}
+
 function setDiseaseInfo(id, value) {
   var diseaseInfoKey = diseaseInfoKeyStr.format({ 'id': id })
   try {
@@ -73,7 +163,7 @@ function setDiseaseInfo(id, value) {
   }
 }
 
-function getDiseaseInfo(){
+function getDiseaseInfo(id){
   var diseaseInfoKey = diseaseInfoKeyStr.format({ 'id': id })
   try {
     var newvalue = wx.getStorageSync(diseaseInfoKey)
@@ -85,12 +175,46 @@ function getDiseaseInfo(){
   }
 }
 
+function setFoodInfo(id, value) {
+  var foodInfoKey = foodInfoKeyStr.format({ 'id': id })
+  try {
+    var newvalue = JSON.stringify(value)
+    wx.setStorageSync(foodInfoKey, newvalue)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function getFoodInfo(id) {
+  var foodInfoKey = foodInfoKeyStr.format({ 'id': id })
+  try {
+    var newvalue = wx.getStorageSync(foodInfoKey)
+    var value = JSON.parse(newvalue)
+    return value
+  } catch (e) {
+    console.log(e)
+    // Do something when catch error
+  }
+}
+
 module.exports = {
   setFoodImage: setFoodImage,
   getFoodImageValue: getFoodImageValue,
+  setFoodInfo: setFoodInfo,
+  getFoodInfo: getFoodInfo,
+
+  setDiseaseVoice: setDiseaseVoice,
+  getDiseaseVoiceValue: getDiseaseVoiceValue,
+  setFoodVoice: setFoodVoice,
+  getFoodVoiceValue: getFoodVoiceValue,
 
   setDiseaseImage: setDiseaseImage,
   getDiseaseImageValue: getDiseaseImageValue,
   setDiseaseInfo: setDiseaseInfo,
   getDiseaseInfo: getDiseaseInfo,
+
+  isQuestionAnswered: isQuestionAnswered,
+  answerQuestion: answerQuestion,
+  removeAnswer: removeAnswer,
+  clearAllQuestion: clearAllQuestion,
 }
