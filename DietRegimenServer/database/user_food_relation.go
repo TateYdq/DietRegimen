@@ -1,6 +1,7 @@
 package database
 
 import (
+	"github.com/TateYdq/DietRegimen/DietRegimenServer/utils"
 	"github.com/sirupsen/logrus"
 )
 
@@ -32,7 +33,7 @@ func AddUserAndFoodScore(userID int,foodID int,score int)(err error){
 	if count == 0{
 		CreateUserAndFoodScore(userID,foodID)
 	}
-	err = DrDatabase.Raw("update user_food_relation set score = score + ? where user_id = ? and food_id = ? ",score,userID,foodID).Error
+	err = DrDatabase.Exec("update user_food_relation set score = score + ? where user_id = ? and food_id = ? ",score,userID,foodID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("AddUserAndFoodScore,userID:%v,foodID:%v",userID,foodID)
 	}
@@ -42,19 +43,30 @@ func AddUserAndFoodScore(userID int,foodID int,score int)(err error){
 
 func GetRecFoodByUserID(userID int)(foodInfo[] FoodInfo,err error){
 	var relations []UserFoodRelation
-	err = DrDatabase.Model(UserFoodRelation{}).Where("user_id = ? ",userID).Order("score desc").Scan(&relations).Error
-	if err != nil {
-		logrus.WithError(err).Errorf("GetRecFoodByUserID,userID:%v",userID)
+	var count int
+	db := DrDatabase.Model(UserFoodRelation{}).Where("user_id = ? ",userID).Order("score desc").Count(&count)
+	if count < 3{
+		err = DrDatabase.Model(FoodInfo{}).Order("collect_count desc").Limit(utils.RecNum).Scan(&foodInfo).Error
+		if err != nil {
+			logrus.WithError(err).Errorf("GetRecFoodByUserID,userID:%v",userID)
+		}
 		return foodInfo,err
-	}
-	var foodIDs []int
-	for _,relation := range relations{
-		foodIDs = append(foodIDs, relation.FoodID)
-	}
+	}else{
+		err := db.Limit(utils.RecNum).Scan(&relations).Error
+		if err != nil {
+			logrus.WithError(err).Errorf("GetRecFoodByUserID,userID:%v",userID)
+			return foodInfo,err
+		}
+		var foodIDs []int
+		for _,relation := range relations{
+			foodIDs = append(foodIDs, relation.FoodID)
+		}
 
-	err = DrDatabase.Model(FoodInfo{}).Where("food_id in (?)",foodIDs).Scan(&foodInfo).Error
-	if err != nil {
-		logrus.WithError(err).Errorf("GetRecFoodByUserID,userID:%v",userID)
+		err = DrDatabase.Model(FoodInfo{}).Where("food_id in (?)",foodIDs).Scan(&foodInfo).Error
+		if err != nil {
+			logrus.WithError(err).Errorf("GetRecFoodByUserID,userID:%v",userID)
+		}
+		return foodInfo,err
+
 	}
-	return foodInfo,err
 }

@@ -169,7 +169,7 @@ func AddUserScore(userID int,score int)(err error){
 	}else{
 		return nil
 	}
-	err = DrDatabase.Raw("update user_info set user_score = user_score + ? where user_id = ? ",score,userID).Error
+	err = DrDatabase.Exec("update user_info set user_score = user_score + ? where user_id = ? ",score,userID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("AddUserAndFoodScore,userID:%v",userID)
 	}

@@ -21,8 +21,8 @@
 			</block>
 		</swiper>
     <!-- 推荐列表 -->
-		<view class="section section-big discount">
-			<view class="title">每日推荐</view>
+		<view class="section section-big discount" hidden='{{isLogin == false}}'>
+			<view class="title">为您推荐</view>
         <!-- 推荐列表 -->
       <!-- <view class='content'>
         <block wx:for="{{foodKindArray}}" wx:key="kindID">
@@ -45,20 +45,20 @@
         </block>  
       </view>    -->
       <view class='content'>
-        <block wx:for="{{foodArray}}" wx:key="id">
-          <view class='item' bindtap='seeRecDetail'>
+        <block wx:for="{{foodArray}}" wx:key="food_id">
+          <view class='item' bindtap='seeRecDetail' id="{{item.food_id}}">
             <view>
-              <image src="{{item.photoPath}}" style=''> </image>
+              <image src="{{item.localImagePath}}" style=''> </image>
             </view>
             <view class='desc'>
               <view class="above">
-                <view class="title2">{{item.kindName}}</view>
+                <view class="title2">{{item.name}}</view>
                 <view class="count2">
-                  <view class="browse">{{item.viewCount}} 浏览</view>
-                  <view class="collect">{{item.collectCount}} 收藏</view>
+                  <view class="browse">{{item.view_count}} 浏览</view>
+                  <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{item.kindInfo}}</view>
+                <view class="below">{{item.info}}</view>
             </view>
           </view>  
           <!-- <view class="hr2"></view> -->
@@ -73,20 +73,20 @@
 		<view class="section section-big discount">
 			<view class="title">每日新闻</view>
       <view class='content'>
-        <block wx:for="{{newsArray}}" wx:key="id">
-          <view class='item' bindtap='seeNewsDetail'>
+        <block wx:for="{{newsArray}}" wx:key="food_id">
+          <view class='item' bindtap='seeNewsDetail' id="{{item.food_id}}">
             <view>
-              <image src="{{item.photoPath}}" style=''> </image>
+              <image src="{{item.localImagePath}}" style=''> </image>
             </view>
             <view class='desc'>
               <view class="above">
-                <view class="title2">{{item.kindName}}</view>
+                <view class="title2">{{item.name}}</view>
                 <view class="count2">
-                  <view class="browse">{{item.viewCount}} 浏览</view>
-                  <view class="collect">{{item.collectCount}} 收藏</view>
+                  <view class="browse">{{item.view_count}} 浏览</view>
+                  <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{item.kindInfo}}</view>
+                <view class="below">{{item.info}}</view>
             </view>
           </view>  
         </block>  
