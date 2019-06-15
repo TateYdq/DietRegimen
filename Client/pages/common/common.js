@@ -84,7 +84,7 @@ Page({
       wx.showToast({
         title: '评论成功',
         icon: 'success',
-        duration: 1000,
+        duration: 2000,
       })
       wx.navigateBack({
         delta: 1

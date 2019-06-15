@@ -35,6 +35,7 @@ name varchar(50),
 disease_kind  varchar(50),
 info text, #疾病介绍
 taboo text,  #禁忌
+recommend_food text,
 photo_path  varchar(50) ,#疾病图片路径，只有一张
 voice_path varchar(50),
 view_count bigint,

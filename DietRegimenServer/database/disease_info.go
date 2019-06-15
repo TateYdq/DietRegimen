@@ -15,6 +15,7 @@ type DiseaseInfo struct{
 	DiseaseKind string `json:"disease_kind"`
 	Info string `json:"info"`
 	Taboo string `json:"taboo"`
+	RecommendFood string `json:"recommend_food"`
 	PhotoPath string `json:"photo_path"`
 	VoicePath string `json:"voice_path"`
 	ViewCount int `json:"view_count"`

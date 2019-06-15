@@ -116,7 +116,7 @@ Page({
   },
   tapSearch: function () {
     var value = this.data.searchValue
-    console.log(value)
+    // console.log(value)
     for (var i = 0; i < this.data.diseaseArray.length; i++) {
       if (value == "" || this.isExists(value, this.data.diseaseArray[i])) {
         var param = {}
@@ -201,7 +201,7 @@ Page({
         param[string] = res.path;
         this.setData(param);
         cache.setDiseaseImage(id, res.path)
-        console.log(this.data.diseaseArray[i].localImagePath)
+        // console.log(this.data.diseaseArray[i].localImagePath)
       }
   },
   seeDetail: function (e) {

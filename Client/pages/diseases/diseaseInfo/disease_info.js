@@ -2,7 +2,7 @@
 // const static_data = require("../../../utils/static_data.js")
 const apiRequest = require("../../../utils/api_request.js")
 const cache = require("../../../utils/cache.js")
-
+const app = getApp()
 Page({
 
   /**
@@ -13,46 +13,46 @@ Page({
     diseaseInfo: {},
     collected: false,
     localImagePath: null,
-// <<<<<<< HEAD
-    commonList: [
-      {
-        id: 1,
-        userPhoto: '../../../imgs/images/author.jpg',
-        userName: '曹总',
-        contant: '这篇文章是我写的！',
-        lytime: '2019-6-15 18:19:57',
-        replyUserName: ""
-        // collectCount: 65,
-        // kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
-      },
-      {
-        id: 2,
-        userPhoto: '../../../imgs/images/comment2.jpg',
-        userName: 'CFO',
-        contant: '曹总的文章写的真好，夸!',
-        lytime: '2019-6-15 18:19:57',
-        replyUserName: ''
-        // collectCount: 69,
-        // kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
-      }, {
-        id: 3,
-        userPhoto: '../../../imgs/images/comment3.jpg',
-        userName: '王老板',
-        contant: '曹总辛苦了!',
-        lytime: '2019-6-15 18:19:57',
-        replyUserName: ''
-        // collectCount: 15,
-        // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
-      }, {
-        id: 4,
-        userPhoto: '../../../imgs/images/comment4.jpg',
-        userName: '余博士',
-        contant: '国际交互设计集团的大家都辛苦了！',
-        lytime: '2019-6-15 18:19:57'
-        // collectCount: 15,
-        // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
-      }
-    ], 
+    commentList:[],
+    // commentList: [
+    //   {
+    //     id: 1,
+    //     userPhoto: '../../../imgs/images/author.jpg',
+    //     userName: '曹总',
+    //     contant: '这篇文章是我写的！',
+    //     lytime: '2019-6-15 18:19:57',
+    //     replyUserName: ""
+    //     // collectCount: 65,
+    //     // kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
+    //   },
+    //   {
+    //     id: 2,
+    //     userPhoto: '../../../imgs/images/comment2.jpg',
+    //     userName: 'CFO',
+    //     contant: '曹总的文章写的真好，夸!',
+    //     lytime: '2019-6-15 18:19:57',
+    //     replyUserName: ''
+    //     // collectCount: 69,
+    //     // kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
+    //   }, {
+    //     id: 3,
+    //     userPhoto: '../../../imgs/images/comment3.jpg',
+    //     userName: '王老板',
+    //     contant: '曹总辛苦了!',
+    //     lytime: '2019-6-15 18:19:57',
+    //     replyUserName: ''
+    //     // collectCount: 15,
+    //     // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
+    //   }, {
+    //     id: 4,
+    //     userPhoto: '../../../imgs/images/comment4.jpg',
+    //     userName: '余博士',
+    //     contant: '国际交互设计集团的大家都辛苦了！',
+    //     lytime: '2019-6-15 18:19:57'
+    //     // collectCount: 15,
+    //     // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
+    //   }
+    // ], 
 // =======
     localVoicePath: null,
     isPlay: false,
@@ -146,15 +146,40 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-    apiRequest.getFoodComment(this.data.id, this.getCommentCallback)
+    apiRequest.getDiseaseComment(this.data.id, this.getCommentCallback)
   },
   getCommentCallback: function (res) {
     if (res.code == 2000) {
-      console.log("get comment res:")
-      console.log(res)
       this.setData({
-        commonList: res['comment_list']
+        commentList: res['comment_list']
       })
+      if (res.comment_list == null) {
+        return
+      }
+      for (var i = 0; i < this.data.commentList.length; i++) {
+        var id = this.data.commentList[i].user_id
+        var value = cache.getUserImageValue(id)
+        if (value) {
+          var param = {};
+          var string = "commentList[" + i + "].userRealPath";
+          param[string] = value;
+          this.setData(param);
+        } else {
+          var path = this.data.commentList[i]["user_image_path"]
+          apiRequest.getImage(i, id, path, this.getUserImageCallback)
+        }
+      }
+
+    }
+  },
+  getUserImageCallback: function (i, id, res) {
+    if (res.path) {
+      var param = {};
+      var string = "commentList[" + i + "].userRealPath";
+      param[string] = res.path;
+      this.setData(param);
+      cache.setUserImage(id, res.path)
+      // console.log(this.data.commentList[i].user_image_path)
     }
   },
   /**
@@ -198,14 +223,14 @@ Page({
       });
       cache.setDiseaseInfo(this.data.id, res["disease_detail"])
     } else if (res.code == 4003) {
-
+      wx.showToast({
+        title: '没有登录',
+        duration: 2000,
+      })
     } else {
       wx.showToast({
         title: '失败',
-        icon: 'fail',
-        image: '',
         duration: 2000,
-        mask: false,
       })
     }
     var value = cache.getDiseaseImageValue(this.data.id)
