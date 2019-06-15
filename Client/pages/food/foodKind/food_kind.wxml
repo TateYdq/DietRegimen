@@ -83,27 +83,6 @@
     <!-- 推荐列表 -->
 		<view class="section section-big discount" hidden='{{isLogin == false}}'>
 			<view class="title">为您推荐</view>
-        <!-- 推荐列表 -->
-      <!-- <view class='content'>
-        <block wx:for="{{foodKindArray}}" wx:key="kindID">
-          <view class='item' bindtap='seeFoodLists' id="{{item.kindName}}">
-            <view>
-              <image src="{{item.photoPath}}" style=''> </image>
-            </view>
-            <view class='desc'>
-              <view class="above">
-                <view class="title2">{{item.kindName}}</view>
-                <view class="count2">
-                  <view class="browse">{{item.viewCount}}浏览</view>
-                  <view class="collect">{{item.collectCount}}收藏</view>
-                </view>
-              </view>
-                <view class="below">{{item.kindInfo}}</view>
-            </view>
-          </view>  
-          <view class="hr2"></view>
-        </block>  
-      </view>    -->
       <view class='content'>
         <block wx:for="{{foodArray}}" wx:key="food_id">
           <view class='item' hidden="{{item.hidden}}" bindtap='seeRecDetail' id="{{item.food_id}}">
@@ -118,7 +97,7 @@
                   <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{fn.substring(item.info,0,30)}}</view>
+                <view class="below">功效：{{fn.substring(item.info,0,30)}}</view>
             </view>
           </view>  
           <!-- <view class="hr2"></view> -->

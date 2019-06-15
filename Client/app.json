@@ -1,9 +1,11 @@
 {
-  "pages": [
+  "pages": [   
     "pages/food/foodKind/food_kind",
     "pages/food/foodList/food_list",
     "pages/index/index",
     "pages/logs/logs",
+    "pages/common/common",
+    "pages/test/test",  
     "pages/food/foodInfo/food_info",
     "pages/mine/mycenter/mycenter",
     "pages/mine/myinfo/myinfo",
@@ -11,9 +13,8 @@
     "pages/mine/collectDisease/collect_disease",
     "pages/diseases/diseaseList/disease_list",
     "pages/diseases/diseaseInfo/disease_info",
-    "pages/questionnaire/questionnaire",
-    "pages/login/login"
-    
+    "pages/login/login",
+    "pages/questionnaire/questionnaire"
   ],
   "window": {
     "backgroundTextStyle": "light",

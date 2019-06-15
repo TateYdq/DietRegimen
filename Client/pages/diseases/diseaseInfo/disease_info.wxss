@@ -86,106 +86,66 @@
 
 /* 文章内容 */
 .details-content{
-    margin:20rpx 30rpx 0;
+    margin:30rpx 55rpx 50rpx;
     color:#666;
-    letter-spacing: 2px;
+    /* letter-spacing: 2px; */
     line-height: 44rpx;
 }
 
 text{
      /* font-family: Microsoft YaHei; */
-     font-size:24rpx;
+     font-size:30rpx;
 }
 
+.headimg{
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+}
 
-/* .nav{
-    display: flex;
-    flex-direction: row;
-    background-color: #222222;
+.headimg image{
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
 }
-.select{
-    width: 32%;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    color: #ffffff;
-    font-size: 13px;
-    border-bottom: 8px solid #777777;
+.liuyanview{
+  width: 90%;
+  margin: 10px auto;
 }
-.normal{
-    width: 32%;
-    height: 30px;
-    line-height: 30px;
-    text-align: center;
-    color: #ffffff;
-    font-size: 13px;
+/* 留言 */
+.nickname_liuyantext{
+  width: calc(100% - 55px);
+  float: right;
+  margin-top:-45px;
 }
-.line{
-    height: 30px;
-    line-height: 30px;
-    font-size:15px; 
-    color: #666666;
+/* 留言用户名 */
+.nickname_liuyantext .nickname{
+  font-size: 15px;
+  color: #999;
 }
-.diseaseInfo{
-    display: flex;
-    flex-direction:row;
-    margin: 15px; 
+
+/* 留言时间 */
+.nickname_liuyantext .nickname .time{
+  font-size: 11px;
+  color: #999;
+  float: right;
 }
-.detail{
-    margin-left:15px;
-    font-size: 13px;
+/* 留言内容 */
+.nickname_liuyantext .comtext{
+  font-size: 16px;
+  color: #666;
 }
-.detail view{
-    margin-bottom: 7px;
+
+/* 详细信息部分----------------------------------- */
+.tag-box{
+  margin:10rpx 50rpx;
+  padding: 30rpx;
+  color:rgb(182, 182, 182);
+  font-size: 18rpx;
+  letter-spacing: 2rpx;
+  border: 1rpx solid #e8e8e8;
 }
-.score{
-   color:#FC7F60;
+.tag-title{
+  /* font-style:bold; */
+  font-weight: 800;
 }
-.desc{
-    font-weight: bold;
-}
-.voice{
-  text-align: left;
-  font-size: 12px;
-}
-.rec{
-    width: 155px;
-    height:40px;
-    line-height: 40px;
-    background-color: #2DADDC;
-    text-align: center;
-    color: #ffffff;
-}
-.opr{
-    display: flex;
-    flex-direction: row;
-}
-.opr view{
-    width: 45%;
-    height: 40px;
-    line-height: 40px;
-    margin: 0 auto;
-    background-color: #EEEEEE;
-    font-size: 13px;
-    text-align: center;
-    border-radius: 3px;
-}
-.intro{
-    background-color: #F1F1F1;
-    margin: 10px;
-    font-size: 13px;
-    padding: 10px;
-    line-height: 15px;
-}
-.personInfo{
-    display: flex;
-    flex-direction:row;
-    margin: 15px;
-    background-color: #F1F1F1;
-}
-.name{
-    font-size: 14px;
-    font-weight: bold;
-    line-height: 100px;
-    margin-left: 10px;
-} */

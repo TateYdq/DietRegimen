@@ -1,0 +1,40 @@
+/* pages/common/common.wxss */
+.section-big .title:before {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -200rpx;
+	width: 120rpx;
+	height: 1rpx;
+	background: #000;
+}
+.section-big .title:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: 100rpx;
+	width: 120rpx;
+	height: 1rpx;
+	background: #000;
+}
+.input-list{
+  /* padding:0 30rpx; */
+}
+.inputBox{
+  justify-content: center; 
+  display:flex;
+}
+.input-list textarea{
+  /* padding:10rpx 30rpx 20rpx 25rpx; */
+  width: 90%;
+	height: 150rpx;
+	border: 1rpx solid #e8e8e8;
+  font-size: 30rpx;
+}
+
+.btn{
+  margin-top:5px;
+  width: 90%;
+}
