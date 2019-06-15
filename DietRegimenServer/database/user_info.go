@@ -20,6 +20,7 @@ type UserInfo struct{
 	Keywords string `json:"keywords"`
 	OpenID string `json:"open_id"`
 	UserScore int `json:"user_score"`
+	NoAttention int `json:"no_attention" gorm:"default:0"`
 	UpdateTime string `json:"update_time"`
 }
 
@@ -86,6 +87,7 @@ func CreateUserByOpenID(openID string,name string,gender string,userImagePath st
 		Name: name,
 		Gender: gender,
 		Age: 60,
+		NoAttention:0,
 		UserImagePath: userImagePath,
 	}
 	err = DrDatabase.Model(UserInfo{}).Create(&newUserInfo).Error
@@ -115,6 +117,7 @@ func UpdateUserInfo(userInfo UserInfo)(err error){
 		return errors.New("userID is equals to 0")
 	}
 	record := utils.ScanStruct(userInfo,[]string{"userID"})
+	record["no_attention"] = userInfo.NoAttention
 	err = DrDatabase.Model(UserInfo{}).Where("user_id = ?",userInfo.UserID).Updates(record).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("updateUserInfo err,userID:%v",userInfo.UserID)

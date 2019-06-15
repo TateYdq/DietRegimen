@@ -27,7 +27,6 @@
     <view>推荐食物</view>
     <view class="right"></view>
   </view>
-
   <view class="list">
     <block wx:for="{{foodArray}}" wx:key="foodID">
       <view class='item' bindtap='seeDetail' id="{{item.foodID}}">

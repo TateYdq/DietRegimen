@@ -176,7 +176,7 @@ func GetFoodIDByFoodName(foodName string)(int){
 
 
 func DecreaseFoodCollectCount(foodID int){
-	err := DrDatabase.Exec("update food_info set collect_count = collect_count-1 where food_id = ?",foodID).Error
+	err := DrDatabase.Exec("update food_info set collect_count = collect_count-1 where food_id = ? and collect_count > 0",foodID).Error
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,foodID = %v",foodID)
 	}

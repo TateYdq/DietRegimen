@@ -11,11 +11,11 @@ Page({
     userNameRules: {
     maxLength: {
       value: 10,
-      message: '姓名最多6个字',
+      message: '姓名最多10个字',
     },
     minLength: {
-      value: 3,
-      message: '姓名最少三个字',
+      value: 1,
+      message: '姓名最少1个字',
     },
     },
     isRequired: {
@@ -41,7 +41,7 @@ Page({
         text: '老年痴呆症',
       },
       {
-        text: '骨质疏松症',
+        text: '骨质疏松',
       },
       {
         text: '冠心病',
@@ -148,11 +148,15 @@ Page({
   },
   wussFormSubmit(e) {
     console.log('提交了:', e.detail);
+    var no_attenion = 0
+    if(e.detail.isVip == false){
+      no_attenion = 1
+    }
     var diseasesFocusStr = ""
     for (var i = 0; i < e.detail.diseasesFocus.length;i++){
       diseasesFocusStr += e.detail.diseasesFocus[i].text+";"
     }
-    apiRequest.updateUserInfo(e.detail.userName,e.detail.age,e.detail.gender,diseasesFocusStr,this.callbackSubmit)
+    apiRequest.updateUserInfo(e.detail.userName, e.detail.age, e.detail.gender, diseasesFocusStr, no_attenion,this.callbackSubmit)
   },
   wussFormReset(e) {
     console.log('重置了:', e.detail);

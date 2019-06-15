@@ -112,11 +112,13 @@ scroll-view {
 /* 每日推荐的列表内容 */
 .discount .content {
   padding-top: 30rpx;
+  padding-bottom: 30rpx;
   /* margin-top: 45rpx; */
   margin-bottom: 80rpx;
   /* padding-left: 20rpx; */
 	width: 100%;
-	height: 650rpx;
+  height: 100%;
+	/* height: 650rpx; */
   font-size: 20rpx; 
   /* background: burlywood; */
   -webkit-box-shadow: 0px 5px 30px -10px rgb(185, 185, 185);
@@ -235,4 +237,133 @@ scroll-view {
 	height: auto;
 	max-width: 100%;
 	max-height: 100%;
+}
+
+.quesContainer{
+	height: 100%;
+  margin: 0rpx 70rpx;
+  justify-content: center; 
+  /* background: rgb(197, 209, 219); */ 
+  display:flex;
+  align-items:center;
+}
+.quesBox{
+  width:100%;
+  border-radius: 30rpx;
+  background: white;
+  padding-top: 50rpx;
+  padding-bottom: 50rpx;
+  -webkit-box-shadow: 0px 5px 30px -10px rgb(185, 185, 185);
+  border: 1rpx solid rgb(216, 216, 216);
+}
+.ques-title{
+  padding:20rpx 80rpx;
+  font-size: 37rpx;
+  /* text-align: left; */
+  text-align: center;
+  /* background: red; */
+}
+.section-big .title:before {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -200rpx;
+	width: 120rpx;
+	height: 1rpx;
+	background: #000;
+}
+.section-big .title:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: 100rpx;
+	width: 120rpx;
+	height: 1rpx;
+	background: #000;
+}
+/* 选项 */
+.options{
+  padding: 30rpx 100rpx;
+  display: flex;
+  font-size: 33rpx;
+}
+/*分割线样式*/
+.divLine{
+  background: #E0E3DA;
+  width: 70%;
+  height: 5rpx;
+  text-align: center; 
+  margin-bottom: 30rpx;
+}
+.btn{
+  padding-top: 30rpx;
+    display: flex;
+    flex-direction: row;
+    font-size: 25rpx;
+    color: #999999;
+    justify-content: center; 
+}
+.arraw{
+	height: 50rpx;
+  padding:0rpx 100rpx;
+  font-size:30rpx;
+	/* vertical-align: center; */
+  /* padding-right: 10rpx; */
+}
+.arraw .a1{
+  width: 100rpx;
+  position: absolute;
+  /* width: 80rpx; */
+}
+.shuLine{
+  width: 5rpx;
+  background-color: #D8D8D8;
+}
+.arraw .a2{
+  width: 100rpx;
+  position: absolute;
+  /* width: 80rpx; */
+  margin-left: auto;
+}
+.count2{
+
+}
+.browse{
+    position: absolute;
+    right: 70px;
+    
+}
+.collect{
+    position: absolute;
+    right: 10px;
+}
+
+/* ----------------------------------------- */
+
+/*  重写 radio 样式  */
+/* 未选中的 背景样式 */
+radio .wx-radio-input{
+   border-radius: 50%;/* 圆角 */
+   width: 40rpx;
+   height: 40rpx;
+}
+/* 选中后的 背景样式 （红色背景 无边框 可根据UI需求自己修改） */
+radio .wx-radio-input.wx-radio-input-checked{
+   border: none;
+   background: red;
+}
+/* 选中后的 对勾样式 （白色对勾 可根据UI需求自己修改） */
+radio .wx-radio-input.wx-radio-input-checked::before{
+   border-radius: 50%;/* 圆角 */
+   width: 40rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+   height: 40rpx; /* 选中后对勾大小，不要超过背景的尺寸 */
+   line-height: 40rpx;
+   text-align: center;
+   font-size:30rpx; /* 对勾大小 30rpx */
+   color:#fff; /* 对勾颜色 白色 */
+   background: transparent;
+   transform:translate(-50%, -50%) scale(1);
+   -webkit-transform:translate(-50%, -50%) scale(1);
 }

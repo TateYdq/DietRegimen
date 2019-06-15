@@ -1,4 +1,7 @@
 //app.js
+
+const cache = require("utils/cache.js")
+
 App({
   onLaunch: function () {
     // 展示本地存储能力
@@ -32,11 +35,14 @@ App({
         }
       }
     })
+    //定时1小时清除全部
+    setInterval(cache.clearAllQuestion,1000*60*60)
   },
   globalData: {
     userInfo: null,
     myUserInfo: null,
     localProfile: null,
-    isLogin:false
+    isLogin:false,
+    notQuestion:false
   }
 })

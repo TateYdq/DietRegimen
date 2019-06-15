@@ -1,6 +1,7 @@
 /*
 此页面为发起request请求页面
 */
+const cache = require("cache.js")
 const shema = 'https://'
 const domain='api.ydq6.com'
 const urlPrefix= shema + domain+'/DietRegimen/client'
@@ -45,8 +46,8 @@ const IsCollectedDiseaseUrl = urlPrefix + '/health/isCollected'
 const CancelCollectedDiseaseUrl = urlPrefix + '/health/cancelCollected'
 
 //推荐相关
-const GetQuestionnaire = urlPrefix + '/recommend/getQuestionnaire'
-const SubmitQuestionnaire = urlPrefix + '/recommend/submitQuestionnaire'
+const GetQuestionnaireUrl = urlPrefix + '/recommend/getQuestionnaire'
+const SubmitQuestionnaireUrl = urlPrefix + '/recommend/submitQuestionnaire'
 const GetRecInfoUrl = urlPrefix + '/recommend/getRecInfo'
 
 //文件相关
@@ -142,6 +143,21 @@ function isCollectedDisease(diseaseID,callback){
   getRequest(IsCollectedDiseaseUrl, array,callback)
 }
 
+function downloadVoice(id,path,callback){
+  if(path){
+    wx.downloadFile({
+      url: GetVoiceUrl+"?path="+path, //仅为示例，并非真实的资源
+      success(res) {
+        // 只要服务器有响应数据，就会把响应内容写入文件并进入 success 回调，业务需要自行判断是否下载到了想要的内容
+        if (res.statusCode === 200) {
+          console.log(res.tempFilePath)
+          callback(id, res)
+        }
+      }
+    })
+  }
+}
+
 function getFoodCategory(callback){
   getRequest(GetFoodCategoryUrl, null, callback)
 }
@@ -159,8 +175,13 @@ function getFoodListByKind(kind, callback){
   getRequest(SearchFoodUrl, array, callback)
 }
 
+
+
 function getFoodList(callback) {
   getRequest(SearchFoodUrl, null,callback)
+}
+function refreshFoodList(callback) {
+  getRequest(SearchFoodUrl, null, callback)
 }
 function getDiseasesLists(callback){
   getRequest(GetDiseasesListsUrl, null, callback)
@@ -176,15 +197,21 @@ function getDiseaseDetails(diseaseID,callback){
 function getRecInfo(callback){
   getRequest(GetRecInfoUrl, null, callback)
 }
+function getCollectFood(callback){
+  getRequest(GetCollectFoodUrl, null, callback)
+}
+function getCollectDisease(callback) {
+  getRequest(GetCollectDiseaseUrl, null, callback)
+}
 
-
-function updateUserInfo(name, age, gender, diseasesFocus, callback){
+function updateUserInfo(name, age, gender, diseasesFocus, noAttention,callback){
   var userInfo = {
     "user_info":{
       "name":name,
       "age":age,
       "gender":gender,
-      "diseases_focus": diseasesFocus
+      "diseases_focus": diseasesFocus,
+      "no_attention": noAttention,
     }
   }
   postRequest(UpdateUserInfoUrl,userInfo,callback)
@@ -217,6 +244,17 @@ function cancelCollectedDisease(diseaseID, callback) {
     "disease_id": diseaseID
   }
   getRequest(CancelCollectedDiseaseUrl, data, callback)
+}
+
+function getQuestionnaire(callback){
+  getRequest(GetQuestionnaireUrl, null, callback)
+}
+function submitQuestionnaire(question_id,answer,callback) {
+  var data={
+    "question_id": question_id,
+    "answer": answer,
+  }
+  postRequest(SubmitQuestionnaireUrl, data, callback)
 }
 
 function getImage(i,id,photoPath,callback){
@@ -301,7 +339,10 @@ module.exports = {
   getFoodList: getFoodList,
   getDiseasesLists: getDiseasesLists,
   getDiseaseDetails: getDiseaseDetails,
+
   getImage: getImage,
+  downloadVoice: downloadVoice,
+  
   updateUserInfo: updateUserInfo,
   collectDisease: collectDisease,
   collectFood: collectFood,
@@ -311,4 +352,9 @@ module.exports = {
   cancelCollectedDisease: cancelCollectedDisease,
 
   getRecInfo: getRecInfo,
+  getCollectFood: getCollectFood,
+  getCollectDisease: getCollectDisease,
+
+  submitQuestion: submitQuestionnaire,
+  getQuestion: getQuestionnaire,
 }

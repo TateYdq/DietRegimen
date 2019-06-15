@@ -8,32 +8,37 @@ Page({
   data: {
     isLogin:false,
     isRec:false,
-    foodKindArray: [],
-    foodArray:[
-      {
-        id:1,
-        photoPath: '../../../imgs/images/tuiList1.jpg',
-        kindName: '养生菇粥',
-        viewCount: 200,
-        collectCount:65,
-        kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
-      },
-      {
-        id: 2,
-        photoPath: '../../../imgs/images/tuiList2.jpg',
-        kindName: '养生汤品',
-        viewCount: 220,
-        collectCount: 69,
-        kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
-      }, {
-        id: 3,
-        photoPath: '../../../imgs/images/tuiList3.jpg',
-        kindName: '八宝养生饭',
-        viewCount: 150,
-        collectCount: 15,
-        kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
-      }
-    ], 
+    searchValue:"",
+    foodArray: [],
+    questionLists: [],
+    qvisible:false,
+    cquetsion:[],
+    shouldQuestion:true,
+    // foodArray:[
+    //   {
+    //     id:1,
+    //     photoPath: '../../../imgs/images/tuiList1.jpg',
+    //     kindName: '养生菇粥',
+    //     viewCount: 200,
+    //     collectCount:65,
+    //     kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
+    //   },
+    //   {
+    //     id: 2,
+    //     photoPath: '../../../imgs/images/tuiList2.jpg',
+    //     kindName: '养生汤品',
+    //     viewCount: 220,
+    //     collectCount: 69,
+    //     kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
+    //   }, {
+    //     id: 3,
+    //     photoPath: '../../../imgs/images/tuiList3.jpg',
+    //     kindName: '八宝养生饭',
+    //     viewCount: 150,
+    //     collectCount: 15,
+    //     kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
+    //   }
+    // ], 
     newsArray:[],
     // newsArray: [
     //   {
@@ -97,8 +102,61 @@ Page({
     //登录后没有推荐
     if(this.data.isLogin==true&&this.data.isRec==false){
       apiRequest.getRecInfo(this.callbackGetRec)
+      //设置时间间隔:2分钟一次
+      setInterval(this.questionPermit,1000*60*2)
     }
+    //显示问卷
+    this.putQuestion()
   }, 
+  questionPermit: function(){
+    this.setData({shouldQuestion:true})
+  },
+  submitCallback: function () {
+
+  },
+  radioChange: function (e) {
+    this.choice=e.detail.value
+    // console.log('radio发生change事件，携带value值为：', e)
+  },
+  handleCloseQ: function(e){
+    this.setData({
+      qvisible: false,
+      shouldQuestion: false,
+    })
+    if (this.choice == undefined||this.choice==""){
+      return
+    }
+    var id = e.target.id
+    var resp = this.choice
+    // console.log(e)
+    apiRequest.submitQuestion(id,resp,this.submitCallback)
+    cache.answerQuestion(id)
+  },
+  handleCancelQ: function(){
+    this.setData({
+      qvisible: false,
+    })
+  },
+  putQuestion: function(){
+    if(this.data.shouldQuestion && this.data.isLogin == true){
+      if (app.globalData.myUserInfo.no_attention == undefined || app.globalData.myUserInfo.no_attention < 1){
+      // console.log("should")
+      for (var i = 0; i < this.data.questionLists.length;i++)
+        if (!cache.isQuestionAnswered(this.data.questionLists[i].question_id)){
+          this.choice=""
+          this.setData({
+            qvisible: true,
+            cquetsion: this.data.questionLists[i]
+          })
+          
+          return
+        }
+      }
+    }
+    // else{
+    //   console.log("banned")
+    // }
+  },
     /**
    * 跳转到推荐文章
    */
@@ -120,10 +178,65 @@ Page({
   onShareAppMessage: function () {
 
   },
-
-  
+  getSearchValue: function(e){
+    this.setData({
+      searchValue:e.detail.value
+    })
+    // console.log(e)
+  },
+  tapSearch: function(){
+    var value = this.data.searchValue
+    console.log(value)
+    for(var i = 0;i < this.data.newsArray.length;i++){
+      if (value == "" || this.isExists(value,this.data.newsArray[i])){
+        // console.log("false")
+        var param = {}
+        var string = "newsArray[" + i + "].hidden"
+        param[string] = false
+        this.setData(param)
+      }else{
+        // console.log("true")
+        var param = {}
+        var string = "newsArray[" + i + "].hidden"
+        param[string] = true
+        this.setData(param)
+      }
+    }
+    if(this.data.isLogin){
+      for (var i = 0; i < this.data.foodArray.length; i++) {
+        if (value == "" || this.isExists(value, this.data.foodArray[i])) {
+          var param = {}
+          var string = "foodArray[" + i + "].hidden"
+          param[string] = false
+          this.setData(param)
+        } else {
+          var param = {}
+          var string = "foodArray[" + i + "].hidden"
+          param[string] = true
+          this.setData(param)
+        }
+      }
+    }
+  },
+  isExists: function(value,item){
+    if(item.info.indexOf(value) >= 0|| item.name.indexOf(value) >=0 || item.effect.indexOf(value) >=0 || item.keyword.indexOf(value) >= 0){
+      return true
+    }else{
+      return false
+    }
+  },
   initData: function () {
     apiRequest.getFoodList(this.callbackGetFoodList)
+    apiRequest.getQuestion(this.callbackQuestionRequest)
+  
+  },
+  callbackQuestionRequest: function(res){
+    console.log("enter")
+    if(res.code == 2000){
+      this.setData({
+        questionLists: res['question_lists']
+      }) 
+    }
   },
   callbackGetFoodList: function (res) {
     if (res.code == 2000) {
@@ -132,7 +245,7 @@ Page({
       });
       for (var i = 0; i < this.data.newsArray.length; i++) {
         var id = this.data.newsArray[i]['food_id']
-        // cache.setFoodInfo(id, this.data.newsArray[i])
+        cache.setFoodInfo(id, this.data.newsArray[i])
         var value = cache.getFoodImageValue(id)
         if (value) {
           var param = {};

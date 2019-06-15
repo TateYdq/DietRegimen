@@ -13,6 +13,7 @@ Page({
       id: null,
       collected: false,
       localImagePath: null,
+// <<<<<<< HEAD
     commonList: [
       {
         id: 1,
@@ -51,7 +52,10 @@ Page({
         // collectCount: 15,
         // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
       }
-    ]
+    ],
+    localVoicePath: null,
+    isPlay: false,
+    currentPostId: null,
   },
   /**
   * 跳转到评论页
@@ -73,10 +77,13 @@ Page({
 
     //收藏按钮、分享按钮、语言按钮---------------------------
     var postId = fID;
-    this.data.currentPostId = postId;
-    this.data.isPaly = false;
+    this.setData({
+      currentPostId: postId,
+      isPlay:false
+    })
     apiRequest.getFoodDetails(fID, this.callbackGetDetails)
     apiRequest.isCollectedFood(fID, this.isCollectCallback)
+    this.registerAudioContext();
     // var postCollected = wx.getStorageSync('postCollected');
     // if (postCollected) { //取到缓存,设置相应的状态
     //   var collection = postCollected[postId];
@@ -86,6 +93,20 @@ Page({
     //   postCollected[postId] = false;
     //   wx.setStorageSync('postCollected', postCollected);
     // }
+  },
+  registerAudioContext: function () {
+    this.innerAudioContext = wx.createInnerAudioContext()
+    this.innerAudioContext.src = this.data.localVoicePath
+    this.innerAudioContext.onPlay(() => {
+      console.log('开始播放')
+    })
+    this.innerAudioContext.onError((res) => {
+      console.log(res.errMsg)
+      console.log(res.errCode)
+    })
+    this.innerAudioContext.onEnded((res)=>{
+      this.setData({ isPlay: false });
+    })
   },
 
   /**
@@ -134,7 +155,6 @@ Page({
    * 用户点击右上角分享
    */
   onShareAppMessage: function () {
-
   },
   // findFoodDetail: function (foodID) {
   //   var i = 0;
@@ -188,7 +208,8 @@ Page({
       this.setData({
         foodInfo: res["food_detail"]
       });
-      var value = cache.getDiseaseImageValue(this.data.id)
+      cache.setFoodInfo(this.data.id,res["food_detail"])
+      var value = cache.getFoodImageValue(this.data.id)
       if (value) {
         this.setData({
           localImagePath: value
@@ -196,6 +217,15 @@ Page({
       } else {
         apiRequest.getImage(0, this.data.id, this.data.foodInfo["photo_path"], this.getImageCallback)
       }
+      var file = cache.getFoodVoiceValue(this.data.id)
+      if (file) {
+        this.setData({
+          localVoicePath: file
+        });
+      } else {
+        apiRequest.downloadVoice(this.data.id, this.data.foodInfo["voice_path"], this.getVoiceCallback)
+      }
+
     } else if (res.code == 4003) {
 
     } else {
@@ -213,7 +243,15 @@ Page({
       this.setData({
         localImagePath: res.path
       });
-      cache.setDiseaseImage(id, res.path)
+      cache.setFoodImage(id, res.path)
+    }
+  },
+  getVoiceCallback: function (id, res) {
+    if (res.tempFilePath) {
+      this.setData({
+        localVoicePath: res.tempFilePath
+      });
+      cache.setFoodVoice(id, res.tempFilePath)
     }
   },
   // 分享btn
@@ -224,7 +262,6 @@ Page({
       itemList: itemList,
       itemColor: "#405f80",
       success: function (res) {
-
       }
     });
   },
@@ -250,26 +287,28 @@ Page({
       })
     } else if (res.code == 4003) {
       wx.showToast({
-        title: '没有登录',
-        icon: 'fail',
+        title: '没有登录或登录过期',
+        icon:"none",
         duration: 1000
       })
     } else {
       wx.showToast({
         title: '失败',
-        icon: 'fail',
         duration: 1000
       })
     }
   },
   // 播放语音btn
   onMusicTap: function (event) {
+    this.innerAudioContext.src = this.data.localVoicePath
     var isPlayed = this.data.isPlay;//正在播放true
     if (isPlayed) {
       //暂停播放（或者关闭音乐：下次从头播放）
       //……
+      this.innerAudioContext.pause()
       this.setData({ isPlay: false });
     } else {
+      this.innerAudioContext.play()
       //开始播放
       //……
       this.setData({ isPlay: true });

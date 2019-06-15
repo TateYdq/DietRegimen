@@ -1,7 +1,5 @@
 {
   "pages": [   
-
-
     "pages/food/foodKind/food_kind",
     "pages/food/foodList/food_list",
     "pages/index/index",
@@ -33,6 +31,7 @@
       {
         "text": "食谱",
         "pagePath": "pages/food/foodKind/food_kind",
+
         "iconPath": "imgs/icon/read.png",
         "selectedIconPath": "imgs/icon/read-fill.png"
       },
