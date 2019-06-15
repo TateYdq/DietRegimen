@@ -31,12 +31,10 @@
 				</swiper-item>
 			</block>
 		</swiper>
-    <w-dialog 
-      visible="{{ qvisible }}"
-      bind:onClose="handleClose"
-    >
-    <view class='quesBox'>
-    <view class="section section-big discount">
+    <!-- 问卷布局 -->
+    <w-dialog class='question' visible="{{ qvisible }}" bind:onClose="handleClose">
+  <view class='quesBox'>
+    <view class="section-big">
 			<view class="title">特别关心</view>
       <view class='ques-title'>
         <text>{{cquetsion.info}}</text>
@@ -44,18 +42,22 @@
       <view class='options'>
         <!-- radiogroup 布局 -->
         <radio-group class="radio-group" bindchange="radioChange" >
-          <label class="radio">
+          <!-- <label class="radio"> -->
               <radio value="{{cquetsion.response_a}}" />{{cquetsion.answer_a}}
               <view>\n</view>
-          </label>
-          <label class="radio">
+          <!-- </label> -->
+          <!-- <label class="radio"> -->
               <radio value="{{cquetsion.response_b}}" />{{cquetsion.answer_b}}
               <view>\n</view>
-          </label>
-          <label class="radio">
+          <!-- </label> -->
+          <!-- <label class="radio"> -->
               <radio  value="{{cquetsion.response_c}}" />{{cquetsion.answer_c}}
               <view>\n</view>
-          </label>
+          <!-- </label> -->
+          <!-- <label class="radio"> -->
+              <radio  value="{{cquetsion.response_c}}" />是
+              <view>\n</view>
+          <!-- </label> -->
         </radio-group>
       </view>
 

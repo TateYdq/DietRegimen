@@ -16,10 +16,12 @@
   left: 0;
   margin: auto;
   background-color: #ffffff;
-  text-align: center;
+  /* text-align: center; */
   border-radius: 3px;
   overflow: hidden;
   max-width: 300px;
+  border-radius: 30rpx;
+  border: 1rpx solid rgb(216, 216, 216);
 }
 
 .wuss-dialog .slot-warp {
