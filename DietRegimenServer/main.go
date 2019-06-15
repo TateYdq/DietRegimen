@@ -59,6 +59,8 @@ func main() {
 
 			serverPage.POST("/addQuestion", server.AddQuestion)
 
+			serverPage.GET("/createAllVoice",server.CreateAllVoice)
+
 		}
 		clientPage := dietRegimenPage.Group("/client")
 		{

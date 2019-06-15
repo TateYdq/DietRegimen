@@ -101,7 +101,7 @@ func CancelCollected(c *gin.Context){
 	result := database.DeleteCollectedDisease(userID,diseaseID)
 	go func() {
 		if result{
-			database.DecreaseFoodCollectCount(diseaseID)
+			database.DecreaseDiseaseCollectCount(diseaseID)
 		}
 	}()
 	c.JSON(http.StatusOK,gin.H{

@@ -43,3 +43,4 @@ func SearchFood(c *gin.Context){
 	})
 	return
 }
+

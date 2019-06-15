@@ -27,9 +27,15 @@ def updateUser():
     url = URL.format(env=cur_url, term=admin_url, action="/updateUser")
     postReq(url,ss,data,admin_token)
 
+def createAllVoice():
+    url = URL.format(env=cur_url, term=admin_url, action="/createAllVoice")
+    getReq(url, ss, "", admin_token)
+
+
 def main():
-    addUser()
+    # addUser()
     # updateUser()
+    createAllVoice()
 
 if __name__ == '__main__':
     main()

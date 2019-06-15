@@ -2,7 +2,7 @@
 
 <view class ="detail-container">
     <image class="head-img" src="/imgs/images/articleDisBig1.jpg"></image>    <!-- {{isPlay ? posterData.music.coverImg : posterData.headImgSrc}} -->
-    <image class="music-img" catchtap="onMusicTap" src="{{isPlay ? '/imgs/btn/music-stop.png' : '/imgs/btn/music-start.png'}}"></image>
+    <!-- <image class="music-img" catchtap="onMusicTap" src="{{isPlay ? '/imgs/btn/music-stop.png' : '/imgs/btn/music-start.png'}}"></image> -->
 
     <!-- 作者介绍栏 -->
     <view class="auto-container">
@@ -22,7 +22,8 @@
         <view class="operation-imgs" bindtap="onCollectedTap">
             <image wx:if="{{collected}}"  class="collection-img"   src="/imgs/btn/collection.png"></image>
             <image wx:else class="collection-img" src="/imgs/btn/collection-anti.png"></image>
-            <image class="share-img" catchtap="onShareTap" src="/imgs/btn/share.png"></image>
+            <image class="share-img" catchtap="onMusicTap" src="{{isPlay ? '/imgs/btn/music-stop.png' : '/imgs/btn/music-start.png'}}"></image>
+            <!-- <image class="share-img" catchtap="onShareTap" src="/imgs/btn/share.png"></image> -->
         </view>
         <!-- 横线 -->
         <view class="horizon-line"></view>
@@ -30,8 +31,10 @@
     
     <!-- 文章内容 -->
     <view class='tag-box'>
-      <text class="tag-title">禁忌：</text>
-      <text class="tag-text">含有大亚油酸，可降低胆固醇与体内血脂。在医学临床上被用于防治高血压、脑中风、动脉硬化、肾炎等疾病。具有益气力、开胃宽肠、清热解毒的功效。</text>
+      <text wx:if="{{diseaseInfo.taboo}}" class="tag-title">禁忌：</text>
+      <text class="tag-text">{{diseaseInfo.taboo}}\n\n</text>
+        <text wx:if="{{diseaseInfo.recommend_food}}" class="tag-title">推荐食物：</text>
+      <text class="tag-text">{{diseaseInfo.recommend_food}}</text>
     </view>
 
      <text class="details-content">{{diseaseInfo.info}}</text>
@@ -60,11 +63,11 @@
 　　在今年4月获得了一笔高达2.25亿美元的投资之后，IntarciaTherapeutics的CEOKurtGraves也表示公司暂时并不打算寻找共同开发ITCA650的合作伙伴。他同时也表示，预计将于今年完成与默沙东公司糖尿病药物Januvia的对比研究，并最早将于2016年向有关部门提交上市申请。</text> -->
 
   <view style="text-align:center;font-size:14px;color:#ccc;margin-top:20px; margin-bottom:5px;">以下是留言内容</view>
-  <view wx:for="{{commonList}}" wx:key="liuyanlist" class="liuyanview">
-    <view class="headimg"><image src="{{item.userPhoto}}"></image></view>
+  <view wx:for="{{commentList}}" wx:key="liuyanlist" class="liuyanview">
+    <view class="headimg"><image src="{{item.userRealPath}}"></image></view>
     <view class="nickname_liuyantext">
-      <view class="nickname">{{item.userName}} <view class="time">{{item.lytime}}</view></view>
-      <view class="comtext">{{item.contant}}</view>
+      <view class="nickname">{{item.user_name}} <view class="time">{{item.record_time}}</view></view>
+      <view class="comtext">{{item.comment}}</view>
     </view>
   </view>
   <view style="text-align:center;font-size:14px;color:#ccc;margin-top:5px;margin-bottom:10px;" bindtap='writeComment'>写留言</view>

@@ -15,6 +15,7 @@ type DiseaseInfo struct{
 	DiseaseKind string `json:"disease_kind"`
 	Info string `json:"info"`
 	Taboo string `json:"taboo"`
+	RecommendFood string `json:"recommend_food"`
 	PhotoPath string `json:"photo_path"`
 	VoicePath string `json:"voice_path"`
 	ViewCount int `json:"view_count"`
@@ -31,7 +32,17 @@ func CreateDiseaseAdmin(request DiseaseInfo)(int,error) {
 	diseaseID := request.DiseaseID
 	//语音识别
 	go func() {
-		path,err := ai.CreateVoice("disease", diseaseID, request.Info)
+		content := ""
+		if request.Taboo !="" {
+			content = "禁忌: "+request.Taboo+" "
+		}
+		if request.RecommendFood != ""{
+			content = "推荐食物: "+request.RecommendFood+" "
+		}
+		if request.Info != ""{
+			content = "介绍: "+request.Info
+		}
+		path, err := ai.CreateVoice("disease", request.DiseaseID,content)
 		if err != nil{
 			logrus.WithError(err).Error("CreateDiseaseVoice failed")
 			return
@@ -149,4 +160,32 @@ func DecreaseDiseaseCollectCount(diseaseID int){
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,diseaseID = %v",diseaseID)
 	}
+}
+
+func CreateDiseaseVoice() {
+	var infoList[] DiseaseInfo
+	DrDatabase.Model(&DiseaseInfo{}).Scan(&infoList)
+	for _,info:= range infoList{
+		content := ""
+		if info.Taboo !="" {
+			content = "禁忌: "+info.Taboo+" "
+		}
+		if info.RecommendFood != ""{
+			content = "推荐食物: "+info.RecommendFood+" "
+		}
+		if info.Info != ""{
+			content = "介绍: "+info.Info
+		}
+		path, err := ai.CreateVoice("disease", info.DiseaseID,content)
+		if err != nil {
+			logrus.WithError(err).Error("CreateDiseaseVoice failed")
+			return
+		}
+		err = UpdateDiseaseField(info.DiseaseID, path, "voice_path")
+		if err != nil {
+			logrus.WithError(err).Error("UpdateVoice failed")
+			return
+		}
+	}
+
 }

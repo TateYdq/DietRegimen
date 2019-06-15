@@ -17,6 +17,15 @@ type FoodComment struct{
 	Comment string `json:"comment"`
 	RecordTime string `json:"record_time"`
 }
+type FoodCommentResponse struct {
+	ID int `json:"id"`
+	FoodID int `json:"food_id"`
+	UserID int `json:"user_id"`
+	UserName string `json:"user_name"`
+	Comment string `json:"comment"`
+	RecordTime string `json:"record_time"`
+	UserImagePath string `json:"user_image_path"`
+}
 type CommentFoodRequest struct{
 	FoodID  int    `json:"food_id"`
 	Content string `json:"content"`
@@ -72,9 +81,25 @@ func GetComment(c *gin.Context){
 		})
 		return
 	}
+	var responseList[] FoodCommentResponse
+	for _,comment := range foodComments {
+		response := FoodCommentResponse{
+			ID: comment.ID,
+			FoodID: comment.FoodID,
+			UserID: comment.UserID,
+			UserName: comment.UserName,
+			Comment: comment.Comment,
+			RecordTime: comment.RecordTime,
+		}
+		userImagePath,err:= database.GetUserImagePath(comment.UserID)
+		if err == nil{
+			response.UserImagePath = userImagePath
+		}
+		responseList = append(responseList, response)
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": utils.Success,
-		"comment_list":foodComments,
+		"comment_list":responseList,
 	})
 	return
 }

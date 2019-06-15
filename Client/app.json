@@ -36,7 +36,7 @@
         "selectedIconPath": "imgs/icon/read-fill.png"
       },
       {
-        "text": "疾病",
+        "text": "医疗资讯",
         "pagePath": "pages/diseases/diseaseList/disease_list",
         "iconPath": "imgs/icon/board.png",
         "selectedIconPath": "imgs/icon/board-actived.png"

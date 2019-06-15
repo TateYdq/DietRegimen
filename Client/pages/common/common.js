@@ -1,18 +1,26 @@
 // pages/common/common.js
+
+const apiRequest = require("../../utils/api_request.js")
 Page({
 
   /**
    * 页面的初始数据
    */
   data: {
-
+    id:null,
+    object:null,
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-
+      var id = Number(options.id)
+      var object = options.object
+      this.setData({
+        id:id,
+        object:object
+      })
   },
 
   /**
@@ -62,5 +70,31 @@ Page({
    */
   onShareAppMessage: function () {
 
+  },
+  formSubmit: function(e){
+    var content = e.detail.value.content
+    if(this.data.object == "food"){
+      apiRequest.commentFood(this.data.id, content, this.submitCallback)
+    } else if (this.data.object == "disease"){
+      apiRequest.commentDisease(this.data.id, content, this.submitCallback)
+    }
+  },
+  submitCallback: function(res){
+    if(res.code==2000){
+      wx.showToast({
+        title: '评论成功',
+        icon: 'success',
+        duration: 2000,
+      })
+      wx.navigateBack({
+        delta: 1
+      })
+    }else{
+      wx.showToast({
+        title: '评论失败',
+        icon: 'success',
+        duration: 1000,
+      })
+    }
   }
 })

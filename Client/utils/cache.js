@@ -6,6 +6,8 @@ var foodImageKeyStr = "food_{id}_image"
 var foodInfoKeyStr = "food_{id}_info"
 var foodVoiceKeyStr = "food_{id}_voice"
 
+var userImageKeyStr = "user_{id}_image"
+
 
 var questionInfoKyeStr = "question_{id}_info"
 var questionAnswerdKeyStr = "question_{id}_ans"
@@ -76,6 +78,25 @@ function answerQuestion(id) {
   }
 }
 
+function setUserImage(id, value) {
+  var userImageKey = userImageKeyStr.format({ 'id': id })
+  try {
+    wx.setStorageSync(userImageKey, value)
+  } catch (e) {
+    console.log(e)
+  }
+}
+
+function getUserImageValue(id) {
+  var userImageKey = userImageKeyStr.format({ 'id': id })
+  try {
+    var value = wx.getStorageSync(userImageKey)
+    return value
+  } catch (e) {
+    console.log(e)
+  }
+}
+
 function setFoodImage(id, value) {
   var foodImageKey = foodImageKeyStr.format({ 'id': id })
   try {
@@ -94,6 +115,8 @@ function getFoodImageValue(id) {
     console.log(e)
   }
 }
+
+
 
 
 function setDiseaseImage(id,value){
@@ -220,4 +243,7 @@ module.exports = {
   answerQuestion: answerQuestion,
   removeAnswer: removeAnswer,
   clearAllQuestion: clearAllQuestion,
+
+  setUserImage: setUserImage,
+  getUserImageValue: getUserImageValue
 }

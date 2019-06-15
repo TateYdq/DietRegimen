@@ -2,6 +2,7 @@
 // const static_data = require("../../../utils/static_data.js")
 const apiRequest = require("../../../utils/api_request.js")
 const cache = require("../../../utils/cache.js")
+const app = getApp()
 Page({
 
   /**
@@ -13,46 +14,46 @@ Page({
       id: null,
       collected: false,
       localImagePath: null,
-// <<<<<<< HEAD
-    commonList: [
-      {
-        id: 1,
-        userPhoto: '../../../imgs/images/author.jpg',
-        userName: '曹总',
-        contant: '这篇文章是我写的！',
-        lytime: '2019-6-15 18:19:57',
-        replyUserName: ""
-        // collectCount: 65,
-        // kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
-      },
-      {
-        id: 2,
-        userPhoto: '../../../imgs/images/comment2.jpg',
-        userName: 'CFO',
-        contant: '曹总的文章写的真好，夸!',
-        lytime: '2019-6-15 18:19:57',
-        replyUserName: ''
-        // collectCount: 69,
-        // kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
-      }, {
-        id: 3,
-        userPhoto: '../../../imgs/images/comment3.jpg',
-        userName: '王老板',
-        contant: '曹总辛苦了!',
-        lytime: '2019-6-15 18:19:57',
-        replyUserName: ''
-        // collectCount: 15,
-        // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
-      }, {
-        id: 4,
-        userPhoto: '../../../imgs/images/comment4.jpg',
-        userName: '余博士',
-        contant: '国际交互设计集团的大家都辛苦了！',
-        lytime: '2019-6-15 18:19:57'
-        // collectCount: 15,
-        // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
-      }
-    ],
+      commentList:[],
+    // commentList: [
+    //   {
+    //     id: 1,
+    //     userPhoto: '../../../imgs/images/author.jpg',
+    //     userName: '曹总',
+    //     contant: '这篇文章是我写的！',
+    //     lytime: '2019-6-15 18:19:57',
+    //     replyUserName: ""
+    //     // collectCount: 65,
+    //     // kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
+    //   },
+    //   {
+    //     id: 2,
+    //     userPhoto: '../../../imgs/images/comment2.jpg',
+    //     userName: 'CFO',
+    //     contant: '曹总的文章写的真好，夸!',
+    //     lytime: '2019-6-15 18:19:57',
+    //     replyUserName: ''
+    //     // collectCount: 69,
+    //     // kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
+    //   }, {
+    //     id: 3,
+    //     userPhoto: '../../../imgs/images/comment3.jpg',
+    //     userName: '王老板',
+    //     contant: '曹总辛苦了!',
+    //     lytime: '2019-6-15 18:19:57',
+    //     replyUserName: ''
+    //     // collectCount: 15,
+    //     // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
+    //   }, {
+    //     id: 4,
+    //     userPhoto: '../../../imgs/images/comment4.jpg',
+    //     userName: '余博士',
+    //     contant: '国际交互设计集团的大家都辛苦了！',
+    //     lytime: '2019-6-15 18:19:57'
+    //     // collectCount: 15,
+    //     // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
+    //   }
+    // ],
     localVoicePath: null,
     isPlay: false,
     currentPostId: null,
@@ -61,9 +62,17 @@ Page({
   * 跳转到评论页
   */
   writeComment: function (e) {
-    var id = e.currentTarget.id;
+    if (app.globalData.isLogin == false){
+      wx.showToast({
+        title: '请先登录',
+        icon: "none",
+        duration: 1000
+      })
+      return
+    }
+    var id = this.data.id;
     wx.navigateTo({
-      url: '../../common/common',
+      url: '../../common/common?id='+id+'&object=food',
     })
   },
   /**
@@ -74,7 +83,6 @@ Page({
     this.setData({
       id:fID
     })
-
     //收藏按钮、分享按钮、语言按钮---------------------------
     var postId = fID;
     this.setData({
@@ -115,14 +123,45 @@ Page({
   onReady: function () {
 
   },
-
   /**
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    apiRequest.getFoodComment(this.data.id, this.getCommentCallback)
   },
+  getCommentCallback: function(res){
+    if(res.code == 2000){
+      if (res.comment_list == null){
+        return
+      }
+      this.setData({
+        commentList:res['comment_list']
+      })
 
+      for (var i = 0; i < this.data.commentList.length;i++){
+        var id = this.data.commentList[i].user_id
+        var value = cache.getUserImageValue(id)
+        if (value) {
+          var param = {};
+          var string = "commentList[" + i + "].userRealPath";
+          param[string] = value;
+          this.setData(param);
+        } else {
+          var path = this.data.commentList[i]["user_image_path"]
+          apiRequest.getImage(i, id, path, this.getUserImageCallback)
+        }
+      }
+    }
+  },
+  getUserImageCallback: function (i, id, res) {
+    if (res.path) {
+      var param = {};
+      var string = "commentList[" + i + "].userRealPath";
+      param[string] = res.path;
+      this.setData(param);
+      cache.setUserImage(id, res.path)
+    }
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

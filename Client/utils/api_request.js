@@ -257,6 +257,36 @@ function submitQuestionnaire(question_id,answer,callback) {
   postRequest(SubmitQuestionnaireUrl, data, callback)
 }
 
+function getFoodComment(foodID, callback){
+  var data = {
+    "food_id": foodID
+  }
+  getRequest(GetCommentFoodUrl, data, callback)
+}
+
+function getDiseaseComment(diseaseID, callback) {
+  var data = {
+    "disease_id": diseaseID
+  }
+  getRequest(GetCommentDiseaseUrl, data, callback)
+}
+
+function commentFood(foodID, content, callback){
+  var data = {
+    "food_id":foodID,
+    "content":content
+  }
+  postRequest(CommentFoodUrl,data,callback)
+}
+
+function commentDisease(diseaseID, content, callback) {
+  var data = {
+    "disease_id": diseaseID,
+    "content": content
+  }
+  postRequest(CommentDiseaseUrl, data, callback)
+}
+
 function getImage(i,id,photoPath,callback){
   if(photoPath){
     console.log("url:"+GetImageUrl + "?path=" + photoPath)
@@ -357,4 +387,9 @@ module.exports = {
 
   submitQuestion: submitQuestionnaire,
   getQuestion: getQuestionnaire,
+
+  getDiseaseComment: getDiseaseComment,
+  getFoodComment: getFoodComment,
+  commentDisease: commentDisease,
+  commentFood: commentFood,
 }

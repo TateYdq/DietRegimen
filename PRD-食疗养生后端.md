@@ -40,6 +40,7 @@ gender varchar(50),
 user_image_path varchar(50),
 diseases_focus text,
 keywords  text,   #用户关键词
+no_attention int,
 update_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
  ```
@@ -59,6 +60,7 @@ food_kind  varchar(50),
 info   text,       #食物介绍
 effect  text,     #食物功效
 keyword  text,         #食物关键词
+recommend_food text    #推荐食物
 view_count bigint,
 collect_count bigint,
 photo_path  varchar(50) ,      #食物图片路径，只有一张

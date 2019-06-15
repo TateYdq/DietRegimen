@@ -186,7 +186,7 @@ Page({
   },
   tapSearch: function(){
     var value = this.data.searchValue
-    console.log(value)
+    // console.log(value)
     for(var i = 0;i < this.data.newsArray.length;i++){
       if (value == "" || this.isExists(value,this.data.newsArray[i])){
         // console.log("false")
@@ -231,7 +231,6 @@ Page({
   
   },
   callbackQuestionRequest: function(res){
-    console.log("enter")
     if(res.code == 2000){
       this.setData({
         questionLists: res['question_lists']
@@ -283,7 +282,7 @@ Page({
       param[string] = res.path;
       this.setData(param);
       cache.setFoodImage(id, res.path)
-      console.log(this.data.newsArray[i].localImagePath)
+      // console.log(this.data.newsArray[i].localImagePath)
     }
   },
   callbackGetRec: function(res){
@@ -308,12 +307,6 @@ Page({
       }
     }
   },
-  seeFoodLists: function (e) {
-    var kindName = e.currentTarget.dataset.name;
-    console.log("kindName:%s",kindName);
-    wx.navigateTo({
-      url: '../foodList/food_list?kindName=' + kindName+'&fromKind=true',
-    })
-  }
+
 });
 
