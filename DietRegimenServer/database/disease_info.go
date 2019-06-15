@@ -32,7 +32,16 @@ func CreateDiseaseAdmin(request DiseaseInfo)(int,error) {
 	diseaseID := request.DiseaseID
 	//语音识别
 	go func() {
-		content := "禁忌:"+request.Taboo+"。推荐食物:"+request.RecommendFood+"。介绍:"+request.Info
+		content := ""
+		if request.Taboo !="" {
+			content = "禁忌: "+request.Taboo+" "
+		}
+		if request.RecommendFood != ""{
+			content = "推荐食物: "+request.RecommendFood+" "
+		}
+		if request.Info != ""{
+			content = "介绍: "+request.Info
+		}
 		path, err := ai.CreateVoice("disease", request.DiseaseID,content)
 		if err != nil{
 			logrus.WithError(err).Error("CreateDiseaseVoice failed")
@@ -157,19 +166,26 @@ func CreateDiseaseVoice() {
 	var infoList[] DiseaseInfo
 	DrDatabase.Model(&DiseaseInfo{}).Scan(&infoList)
 	for _,info:= range infoList{
-		go func() {
-			content := "禁忌:"+info.Taboo+"。推荐食物:"+info.RecommendFood+"。介绍:"+info.Info
-			path, err := ai.CreateVoice("disease", info.DiseaseID,content)
-			if err != nil {
-				logrus.WithError(err).Error("CreateDiseaseVoice failed")
-				return
-			}
-			err = UpdateFoodField(info.DiseaseID, path, "voice_path")
-			if err != nil {
-				logrus.WithError(err).Error("UpdateVoice failed")
-				return
-			}
-		}()
+		content := ""
+		if info.Taboo !="" {
+			content = "禁忌: "+info.Taboo+" "
+		}
+		if info.RecommendFood != ""{
+			content = "推荐食物: "+info.RecommendFood+" "
+		}
+		if info.Info != ""{
+			content = "介绍: "+info.Info
+		}
+		path, err := ai.CreateVoice("disease", info.DiseaseID,content)
+		if err != nil {
+			logrus.WithError(err).Error("CreateDiseaseVoice failed")
+			return
+		}
+		err = UpdateDiseaseField(info.DiseaseID, path, "voice_path")
+		if err != nil {
+			logrus.WithError(err).Error("UpdateVoice failed")
+			return
+		}
 	}
 
 }
