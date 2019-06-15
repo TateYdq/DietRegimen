@@ -29,6 +29,6 @@
 
 
 
-#curl -X POST https://api.ydq6.com/DietRegimen//control1/admin/uploadImage -F "file=@/Users/yudaoqing/go/src/github.com/TateYdq/DietRegimen/Client/imgs/images/tuiList1.jpg" -F "num=2" -F "id=4" -H "Content-Type: multipart/form-data" -H "Token: 1wqe213"
+curl -X POST https://api.ydq6.com/DietRegimen//control1/admin/uploadImage -F "file=@/Users/yudaoqing/Documents/img/tudou.png" -F "num=2" -F "id=12" -H "Content-Type: multipart/form-data" -H "Token: 1wqe213"
 
 

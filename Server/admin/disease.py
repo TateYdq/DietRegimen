@@ -4,9 +4,12 @@ from utils.config import *
 ss = requests.session()
 def addDisease():
     data = json.dumps({
-        "name":"风湿病",
-        "disease_kind":"风湿免疫内科",
-        "info":"风湿病是一组侵犯关节、骨骼、肌肉、血管及有关软组织或结缔组织为主的疾病，其中多数为自身免疫性疾病。发病多较隐蔽而缓慢，病程较长，且大多具有遗传倾向。以关节痛、畏风寒为主症的一组极其常见的临床症候群。\n风湿病是风湿性疾病的简称，泛指影响骨、关节、肌肉及其周围软组织，如滑囊、肌腱、筋膜、血管、神经等一大组疾病。",
+        "name":"白内障",
+        "disease_kind":"眼科",
+        "info":
+            '''
+            老化，遗传、局部营养障碍、免疫与代谢异常，外伤、中毒、辐射等，都能引起晶状体代谢紊乱，导致晶状体蛋白质变性而发生混浊，称为白内障，此时光线被混浊晶状体阻扰无法投射在视网膜上，导致视物模糊。
+            ''',
         "view_count":0,
     })
     url = URL.format(env=cur_url, term=admin_url, action="/addDisease")

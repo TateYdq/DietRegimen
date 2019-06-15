@@ -32,7 +32,8 @@ func CreateFoodAdmin(request FoodInfo)(int,error){
 	foodID := request.FoodID
 	//语音识别
 	go func() {
-		path,err := ai.CreateVoice("food", foodID, request.Info)
+		content := "功效:"+request.Effect+"。关键词:"+request.Keyword+"。介绍:"+request.Info
+		path, err := ai.CreateVoice("food", request.FoodID,content)
 		if err != nil{
 			logrus.WithError(err).Error("CreateFoodVoice failed")
 			return
@@ -180,4 +181,25 @@ func DecreaseFoodCollectCount(foodID int){
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,foodID = %v",foodID)
 	}
+}
+
+func CreateFoodVoice() {
+	var foodInfoList[] FoodInfo
+	DrDatabase.Model(&FoodInfo{}).Scan(&foodInfoList)
+	for _,foodInfo:= range foodInfoList{
+		go func() {
+			content := "功效:"+foodInfo.Effect+"。关键词:"+foodInfo.Keyword+"。介绍:"+foodInfo.Info
+			path, err := ai.CreateVoice("food", foodInfo.FoodID,content)
+			if err != nil {
+				logrus.WithError(err).Error("CreateFoodVoice failed")
+				return
+			}
+			err = UpdateFoodField(foodInfo.FoodID, path, "voice_path")
+			if err != nil {
+				logrus.WithError(err).Error("UpdateVoice failed")
+				return
+			}
+		}()
+	}
+
 }

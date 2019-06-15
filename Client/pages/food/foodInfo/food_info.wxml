@@ -33,7 +33,7 @@
     <!-- 文章内容 -->
     <view class='tag-box'>
       <text wx:if="{{foodInfo.effect}}" class="tag-title">功效：</text>
-      <text class="tag-text">{{foodInfo.effect}}\n\n</text>
+      <text class="tag-text" decode="true">{{foodInfo.effect}}\n\n</text>
       <text wx:if="{{foodInfo.keyword}}" class="tag-title">关键词：</text>
       <text class="tag-text">{{foodInfo.keyword}}</text>
     </view>

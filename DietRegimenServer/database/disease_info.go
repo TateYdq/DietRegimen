@@ -32,7 +32,8 @@ func CreateDiseaseAdmin(request DiseaseInfo)(int,error) {
 	diseaseID := request.DiseaseID
 	//语音识别
 	go func() {
-		path,err := ai.CreateVoice("disease", diseaseID, request.Info)
+		content := "禁忌:"+request.Taboo+"。推荐食物:"+request.RecommendFood+"。介绍:"+request.Info
+		path, err := ai.CreateVoice("disease", request.DiseaseID,content)
 		if err != nil{
 			logrus.WithError(err).Error("CreateDiseaseVoice failed")
 			return
@@ -150,4 +151,25 @@ func DecreaseDiseaseCollectCount(diseaseID int){
 	if err != nil{
 		logrus.WithError(err).Errorf("DecreaseCollectCount err,diseaseID = %v",diseaseID)
 	}
+}
+
+func CreateDiseaseVoice() {
+	var infoList[] DiseaseInfo
+	DrDatabase.Model(&DiseaseInfo{}).Scan(&infoList)
+	for _,info:= range infoList{
+		go func() {
+			content := "禁忌:"+info.Taboo+"。推荐食物:"+info.RecommendFood+"。介绍:"+info.Info
+			path, err := ai.CreateVoice("disease", info.DiseaseID,content)
+			if err != nil {
+				logrus.WithError(err).Error("CreateDiseaseVoice failed")
+				return
+			}
+			err = UpdateFoodField(info.DiseaseID, path, "voice_path")
+			if err != nil {
+				logrus.WithError(err).Error("UpdateVoice failed")
+				return
+			}
+		}()
+	}
+
 }

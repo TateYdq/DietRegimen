@@ -83,7 +83,7 @@
           <image src="../../../imgs/icon/shouchang.png" style="width:22px;height:21px"></image>
         </view>
         <view class="itemName">
-          <view>收藏健康信息</view>
+          <view>收藏医疗咨询</view>
         </view>
         <view class="right">
           <text class="opr">了解疾病</text>>
