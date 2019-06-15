@@ -178,3 +178,13 @@ func AddUserScore(userID int,score int)(err error){
 	}
 	return err
 }
+
+func GetUserImagePath(userID int)(path string,err error){
+	var userInfo UserInfo
+	err = DrDatabase.Model(UserInfo{}).Where("userID = ?",userID).First(&userInfo).Error
+	if err != nil{
+		logrus.WithError(err).Errorf("GetUserImagePath,userID:%v",userID)
+		return "",err
+	}
+	return userInfo.UserImagePath,nil
+}

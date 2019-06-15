@@ -78,9 +78,17 @@ Page({
   * 跳转到评论页
   */
   writeComment: function (e) {
-    var id = e.currentTarget.id;
+    if (app.globalData.isLogin == false) {
+      wx.showToast({
+        title: '请先登录',
+        icon: "none",
+        duration: 1000
+      })
+      return
+    }
+    var id = this.data.id;
     wx.navigateTo({
-      url: '../../common/common',
+      url: '../../common/common?id=' + id + '&object=disease',
     })
   },
   /**
@@ -138,9 +146,17 @@ Page({
    * 生命周期函数--监听页面显示
    */
   onShow: function () {
-
+    apiRequest.getFoodComment(this.data.id, this.getCommentCallback)
   },
-
+  getCommentCallback: function (res) {
+    if (res.code == 2000) {
+      console.log("get comment res:")
+      console.log(res)
+      this.setData({
+        commonList: res['comment_list']
+      })
+    }
+  },
   /**
    * 生命周期函数--监听页面隐藏
    */

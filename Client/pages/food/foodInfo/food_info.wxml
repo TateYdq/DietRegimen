@@ -42,10 +42,10 @@
 2、勾况欠汁时，看要勾薄欠，还是勾后欠。炒蔬菜可以薄欠，放一点生粉和水勾况后，在往锅里放。</text> -->
   <view style="text-align:center;font-size:14px;color:#ccc;margin-top:20px; margin-bottom:5px;">以下是留言内容</view>
   <view wx:for="{{commonList}}" wx:key="liuyanlist" class="liuyanview">
-    <view class="headimg"><image src="{{item.userPhoto}}"></image></view>
+    <view class="headimg"><image src="{{item.user_image_path}}"></image></view>
     <view class="nickname_liuyantext">
-      <view class="nickname">{{item.userName}} <view class="time">{{item.lytime}}</view></view>
-      <view class="comtext">{{item.contant}}</view>
+      <view class="nickname">{{item.user_name}} <view class="time">{{item.record_time}}</view></view>
+      <view class="comtext">{{item.comment}}</view>
     </view>
   </view>
   <view style="text-align:center;font-size:14px;color:#ccc;margin-top:5px;margin-bottom:10px;" bindtap='writeComment'>写留言</view>

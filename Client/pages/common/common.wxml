@@ -6,10 +6,12 @@
 
     <view class="group-body">
 			  <view class="input-list">
-          <view class='inputBox'>
-            <textarea placeholder="可输入50字" maxlength="50" id='note' name="note"></textarea>
-          </view>
-            <button formType="submit" class="btn" >提交留言</button>         
+          <form bindsubmit="formSubmit"> 
+            <view class='inputBox'>
+              <textarea placeholder="可输入50字" maxlength="50" id='content' name="content"></textarea>
+            </view>
+              <button formType="submit" class="btn" >提交留言</button>
+          </form>         
         </view>
 		</view>
 </view>

@@ -17,6 +17,16 @@ type DiseaseCommentInfo struct{
 	RecordTime string `json:"record_time"`
 }
 
+type DiseaseCommentResponse struct {
+	ID int `json:"id"`
+	DiseaseID int `json:"disease_id"`
+	UserID int `json:"user_id"`
+	UserName string `json:"user_name"`
+	Comment string `json:"comment"`
+	RecordTime string `json:"record_time"`
+	UserImagePath string `json:"user_image_path"`
+}
+
 type CommentDiseaseRequest struct{
 	DiseaseID  int `json:"disease_id"`
 	Content string `json:"content"`
@@ -72,9 +82,25 @@ func GetComment(c *gin.Context){
 		})
 		return
 	}
+	var responseList[] DiseaseCommentResponse
+	for _,comment := range comments {
+		response := DiseaseCommentResponse{
+			ID: comment.ID,
+			DiseaseID: comment.DiseaseID,
+			UserID: comment.UserID,
+			UserName: comment.UserName,
+			Comment: comment.Comment,
+			RecordTime: comment.RecordTime,
+		}
+		userImagePath,err:= database.GetUserImagePath(comment.UserID)
+		if err == nil{
+			response.UserImagePath = userImagePath
+		}
+		responseList = append(responseList, response)
+	}
 	c.JSON(http.StatusOK, gin.H{
 		"code": utils.Success,
-		"comment_list":comments,
+		"comment_list":responseList,
 	})
 	return
 }
