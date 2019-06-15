@@ -1,1 +1,273 @@
-/* pages/mine/collectDisease/collect_disease.wxss */
+
+page {
+	height: 100%;
+}
+.container {
+	height: 100%;
+  margin: 0rpx 50rpx;
+  /* background-color: rgb(255, 255, 182);  */
+}
+
+/* 滑动条 */
+scroll-view {
+	height: 100%;
+}
+/*隐藏滚动条*/
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+/* 顶部 搜索框 */
+.header {
+	position: fixed;
+	display: -webkit-flex;
+	left: 0;
+	top: 0;
+	width: 100%;
+  padding: 20rpx 50rpx;
+	box-sizing: border-box;
+	z-index: 1;
+	-webkit-transition: background 0.5s ease-in-out;
+  background:white;
+}
+.header .icon {
+	width: 40rpx;
+	height: 40rpx;
+	vertical-align: center;
+  padding-right: 10rpx;
+}
+.header .arraw{
+  width: 40rpx;
+	height: 40rpx;
+  padding-right:10rpx;
+  margin-left: auto;
+}
+.header .search {
+  display: flex;  
+  flex-direction: row;
+    align-items: center;
+	-webkit-flex: 1;
+	color: #888;
+	font-size: 30rpx;
+	line-height: 40rpx;
+	padding: 10rpx;
+	border-radius: 30rpx;
+	background: #fff;
+  /* -webkit-box-shadow: 0px 5px 30px -10px rgb(185, 185, 185); */
+	border: 1rpx solid #aaa;
+}
+
+/* 轮播图 */
+/* .banner {
+	height: 560rpx;
+  margin: 130rpx 0rpx 20rpx; 
+  
+  background: white;
+}
+.banner image {
+	width: 100%;
+  background: yellow;
+  border-radius: 20rpx;
+  -webkit-box-shadow: 0px 40px 40px -30px rgb(168, 168, 168);
+} */
+
+/* ------------------- */
+
+.section-big {
+  margin-top: 170rpx;
+}
+/* 每日推荐的列表标题 */
+.section-big .title {
+	position: relative;
+	text-align: center;
+	font-size: 32rpx;
+	font-weight: bold;
+	line-height: 2;
+	margin-bottom: 20rpx;
+  color: #4b4b4b;
+  /* background: orchid; */
+}
+.section-big .title:before {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: -180rpx;
+	width: 100rpx;
+	height: 1rpx;
+	background: #000;
+}
+.section-big .title:after {
+	content: " ";
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-left: 80rpx;
+	width: 100rpx;
+	height: 1rpx;
+	background: #000;
+}
+
+/* 每日推荐的列表内容 */
+.discount .content {
+  padding-top: 30rpx;
+  /* margin-top: 45rpx; */
+  margin-bottom: 80rpx;
+  /* padding-left: 20rpx; */
+	width: 100%;
+	height: 1200rpx;
+  font-size: 20rpx; 
+  /* background: burlywood; */
+  -webkit-box-shadow: 0px 5px 30px -10px rgb(185, 185, 185);
+}
+/* 每日推荐的列表图片 */
+.section image{
+  background: yellow;
+  width: 80px;
+  height: 80px;
+  border-radius: 20rpx;
+  -webkit-box-shadow: 2px 8px 20px -5px rgb(185, 185, 185);
+}
+.section .more{
+  	position: relative;
+    text-align: center;
+    font-size: 25rpx;
+    font-weight: bold;
+    line-height: 2;
+    margin-bottom: 20rpx;
+}
+
+/* 余博士 */
+.item{
+    display: flex;
+    flex-direction: row;
+    /* margin-left: 10px;
+    margin-bottom:5px;  */
+    margin:30rpx 0px;
+    align-items: center;
+}
+.desc{
+    margin-left: 20px;
+    line-height: 30px;
+}
+.above{
+  display: flex;
+  flex-direction: row;
+}
+/* 食谱名 */
+.title2{
+    padding-top:0rpx;
+    font-weight: bold;
+    font-size: 35rpx;
+    color: #4b4b4b;
+}
+/* 浏览收藏 */
+.count2{
+    display: flex;
+    flex-direction: row;
+    font-size: 25rpx;
+    color: #999999;
+}
+.browse{
+    position: absolute;
+    right: 70px;
+}
+.collect{
+    position: absolute;
+    right: 10px;
+}
+/* 食谱介绍内容 */
+.below{
+  padding-top: 15rpx;
+  font-size: 27rpx;
+  color:#666;
+}
+.head-img{
+  width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+/* .nav{
+  display: flex;
+  flex-direction: row;
+  text-align: center;
+}
+.nav-item{
+  width: 25%;
+  margin-top:20px;
+  font-size: 12px; 
+}
+.hr{
+    height: 15px;
+    margin-top:15px;
+}
+.head{
+    display: flex;
+    flex-direction: row;
+    margin: 10px;
+    font-size: 13px;
+    color: #999999;
+}
+.right{
+    position: absolute;
+    right: 10px;
+    color: #cccccc;
+}
+.hr2{
+    height: 2px;
+    background-color: #cccccc;
+    opacity: 0.2;  
+}
+.item{
+    display: flex;
+    flex-direction: row;
+    margin-left: 10px;
+    margin-bottom:5px; 
+    margin-top:5px;
+}
+.desc{
+    margin-left: 20px;
+    line-height: 30px;
+}
+.above{
+  display: flex;
+  flex-direction: row;
+}
+.title{
+    font-weight: bold;
+    margin-right: 30px
+}
+.below{
+    display: flex;
+    flex-direction: row;
+    font-size: 12px;
+    color: #999999;
+}
+.count{
+    font-size: 12px;
+    color: #999999;
+    text-align: right;
+}
+.browse{
+    position: absolute;
+    right: 70px;
+}
+.collect{
+    position: absolute;
+    right: 10px;
+}
+.head-img{
+width: auto;
+	height: auto;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.collect{
+    position: absolute;
+    right: 10px;
+} */

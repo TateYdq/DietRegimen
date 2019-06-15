@@ -41,8 +41,9 @@
 		/>
 
 
-		<w-cell label="同意用户协议信息">
+		<w-cell label="vip服务">
 			<w-switch
+       value="{{myUserInfo.no_attention<1}}"
 			 name="isVip"
 			 slot="content"
 			/>

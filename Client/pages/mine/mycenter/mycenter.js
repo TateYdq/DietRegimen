@@ -81,37 +81,45 @@ Page({
     })
   },
   setMyInfo: function(){
+    if(this.data.isLogin == false){
+      wx.showToast({
+        title: '请先登录',
+        icon: "none",
+        duration: 1000,
+      })
+      return
+    }
     wx.navigateTo({
       url: '../myinfo/myinfo',
     })
   },
   gotoCollectFood: function() {
-    
+    if (this.data.isLogin == false) {
+      wx.showToast({
+        title: '请先登录',
+        icon: "none",
+        duration: 1000,
+      })
+      return
+    }
     wx.navigateTo({
-      /*
       url: '../collectFood/collect_food',
-      暂时跳转到食物清单页
-      */
-      url: '../../food/foodList/food_list'
     })
   },
   
   gotoCollectDisease: function() {
-    /*
+    if (this.data.isLogin == false) {
+      wx.showToast({
+        title: '请先登录',
+        icon: "none",
+        duration: 1000,
+      })
+      return
+    }
     wx.navigateTo({
       url: '../collectDisease/collect_disease',
     })
-     暂时跳转到疾病清单页
-    */
-    wx.switchTab({
-      url: '../../diseases/diseaseList/disease_list',
-    })
   },
-  gotoFoodList: function(){
-    wx.navigateTo({
-      url: '../../food/foodList/food_list',
-    })
-  }, 
   login: function (e) {
     app.globalData.userInfo = e.detail.userInfo
     apiRequest.login(this.callbackLogin)
@@ -134,19 +142,14 @@ Page({
       });
     } else if (res.code == 4003) {
       wx.showToast({
-        title: '没有登录',
-        icon: 'fail',
-        image: '',
+        title: '请先登录',
         duration: 2000,
-        mask: false,
       })
     } else{
       wx.showToast({
         title: '失败',
         icon: 'fail',
-        image: '',
         duration: 2000,
-        mask: false,
       })
     }
 }

@@ -10,6 +10,7 @@ Page({
    */
   data: {
     diseaseArray:[],
+    searchValue: "",
     // diseaArray:[
     //   {
     //     id: 1,
@@ -106,6 +107,36 @@ Page({
    */
   onReachBottom: function () {
 
+  },
+  getSearchValue: function (e) {
+    this.setData({
+      searchValue: e.detail.value
+    })
+    // console.log(e)
+  },
+  tapSearch: function () {
+    var value = this.data.searchValue
+    console.log(value)
+    for (var i = 0; i < this.data.diseaseArray.length; i++) {
+      if (value == "" || this.isExists(value, this.data.diseaseArray[i])) {
+        var param = {}
+        var string = "diseaseArray[" + i + "].hidden"
+        param[string] = false
+        this.setData(param)
+      } else {
+        var param = {}
+        var string = "diseaseArray[" + i + "].hidden"
+        param[string] = true
+        this.setData(param)
+      }
+    }
+  },
+  isExists: function (value, item) {
+    if (item.info.indexOf(value) >= 0 || item.name.indexOf(value) >= 0 || item.taboo.indexOf(value) >= 0 || item.disease_kind.indexOf(value) >= 0) {
+      return true
+    } else {
+      return false
+    }
   },
   /**
  * 跳转到疾病文章

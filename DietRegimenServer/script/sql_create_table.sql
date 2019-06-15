@@ -11,6 +11,7 @@ user_image_path varchar(50),
 diseases_focus text,
 keywords  text,   #用户关键词
 user_score int,
+no_attention int,
 update_time varchar(50)
 )ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

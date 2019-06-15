@@ -2,15 +2,26 @@
 <view class="container">
   <!-- 搜索框 -->
   <view class="header {{scrollDown?'scrolled':''}}">
-		<view class="search" bindtap="tapSearch"> <!--bindtap="tapSearch"-->
+		<view class="search" > <!--bindtap="tapSearch"-->
 			<image class="icon" src="/imgs/icon/icon_search.png"/>		
       <view class="section">
-        <input placeholder="请输入关键字" value="{{searchValue}}" auto-focus/>
+        <input placeholder="请输入关键字" value="{{searchValue}}" bindblur="getSearchValue" type="text" />
       </view>
-      <image class="arraw" src="/imgs/icon/search-arraw.png"/>
+      <image class="arraw" bindtap="tapSearch" src="/imgs/icon/search-arraw.png"/>
 		</view>    
 	</view>
-
+<wxs module="fn">
+      module.exports = {
+          substring: function(str,begin,end){
+          str = str.trim()
+            if(str.length > end){
+              return str.substring(begin,end)+"...";
+            }else{
+              return str
+            }
+          }
+      }
+  </wxs>
 	<scroll-view scroll-y="true" scroll-into-view="{{scrollIntoView}}" bindscroll="onScroll">
 		<!-- 轮播图 -->
     <swiper class="banner" indicator-dots="true" autoplay="true" interval="3000" duration="500">
@@ -20,6 +31,55 @@
 				</swiper-item>
 			</block>
 		</swiper>
+    <w-dialog 
+      visible="{{ qvisible }}"
+      bind:onClose="handleClose"
+    >
+    <view class='quesBox'>
+    <view class="section section-big discount">
+			<view class="title">特别关心</view>
+      <view class='ques-title'>
+        <text>{{cquetsion.info}}</text>
+      </view>
+      <view class='options'>
+        <!-- radiogroup 布局 -->
+        <radio-group class="radio-group" bindchange="radioChange" >
+          <label class="radio">
+              <radio value="{{cquetsion.response_a}}" />{{cquetsion.answer_a}}
+              <view>\n</view>
+          </label>
+          <label class="radio">
+              <radio value="{{cquetsion.response_b}}" />{{cquetsion.answer_b}}
+              <view>\n</view>
+          </label>
+          <label class="radio">
+              <radio  value="{{cquetsion.response_c}}" />{{cquetsion.answer_c}}
+              <view>\n</view>
+          </label>
+        </radio-group>
+      </view>
+
+      <!-- <view class="divLine"></view> -->
+      <view class='btn'>
+        <view class="arraw a1" bindtap='handleCloseQ' id="{{cquetsion.question_id}}">
+          确认
+        </view>
+        <view class="shuLine"></view>
+        <view class="arraw a2"  bindtap='handleCancelQ'>
+          取消
+        </view>
+      </view>
+      </view>
+  </view>
+
+    <!-- <view class="example-dialog" hover-class="none" hover-stop-propagation="false">
+    <text>{{cquetsion.info}}</text>
+    <w-button bind:onClick="handleCloseQ" id="{{cquetsion.question_id}}" data-resp="{{cquetsion.response_a}}" type="info">{{cquetsion.answer_a}}</w-button>
+    <w-button bind:onClick="handleCloseQ" id="{{cquetsion.question_id}}" data-resp="{{cquetsion.response_b}}" type="info">{{cquetsion.answer_b}}</w-button>
+    <w-button bind:onClick="handleCloseQ" id="{{cquetsion.question_id}}" data-resp="{{cquetsion.response_c}}" type="info">{{cquetsion.answer_c}}</w-button>
+  </view> -->
+    </w-dialog>
+
     <!-- 推荐列表 -->
 		<view class="section section-big discount" hidden='{{isLogin == false}}'>
 			<view class="title">为您推荐</view>
@@ -46,7 +106,7 @@
       </view>    -->
       <view class='content'>
         <block wx:for="{{foodArray}}" wx:key="food_id">
-          <view class='item' bindtap='seeRecDetail' id="{{item.food_id}}">
+          <view class='item' hidden="{{item.hidden}}" bindtap='seeRecDetail' id="{{item.food_id}}">
             <view>
               <image src="{{item.localImagePath}}" style=''> </image>
             </view>
@@ -58,7 +118,7 @@
                   <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{item.info}}</view>
+                <view class="below">{{fn.substring(item.info,0,30)}}</view>
             </view>
           </view>  
           <!-- <view class="hr2"></view> -->
@@ -74,7 +134,7 @@
 			<view class="title">每日新闻</view>
       <view class='content'>
         <block wx:for="{{newsArray}}" wx:key="food_id">
-          <view class='item' bindtap='seeNewsDetail' id="{{item.food_id}}">
+          <view class='item' hidden="{{item.hidden}}" bindtap='seeNewsDetail' id="{{item.food_id}}">
             <view>
               <image src="{{item.localImagePath}}" style=''> </image>
             </view>
@@ -86,7 +146,7 @@
                   <view class="collect">{{item.collect_count}} 收藏</view>
                 </view>
               </view>
-                <view class="below">{{item.info}}</view>
+                <view class="below">{{fn.substring(item.info,0,30)}}</view>
             </view>
           </view>  
         </block>  
