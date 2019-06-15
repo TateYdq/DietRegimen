@@ -1,0 +1,15 @@
+<!--pages/common/common.wxml-->
+<view class = 'container'>
+		<view class="section section-big discount">
+			<view class="title">请输入留言</view>
+		</view>
+
+    <view class="group-body">
+			  <view class="input-list">
+          <view class='inputBox'>
+            <textarea placeholder="可输入50字" maxlength="50" id='note' name="note"></textarea>
+          </view>
+            <button formType="submit" class="btn" >提交留言</button>         
+        </view>
+		</view>
+</view>

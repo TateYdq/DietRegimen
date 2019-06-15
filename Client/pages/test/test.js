@@ -13,52 +13,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    list: [
-      {
-        id: 1,
-        userPhoto: '../../imgs/images/tuiList1.jpg',
-        userName: '曹总',
-        replyUserName: ""
-        // collectCount: 65,
-        // kindInfo: '功效：安定凝神、利尿通便、健胃消食。'
-      },
-      {
-        id: 2,
-        userPhoto: '../../imgs/images/tuiList2.jpg',
-        userName: 'CFO',
-        replyUserName: ''
-        // collectCount: 69,
-        // kindInfo: '功效：养胃生津、除烦解渴、利尿通便、清热解毒。'
-      }, {
-        id: 3,
-        userPhoto: '../../imgs/images/tuiList3.jpg',
-        userName: '八宝养生饭',
-        replyUserName: ''
-        // collectCount: 15,
-        // kindInfo: '功效：减肥排毒、润肺止咳、安定凝神。'
-      }
-    ], 
+    
   },
 
   /**
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
-    // var that = this;
-    // mydata.sourceId = options.sourceId
-    // mydata.commentId = "";
-    // mydata.replyUserName = "";
-    //设置scroll的高度
-    wx.getSystemInfo({
-      success: function (res) {
-        that.setData({
-          scrollHeight: res.windowHeight,
-          userId: app.globalData.haulUserInfo.id
-        });
-      }
-    });
-    // mydata.page = 1;
-    // that.getPageInfo(mydata.page);
+
   },
 //   /**
 //    * 页面下拉刷新事件的处理函数
@@ -232,71 +194,3 @@ Page({
 //     })
 //   }
 })
-
-
-
-// Page({
-
-//   /**
-//    * 页面的初始数据
-//    */
-//   data: {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面加载
-//    */
-//   onLoad: function (options) {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面初次渲染完成
-//    */
-//   onReady: function () {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面显示
-//    */
-//   onShow: function () {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面隐藏
-//    */
-//   onHide: function () {
-
-//   },
-
-//   /**
-//    * 生命周期函数--监听页面卸载
-//    */
-//   onUnload: function () {
-
-//   },
-
-//   /**
-//    * 页面相关事件处理函数--监听用户下拉动作
-//    */
-//   onPullDownRefresh: function () {
-
-//   },
-
-//   /**
-//    * 页面上拉触底事件的处理函数
-//    */
-//   onReachBottom: function () {
-
-//   },
-
-//   /**
-//    * 用户点击右上角分享
-//    */
-//   onShareAppMessage: function () {
-
-//   }
-// })

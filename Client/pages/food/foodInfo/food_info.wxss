@@ -175,14 +175,68 @@
 
 /* 文章内容 */
 .details-content{
-    margin:20rpx 30rpx 0;
+    margin:30rpx 55rpx 0rpx;
     color:#666;
-    letter-spacing: 2px;
+    /* letter-spacing: 2px; */
     line-height: 44rpx;
 }
 
 
 text{
      /* font-family: Microsoft YaHei; */
-     font-size:24rpx;
+     font-size:30rpx;
+}
+
+/* 留言部分------------------------------------- */
+.headimg{
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+}
+
+.headimg image{
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+}
+.liuyanview{
+  width: 90%;
+  margin: 10px auto;
+}
+/* 留言 */
+.nickname_liuyantext{
+  width: calc(100% - 55px);
+  float: right;
+  margin-top:-45px;
+}
+/* 留言用户名 */
+.nickname_liuyantext .nickname{
+  font-size: 15px;
+  color: #999;
+}
+
+/* 留言时间 */
+.nickname_liuyantext .nickname .time{
+  font-size: 11px;
+  color: #999;
+  float: right;
+}
+/* 留言内容 */
+.nickname_liuyantext .comtext{
+  font-size: 16px;
+  color: #666;
+}
+
+/* 详细信息部分----------------------------------- */
+.tag-box{
+  margin:10rpx 50rpx;
+  padding: 30rpx;
+  color:rgb(182, 182, 182);
+  font-size: 18rpx;
+  letter-spacing: 2rpx;
+  border: 1rpx solid #e8e8e8;
+}
+.tag-title{
+  /* font-style:bold; */
+  font-weight: 800;
 }
