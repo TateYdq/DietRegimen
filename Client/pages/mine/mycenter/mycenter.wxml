@@ -15,7 +15,7 @@
       <image src="../../../imgs/icon/default_profile.png" style="width:49px;height:47px;"></image>
     </view>
     
-     <button
+<button
   class="account"  
     type="primary"
     open-type="getUserInfo"

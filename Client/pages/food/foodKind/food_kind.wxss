@@ -131,59 +131,13 @@ scroll-view {
   border-radius: 20rpx;
   -webkit-box-shadow: 2px 8px 20px -5px rgb(185, 185, 185);
 }
-.section .more{
+/* .section .more{
   	position: relative;
     text-align: center;
     font-size: 25rpx;
     font-weight: bold;
     line-height: 2;
     margin-bottom: 20rpx;
-}
-
-/* 最新食谱的内容 */
-/* .nearby {
-	padding-left: 0;
-	padding-right: 0;
-}
-.nearby .filters {
-	display: -webkit-flex;
-	border-top: 1rpx solid #efefef;
-  background: burlywood;
-}
-.nearby .filters .filter {
-	-webkit-flex: 1;
-	text-align: center;
-	color: #696969;
-	font-size: 30rpx;
-	line-height: 3;
-}
-.nearby .filters .filter .v {
-	display: none;
-}
-.nearby .filters .filter.active {
-	color: #000;
-	font-weight: bold;
-}
-.nearby .filters .filter.active .v {
-	display: inline-block;
-} */
-/* 最新食谱列表 */
-/* .nearby .shop {
-	padding: 10rpx 0;
-	border-top: 10rpx solid #efefef;
-  background: burlywood;
-}
-.nearby .shop image {
-	width: 100%;
-	height: 266rpx;
-  background: red;
-} */
-
-/* .loading {
-	font-size: 32rpx;
-	text-align: center;
-	line-height: 2;
-	margin-bottom: 20rpx;
 } */
 
 /* 余博士 */
@@ -238,30 +192,19 @@ scroll-view {
 	max-width: 100%;
 	max-height: 100%;
 }
-
-.quesContainer{
-	height: 100%;
-  margin: 0rpx 70rpx;
-  justify-content: center; 
-  /* background: rgb(197, 209, 219); */ 
-  display:flex;
-  align-items:center;
-}
+/* 问卷 */
 .quesBox{
-  width:100%;
-  border-radius: 30rpx;
+  width:100%; 
   background: white;
   padding-top: 50rpx;
   padding-bottom: 50rpx;
   -webkit-box-shadow: 0px 5px 30px -10px rgb(185, 185, 185);
-  border: 1rpx solid rgb(216, 216, 216);
+  /* border-radius: 30rpx;
+  border: 1rpx solid rgb(216, 216, 216); */
 }
 .ques-title{
   padding:20rpx 80rpx;
   font-size: 37rpx;
-  /* text-align: left; */
-  text-align: center;
-  /* background: red; */
 }
 .section-big .title:before {
 	content: " ";
@@ -287,16 +230,10 @@ scroll-view {
 .options{
   padding: 30rpx 100rpx;
   display: flex;
+  justify-content: left;
   font-size: 33rpx;
 }
-/*分割线样式*/
-.divLine{
-  background: #E0E3DA;
-  width: 70%;
-  height: 5rpx;
-  text-align: center; 
-  margin-bottom: 30rpx;
-}
+
 .btn{
   padding-top: 30rpx;
     display: flex;
@@ -309,13 +246,12 @@ scroll-view {
 	height: 50rpx;
   padding:0rpx 100rpx;
   font-size:30rpx;
-	/* vertical-align: center; */
+	vertical-align: center;
   /* padding-right: 10rpx; */
 }
 .arraw .a1{
   width: 100rpx;
   position: absolute;
-  /* width: 80rpx; */
 }
 .shuLine{
   width: 5rpx;
@@ -324,20 +260,7 @@ scroll-view {
 .arraw .a2{
   width: 100rpx;
   position: absolute;
-  /* width: 80rpx; */
   margin-left: auto;
-}
-.count2{
-
-}
-.browse{
-    position: absolute;
-    right: 70px;
-    
-}
-.collect{
-    position: absolute;
-    right: 10px;
 }
 
 /* ----------------------------------------- */
