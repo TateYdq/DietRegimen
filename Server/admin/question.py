@@ -4,11 +4,11 @@ from utils.config import *
 ss = requests.session()
 def addQuestion():
     data = json.dumps({
-        "info":"你经常耳鸣吗",
+        "info":"你容易健忘吗",
         "answer_a":"是",
-        "response_a":"耳鸣" ,
+        "response_a":"健忘" ,
         "answer_b":"否",
-        "response_b":"不耳鸣" ,
+        "response_b":"不健忘" ,
         "answer_c":"不知道" ,
         "response_c":"",
     })

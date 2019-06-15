@@ -55,8 +55,6 @@
               <view>\n</view>
           <!-- </label> -->
           <!-- <label class="radio"> -->
-              <radio  value="{{cquetsion.response_c}}" />是
-              <view>\n</view>
           <!-- </label> -->
         </radio-group>
       </view>

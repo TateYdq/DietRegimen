@@ -120,6 +120,23 @@ Page({
       url: '../collectDisease/collect_disease',
     })
   },
+  //隐藏功能，清除所有缓存
+  clearAllCache: function(){
+    try {
+      wx.clearStorageSync()
+      wx.showToast({
+        title: '已清除缓存',
+        icon: "success",
+        duration: 1000,
+      })
+      app.globalData.isLogin = false
+      wx.reLaunch({
+        url: 'mycenter'
+      })
+    } catch (e) {
+      // Do something when catch error
+    }
+  },
   login: function (e) {
     app.globalData.userInfo = e.detail.userInfo
     apiRequest.login(this.callbackLogin)

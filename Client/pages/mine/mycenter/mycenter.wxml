@@ -60,7 +60,7 @@
       <view class="icon">
         <image src="../../../imgs/icon/shezhi.png" style="width:22px;height:21px"></image>
       </view>
-      <view class="itemName">
+      <view class="itemName" bindlongtap="clearAllCache">
         <view>个人信息设置</view>
       </view>
       <view class="right">
@@ -83,7 +83,7 @@
           <image src="../../../imgs/icon/shouchang.png" style="width:22px;height:21px"></image>
         </view>
         <view class="itemName">
-          <view>收藏医疗咨询</view>
+          <view>收藏医疗资讯</view>
         </view>
         <view class="right">
           <text class="opr">了解疾病</text>>
