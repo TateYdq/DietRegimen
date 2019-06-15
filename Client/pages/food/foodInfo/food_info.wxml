@@ -1,7 +1,7 @@
 <!--pages/food/foodInfo/food_info.wxml-->
 
 <view class ="detail-container">
-    <image class="head-img" src="/imgs/images/articleBig2.jpg"></image>    <!-- {{isPlay ? posterData.music.coverImg : posterData.headImgSrc}} -->
+    <image class="head-img" src="{{localImagePath}}"></image>    <!-- {{isPlay ? posterData.music.coverImg : posterData.headImgSrc}} -->
     <!-- <image class="music-img" catchtap="onMusicTap" src="{{isPlay ? '/imgs/btn/music-stop.png' : '/imgs/btn/music-start.png'}}"></image> -->
 
     <!-- 作者介绍栏 -->
